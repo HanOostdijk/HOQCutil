@@ -1,2 +1,6 @@
 # HOQCutil
-HOQC utilities
+This a first attempt to group some utilities that I use into a package.
+
+Currently only the myknit function that I use in the 
+[**rmd_pdf_examples repository**](https://github.com/HanOostdijk/rmd_pdf) 
+is included
