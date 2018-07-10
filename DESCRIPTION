@@ -1,17 +1,16 @@
 Package: HOQCutil
-Version: 0.0.0.9000
-Title: HOQC utilities
-Description: Utilities .
+Version: 0.1
+Title: Utilities by Han Oostdijk.
+Description: Utilities by Han Oostdijk.
 Authors@R: person("Han", "Oostdijk", , "han@hanoostdijk.nl", c("aut", "cre"))
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-Suggests: 
-    fs,
-    stringr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
-Imports:
-    rmarkdown,
-    magrittr
+Imports: 
+    fs,
+    magrittr,
+    stringr,
+    rmarkdown
