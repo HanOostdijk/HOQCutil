@@ -1,7 +1,6 @@
 #' myknit
 #'
 #' myknit can be used to make the process of knitting more flexible.
-
 #'
 #' The Usage and Arguments section specify how the function would be used on a standalone base. \cr
 #' Normally I do the \code{knit} with the \strong{knit} button in RStudio.
@@ -10,8 +9,6 @@
 #' the \code{myknit} code will be run instead of \code{rmarkdown::render}.
 #'
 #' The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra 'yaml' statements):
-#'
-#'
 #'
 #' By specifying additional options in the yaml metadata block the user can do one or more of the following things:
 #' \itemize{

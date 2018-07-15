@@ -2,11 +2,8 @@
 % Please edit documentation in R/utils-pipe.R
 \name{\%>\%}
 \alias{\%>\%}
-\title{Pipe operator}
-\usage{
-lhs \%>\% rhs
-}
+\title{Pipe can be used}
 \description{
-See \code{magrittr::\link[magrittr]{\%>\%}} for details.
+Pipe imported from magrittr
 }
 \keyword{internal}
