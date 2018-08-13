@@ -58,7 +58,7 @@ ref_tab <- function (label_name,table=T,add_page=T,prefix='in') {
 		obj1 = 'Figure' ; obj2 = 'fig' ;
 	}
 	if (nchar(trimws(prefix)) == 0) {
-		t = sprintf('%s \\ref{%s:%s}',prefix, obj1, obj2, label_name)
+		t = sprintf('%s \\ref{%s:%s}', obj1, obj2, label_name)
 	} else {
 		t = sprintf('%s %s \\ref{%s:%s}',prefix, obj1, obj2, label_name)
 	}
