@@ -10,3 +10,9 @@
 * 15jul2018 
    + Added def_tab and ref_tab to define labels and referring to them
    + Added format_WE and format_NS to format (WE) longitudes and (NS) lattitudes
+
+## HOQCutil 0.1.1
+
+* 13aug2018
+   + leave out extra space in ref_tab when prefix shows as blanks
+   + included the function cap.out

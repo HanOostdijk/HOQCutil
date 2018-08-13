@@ -57,7 +57,11 @@ ref_tab <- function (label_name,table=T,add_page=T,prefix='in') {
 	}  else {
 		obj1 = 'Figure' ; obj2 = 'fig' ;
 	}
-	t = sprintf('%s %s \\ref{%s:%s}',prefix, obj1, obj2, label_name)
+	if (nchar(trimws(prefix)) == 0) {
+		t = sprintf('%s \\ref{%s:%s}',prefix, obj1, obj2, label_name)
+	} else {
+		t = sprintf('%s %s \\ref{%s:%s}',prefix, obj1, obj2, label_name)
+	}
 	if (add_page == T) {
 		t =paste(t,'on page',sprintf('\\pageref{%s:%s}',obj2, label_name))
 	}
