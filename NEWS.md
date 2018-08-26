@@ -16,3 +16,8 @@
 * 13aug2018
    + leave out extra space in ref_tab when prefix shows as blanks
    + included the function cap.out
+   
+## HOQCutil 0.1.2
+
+* 26aug2018
+   + hard_split exported

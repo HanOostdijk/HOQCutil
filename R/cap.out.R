@@ -86,7 +86,7 @@ cap.out <- function (cmd,
 	# remove empty lines
 	results <- purrr::keep(results, nresults > 0)
 	if (fixed_wrap == T) {
-		cat(hard_wrap(results, width), sep = "\n")
+		cat(hard_split(results, width), sep = "\n")
 	} else {
 		cat(stringr::str_wrap(results, width), sep = "\n")
 	}
@@ -101,10 +101,22 @@ expand_args <- function(...) {
 	lapply(dots, rep, length.out = max_length)
 }
 
-hard_wrap <- function(strings, width) {
-	# idea to split long string in parts I saw at akrun
-	# https://stackoverflow.com/questions/32398301/fastest-wa
-	#    y-to-split-strings-into-fixed-length-elements-in-r
+#' hard_split splits the output of strings at a specific width
+#'
+#' Each string is split in pieces that have that length (or less for the last part of the string)
+#' @name hard_split
+#' @param strings A vector of strings
+#' @param width The width (length) that each line have (at most)
+#' @export
+#' @section acknowledgements:
+#' I was glad to be able to use the following (idea for) code from a StackOverflow article by \href{https://stackoverflow.com/questions/32398301/fastest-way-to-split-strings-into-fixed-length-elements-in-r}{akrun}.
+#' @examples
+#'
+#' hard_wrap(paste(letters,collapse =''),10)
+#'
+
+
+hard_split <- function(strings, width) {
 	regarg <- sprintf(".{1,%d}", width)
 	strings1 = stringi::stri_extract_all_regex(strings, regarg)
 	purrr::flatten_chr(strings1)
