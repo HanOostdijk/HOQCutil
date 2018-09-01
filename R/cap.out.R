@@ -6,6 +6,7 @@
 #' @param numlines_only Boolean indicating no wrapping takes place and only the number of lines and the captured output are returned (in a list). Default: FALSE
 #' @param se Start and End of each line (see details). Default: NULL (whole line)
 #' @param width Position in each line where wrapping takes place. Default: \code{getOption('width')}
+#' @param keep_empty Boolean indicating if empty should be kept. Default: FALSE
 #' @param fixed_wrap Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE
 #' @export
 #' @section details:
@@ -33,6 +34,7 @@ cap.out <- function (cmd,
 	numlines_only = F,
 	se = NULL,
 	width = getOption('width'),
+	keep_empty = F,
 	fixed_wrap = T) {
 	# if cmd is not a character vector then first determine result of call
 	type_cmd <- class(substitute(cmd))
@@ -84,7 +86,11 @@ cap.out <- function (cmd,
 	abbr   <- (lresults != nresults) & (nresults != 0)
 	results[abbr] <- stringr::str_c(results[abbr], " ...")
 	# remove empty lines
-	results <- purrr::keep(results, nresults > 0)
+	if (keep_empty == FALSE){
+		results <- purrr::keep(results, nresults > 0)
+	} else {
+		results[nresults == 0] <- " "
+	}
 	if (fixed_wrap == T) {
 		cat(hard_split(results, width), sep = "\n")
 	} else {

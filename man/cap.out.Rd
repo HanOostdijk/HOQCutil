@@ -5,7 +5,7 @@
 \title{cap.out captures and wraps the output of an expression}
 \usage{
 cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
-  width = getOption("width"), fixed_wrap = T)
+  width = getOption("width"), keep_empty = F, fixed_wrap = T)
 }
 \arguments{
 \item{cmd}{An expression or character vector}
@@ -17,6 +17,8 @@ cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
 \item{se}{Start and End of each line (see details). Default: NULL (whole line)}
 
 \item{width}{Position in each line where wrapping takes place. Default: \code{getOption('width')}}
+
+\item{keep_empty}{Boolean indicating if empty should be kept. Default: FALSE}
 
 \item{fixed_wrap}{Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE}
 }
