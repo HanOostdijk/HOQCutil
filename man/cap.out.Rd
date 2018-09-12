@@ -21,6 +21,8 @@ cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
 \item{keep_empty}{Boolean indicating if empty should be kept. Default: FALSE}
 
 \item{fixed_wrap}{Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE}
+
+\item{abbr_ind}{Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE}
 }
 \description{
 cap.out captures and wraps the output of an expression

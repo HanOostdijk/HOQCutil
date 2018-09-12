@@ -8,6 +8,7 @@
 #' @param width Position in each line where wrapping takes place. Default: \code{getOption('width')}
 #' @param keep_empty Boolean indicating if empty should be kept. Default: FALSE
 #' @param fixed_wrap Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE
+#' @param abbr_ind Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE
 #' @export
 #' @section details:
 #'
@@ -35,7 +36,8 @@ cap.out <- function (cmd,
 	se = NULL,
 	width = getOption('width'),
 	keep_empty = F,
-	fixed_wrap = T) {
+	fixed_wrap = T,
+	abbr_ind = T) {
 	# if cmd is not a character vector then first determine result of call
 	type_cmd <- class(substitute(cmd))
 	if (type_cmd == 'character') {
@@ -83,8 +85,10 @@ cap.out <- function (cmd,
 	results <- stringr::str_sub(results, s, e)
 	nresults <- stringr::str_length(results)
 	# indicate abbreviations
-	abbr   <- (lresults != nresults) & (nresults != 0)
-	results[abbr] <- stringr::str_c(results[abbr], " ...")
+	if (abbr_ind == TRUE) {
+		abbr   <- (lresults != nresults) & (nresults != 0)
+		results[abbr] <- stringr::str_c(results[abbr], " ...")
+	}
 	# remove empty lines
 	if (keep_empty == FALSE){
 		results <- purrr::keep(results, nresults > 0)
