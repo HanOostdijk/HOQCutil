@@ -21,3 +21,8 @@
 
 * 26aug2018
    + hard_split exported
+
+## HOQCutil 0.1.3
+
+* 16sep2018
+   + get_table_cbs_odata4 and get_table_cbs_odata4_GET added

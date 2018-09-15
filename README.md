@@ -9,6 +9,8 @@ Currently the package includes
 * functions `format_WE` and `format_NS` to format longitudes and latitudes
 * function `cap.out` that captures and wraps output so that they can be included in Rmd documents
 * function `hard_split` that splits strings at certain positions
+* function `get_table_cbs_odata4` (and `get_table_cbs_odata4_GET`) used for access to CBS Odata4 data
+
 
 ## Install HOQCutil
 

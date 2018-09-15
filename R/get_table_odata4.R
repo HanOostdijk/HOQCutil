@@ -1,0 +1,110 @@
+#' get_table_cbs_odata4 : retrieves CBS Odata4 table data
+#'
+#' This function can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in  \url{https://acc-ccb.cbs.nl/implement.html}
+#'
+#' @name get_table_cbs_odata4
+#' @param table_id Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned. Default: NULL
+#' @param subtable Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned. Default: NULL
+#' @param query Character string with an OData4 query. See \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} for the general OData4 query possibilities and \url{https://acc-ccb.cbs.nl/implement.html} for the subset of the CBS implementation. Default: ""
+#' @param verbose Boolean indicating if the generated url should be shown as a message. Default: FALSE
+#' @param encode Boolean indicating if the query has to be encode by URLencode. Default: TRUE
+#' @param odata_root Character string with the root for the url. Default: "https://acc-ccb.cbs.nl"
+#' @param odata_cat Character string with the catalog identifier. Default: "CBS"
+#' @param ... Parameters to be passed to get_table_cbs_odata4_GET. Only parameter currently allowed is response=TRUE. When this is used the httr response is returned and not a table. Useful for debugging.
+#' @return if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If the extra parameter response=TRUE is set, the result is a httr response object.
+
+#' @export
+
+#' @examples
+#' \dontrun{
+#' t1=get_table_cbs_odata4()
+#' t1=get_table_cbs_odata4(subtable="Datasets")
+#' t1=get_table_cbs_odata4(subtable="Catalogs")
+#' t1=get_table_cbs_odata4(table_id="82931NED")
+#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Dimensions")
+#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Properties")
+#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$skip=1&$top=2")
+#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$skip=1&$top=2&$select=Measure,Value,WijkenEnBuurten") # does not work
+#' }
+
+get_table_cbs_odata4 <-
+	function (root = NULL,
+		table_id = NULL,
+		subtable = NULL,
+		query = NULL,
+		verbose = F,
+		encode = T,
+		odata_root = "https://acc-ccb.cbs.nl",
+		odata_cat  = "CBS",
+		...) {
+		if (is.null(subtable)) {
+			subtable = ""
+		} else
+			subtable = glue::glue("/{subtable}")
+		if (is.null(table_id)) {
+			table = ""
+		} else
+			table = glue::glue("/{table_id}")
+		root = glue::glue("{odata_root}/{odata_cat}")
+		if (is.null(query)) {
+			query1 = ""
+		}	else {
+			if (encode == TRUE) {
+				query1 = URLencode(query)
+			} else {
+				query1 = query
+			}
+			query1 = glue::glue("&{query1}")
+		}
+		url1 = glue::glue("{root}{table}{subtable}?$format=json{query1}")
+		if (verbose == T) {
+			suppressWarnings({
+				if (require('HOQCutil', quietly = TRUE)) {
+					cat(HOQCutil::hard_split(glue::glue("generated url: {url1}"),
+						getOption('width')), sep = "\n")
+					cat(HOQCutil::hard_split(glue::glue("unencoded query:  {query}"),
+						getOption('width')), sep = "\n")
+				} else {
+					cat(glue::glue("generated url: {url1}"), sep = "\n")
+					cat(glue::glue("unencoded query:  {query}"), sep = "\n")
+				}
+			})
+		}
+		get_table_cbs_odata4_GET(url1, ...)
+	}
+
+#' get_table_cbs_odata4_GET : retrieves url
+#'
+#' This function handles the network IO for the \code{\link{get_table_cbs_odata4}} function but can also be used stand-alone.
+#'
+#' @name get_table_cbs_odata4_GET
+#' @param url Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned. Default: none
+#' @param ... Extra parameters. Only parameter currently allowed is response=TRUE. When this is used the httr response is returned and not a table. Useful for debugging.
+#' @return if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the extra parameter response=TRUE is set, the result is a httr response object.
+
+#' @export
+
+#' @examples
+#' \dontrun{
+#' myurl = "https://acc-ccb.cbs.nl/CBS/82931NED/Observations?$format=json&$skip=1&$top=2"
+#' t1=get_table_cbs_odata4_GET(myurl)
+#' t1=get_table_cbs_odata4_GET(myurl,response=T)
+#' }
+
+get_table_cbs_odata4_GET <- function (url, ...) {
+	res1 = httr::GET(url)
+	oa   = list(...)
+	oar  = oa$response
+	if (length(oar) ==1 && oar == TRUE)
+		return(res1)
+	else if (httr::http_error(res1))
+		return(httr::http_status(res1)$message)
+	else {
+		res2 = jsonlite::fromJSON(httr::content(res1,as="text"))
+		if (!is.null(res2$value)) {
+			return(res2$value)
+		} else {
+			return(res2)
+		}
+	}
+}
