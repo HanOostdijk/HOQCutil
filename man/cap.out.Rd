@@ -5,7 +5,8 @@
 \title{cap.out captures and wraps the output of an expression}
 \usage{
 cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
-  width = getOption("width"), keep_empty = F, fixed_wrap = T)
+  width = getOption("width"), keep_empty = F, fixed_wrap = T,
+  abbr_ind = T, file = "", append = FALSE)
 }
 \arguments{
 \item{cmd}{An expression or character vector}
@@ -23,6 +24,10 @@ cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
 \item{fixed_wrap}{Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE}
 
 \item{abbr_ind}{Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE}
+
+\item{file}{A connection, or a character string naming the file to print to. If "" (the default), cat prints to the standard output connection, the console unless redirected by sink.}
+
+\item{append}{Boolean. Only used if the argument file is the name of file (and not a connection or "|cmd"). If TRUE output will be appended to file; otherwise, it will overwrite the contents of file.}
 }
 \description{
 cap.out captures and wraps the output of an expression

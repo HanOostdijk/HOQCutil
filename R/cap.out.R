@@ -9,6 +9,8 @@
 #' @param keep_empty Boolean indicating if empty should be kept. Default: FALSE
 #' @param fixed_wrap Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE
 #' @param abbr_ind Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE
+#' @param file A connection, or a character string naming the file to print to. If "" (the default), cat prints to the standard output connection, the console unless redirected by sink.
+#' @param append Boolean. Only used if the argument file is the name of file (and not a connection or "|cmd"). If TRUE output will be appended to file; otherwise, it will overwrite the contents of file.
 #' @export
 #' @section details:
 #'
@@ -37,7 +39,9 @@ cap.out <- function (cmd,
 	width = getOption('width'),
 	keep_empty = F,
 	fixed_wrap = T,
-	abbr_ind = T) {
+	abbr_ind = T,
+	file ="",
+	append = FALSE) {
 	# if cmd is not a character vector then first determine result of call
 	type_cmd <- class(substitute(cmd))
 	if (type_cmd == 'character') {
@@ -96,9 +100,9 @@ cap.out <- function (cmd,
 		results[nresults == 0] <- " "
 	}
 	if (fixed_wrap == T) {
-		cat(hard_split(results, width), sep = "\n")
+		cat(hard_split(results, width), sep = "\n",file=file,append=append)
 	} else {
-		cat(stringr::str_wrap(results, width), sep = "\n")
+		cat(stringr::str_wrap(results, width), sep = "\n",file=file,append=append)
 	}
 }
 
