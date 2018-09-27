@@ -49,21 +49,37 @@ get_table_cbs_odata4 <-
 		if (is.null(query)) {
 			query1 = ""
 		}	else {
-			if (encode == TRUE) {
-				query1 = URLencode(query)
-			} else {
-				query1 = query
+			if (stringr::str_to_lower(query) == '$count') {
+				query1 = '$count'
+			} else if ( stringr::str_detect(stringr::str_trim(query),"^\\(\\d+\\)$") ) {
+				query1 = stringr::str_trim(query)
+			}	else {
+				if (encode == TRUE) {
+					query1 = URLencode(query)
+				} else {
+					query1 = query
+				}
+				query1 = glue::glue("&{query1}")
 			}
-			query1 = glue::glue("&{query1}")
 		}
-		url1 = glue::glue("{root}{table}{subtable}?$format=json{query1}")
+		if ( stringr::str_to_lower(query1) == '$count') {
+			url1 = glue::glue("{root}{table}{subtable}/{query1}")
+		} else if ( stringr::str_detect(query1,"^\\(\\d+\\)$") ){
+			url1 = glue::glue("{root}{table}{subtable}{query1}")
+		} else {
+			url1 = glue::glue("{root}{table}{subtable}?$format=json{query1}")
+		}
 		if (verbose == T) {
 			suppressWarnings({
 				if (require('HOQCutil', quietly = TRUE)) {
-					cat(HOQCutil::hard_split(glue::glue("generated url: {url1}"),
-						getOption('width')), sep = "\n")
-					cat(HOQCutil::hard_split(glue::glue("unencoded query:  {query}"),
-						getOption('width')), sep = "\n")
+					cat(HOQCutil::hard_split(
+						glue::glue("generated url: {url1}"),
+						getOption('width')
+					), sep = "\n")
+					cat(HOQCutil::hard_split(
+						glue::glue("unencoded query:  {query}"),
+						getOption('width')
+					), sep = "\n")
 				} else {
 					cat(glue::glue("generated url: {url1}"), sep = "\n")
 					cat(glue::glue("unencoded query:  {query}"), sep = "\n")
@@ -99,12 +115,17 @@ get_table_cbs_odata4_GET <- function (url, ...) {
 		return(res1)
 	else if (httr::http_error(res1))
 		return(httr::http_status(res1)$message)
-	else {
+	else if (stringr::str_detect(httr::headers(res1)$`content-type`,'json')) {
 		res2 = jsonlite::fromJSON(httr::content(res1,as="text"))
 		if (!is.null(res2$value)) {
 			return(res2$value)
 		} else {
 			return(res2)
 		}
+	} else if (stringr::str_detect(httr::headers(res1)$`content-type`,'xml')) {
+		res2 = xml2::read_xml(httr::content(res1,as="text"))
+	} else {
+		res2 = httr::content(res1,as="text")
 	}
 }
+

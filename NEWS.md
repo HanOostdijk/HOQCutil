@@ -26,3 +26,9 @@
 
 * 16sep2018
    + get_table_cbs_odata4 and get_table_cbs_odata4_GET added
+
+## HOQCutil 0.1.4
+
+* 27sep2018
+   + get_table_cbs_odata4 can handle queries `$count` and `(id)`
+   + get_table_cbs_odata4_GET can handle xml and text data
