@@ -24,7 +24,8 @@
 #' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Dimensions")
 #' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Properties")
 #' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$skip=1&$top=2")
-#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$skip=1&$top=2&$select=Measure,Value,WijkenEnBuurten") # does not work
+#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$count")
+#' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="(7)")
 #' }
 
 get_table_cbs_odata4 <-
