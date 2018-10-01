@@ -32,3 +32,8 @@
 * 27sep2018
    + get_table_cbs_odata4 can handle queries `$count` and `(id)`
    + get_table_cbs_odata4_GET can handle xml and text data
+
+## HOQCutil 0.1.5
+
+* 01oct2018
+   + get_table_cbs_odata4 query `(id)` now returns data.frame

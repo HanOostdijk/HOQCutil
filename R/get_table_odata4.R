@@ -63,9 +63,11 @@ get_table_cbs_odata4 <-
 				query1 = glue::glue("&{query1}")
 			}
 		}
+		post_code = 0
 		if ( stringr::str_to_lower(query1) == '$count') {
 			url1 = glue::glue("{root}{table}{subtable}/{query1}")
 		} else if ( stringr::str_detect(query1,"^\\(\\d+\\)$") ){
+			post_code = 1
 			url1 = glue::glue("{root}{table}{subtable}{query1}")
 		} else {
 			url1 = glue::glue("{root}{table}{subtable}?$format=json{query1}")
@@ -87,7 +89,11 @@ get_table_cbs_odata4 <-
 				}
 			})
 		}
-		get_table_cbs_odata4_GET(url1, ...)
+		res = get_table_cbs_odata4_GET(url1, ...)
+		if ( post_code > 0 && !(class(res) == 'response') ) {
+		  res = as.data.frame((res)[-1])
+		}
+		res
 	}
 
 #' get_table_cbs_odata4_GET : retrieves url
