@@ -6,7 +6,8 @@
 \usage{
 get_table_cbs_odata4(root = NULL, table_id = NULL, subtable = NULL,
   query = NULL, verbose = F, encode = T,
-  odata_root = "https://acc-ccb.cbs.nl", odata_cat = "CBS", ...)
+  odata_root = "https://acc-ccb.cbs.nl", odata_cat = "CBS",
+  response = F, error_msg = F)
 }
 \arguments{
 \item{table_id}{Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned. Default: NULL}
@@ -23,7 +24,9 @@ get_table_cbs_odata4(root = NULL, table_id = NULL, subtable = NULL,
 
 \item{odata_cat}{Character string with the catalog identifier. Default: "CBS"}
 
-\item{...}{Parameters to be passed to get_table_cbs_odata4_GET. Only parameter currently allowed is response=TRUE. When this is used the httr response is returned and not a table. Useful for debugging.}
+\item{response}{Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE}
+
+\item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: FALSE}
 }
 \value{
 if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If the extra parameter response=TRUE is set, the result is a httr response object.

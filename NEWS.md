@@ -37,3 +37,9 @@
 
 * 01oct2018
    + get_table_cbs_odata4 query `(id)` now returns data.frame
+   
+## HOQCutil 0.1.6
+
+* 02oct2018
+   + get_table_cbs_odata4 shows extended error message with `error_msg = TRUE`
+

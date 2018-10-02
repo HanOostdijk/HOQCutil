@@ -4,15 +4,17 @@
 \alias{get_table_cbs_odata4_GET}
 \title{get_table_cbs_odata4_GET : retrieves url}
 \usage{
-get_table_cbs_odata4_GET(url, ...)
+get_table_cbs_odata4_GET(url, response = F, error_msg = F)
 }
 \arguments{
 \item{url}{Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned. Default: none}
 
-\item{...}{Extra parameters. Only parameter currently allowed is response=TRUE. When this is used the httr response is returned and not a table. Useful for debugging.}
+\item{response}{Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE}
+
+\item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: FALSE}
 }
 \value{
-if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the extra parameter response=TRUE is set, the result is a httr response object.
+if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the parameter response=TRUE is set, the result is a httr response object.
 }
 \description{
 This function handles the network IO for the \code{\link{get_table_cbs_odata4}} function but can also be used stand-alone.
@@ -22,5 +24,6 @@ This function handles the network IO for the \code{\link{get_table_cbs_odata4}} 
 myurl = "https://acc-ccb.cbs.nl/CBS/82931NED/Observations?$format=json&$skip=1&$top=2"
 t1=get_table_cbs_odata4_GET(myurl)
 t1=get_table_cbs_odata4_GET(myurl,response=T)
+t1=get_table_cbs_odata4_GET(myurl,error_msg=T)
 }
 }
