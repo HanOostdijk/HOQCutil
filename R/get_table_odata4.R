@@ -11,7 +11,7 @@
 #' @param odata_root Character string with the root for the url. Default: "https://acc-ccb.cbs.nl"
 #' @param odata_cat Character string with the catalog identifier. Default: "CBS"
 #' @param response Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE
-#' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: FALSE
+#' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE
 #' @return if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If the extra parameter response=TRUE is set, the result is a httr response object.
 
 #' @export
@@ -34,12 +34,12 @@ get_table_cbs_odata4 <-
 		table_id = NULL,
 		subtable = NULL,
 		query = NULL,
-		verbose = F,
-		encode = T,
+		verbose = FALSE,
+		encode = TRUE,
 		odata_root = "https://acc-ccb.cbs.nl",
 		odata_cat  = "CBS",
-		response = F,
-		error_msg = F) {
+		response = FALSE,
+		error_msg = TRUE) {
 		if (is.null(subtable)) {
 			subtable = ""
 		} else
@@ -48,7 +48,14 @@ get_table_cbs_odata4 <-
 			table = ""
 		} else
 			table = glue::glue("/{table_id}")
-		root = glue::glue("{odata_root}/{odata_cat}")
+		if (is.null(root)) {
+			odata_root = stringr::str_trim(odata_root)
+			odata_cat = stringr::str_trim(odata_cat)
+			if (stringr::str_length(odata_cat) > 0)
+				root = glue::glue("{odata_root}/{odata_cat}")
+			else
+				root = odata_root
+		}
 		if (is.null(query)) {
 			query1 = ""
 		}	else {
@@ -62,7 +69,7 @@ get_table_cbs_odata4 <-
 				} else {
 					query1 = query
 				}
-				query1 = glue::glue("&{query1}")
+				#query1 = glue::glue("&{query1}")
 			}
 		}
 		post_code = 0
@@ -72,24 +79,16 @@ get_table_cbs_odata4 <-
 			post_code = 1
 			url1 = glue::glue("{root}{table}{subtable}{query1}")
 		} else {
-			url1 = glue::glue("{root}{table}{subtable}?$format=json{query1}")
+			# url1 = glue::glue("{root}{table}{subtable}?$format=json{query1}")
+			if (stringr::str_length(query1) == 0)
+				url1 = glue::glue("{root}{table}{subtable}")
+			else
+				url1 = glue::glue("{root}{table}{subtable}?{query1}")
 		}
 		if (verbose == T) {
-			suppressWarnings({
-				if (require('HOQCutil', quietly = TRUE)) {
-					cat(HOQCutil::hard_split(
-						glue::glue("generated url: {url1}"),
-						getOption('width')
-					), sep = "\n")
-					cat(HOQCutil::hard_split(
-						glue::glue("unencoded query:  {query}"),
-						getOption('width')
-					), sep = "\n")
-				} else {
-					cat(glue::glue("generated url: {url1}"), sep = "\n")
-					cat(glue::glue("unencoded query:  {query}"), sep = "\n")
-				}
-			})
+			w = getOption('width', 110)
+			display_wrapped(glue::glue("generated url  : {url1}"), w)
+			display_wrapped(glue::glue("unencoded query: {query}"), w)
 		}
 		res = get_table_cbs_odata4_GET(url1, response, error_msg)
 		if (post_code > 0 && !(class(res) == 'response')) {
@@ -105,7 +104,7 @@ get_table_cbs_odata4 <-
 #' @name get_table_cbs_odata4_GET
 #' @param url Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned. Default: none
 #' @param response Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE
-#' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: FALSE
+#' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE
 #' @return if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the parameter response=TRUE is set, the result is a httr response object.
 
 #' @export
@@ -119,38 +118,65 @@ get_table_cbs_odata4 <-
 #' }
 
 get_table_cbs_odata4_GET <- function (url,
-	response = F,
-	error_msg = F) {
+	response = FALSE,
+	error_msg = TRUE) {
 	res1 = httr::GET(url)
-	if (error_msg == TRUE) {
-		e = jsonlite::fromJSON(httr::content(res1, as = "text"))
-		m = purrr::pluck(e, 'error', 'message')
-		if (length(m) > 0) {
-			cat('\nerror message (get_table_cbs_odata4_GET) :\n')
-			cat(stringr::str_wrap(m))
-			d = purrr::pluck(e, 'error', 'details')
-			if (length(d) > 0) {
-				cat('\nerror details:\n')
-				print(d)
+	err1 = httr::http_error(res1)
+	txt1 = httr::content(res1, as = "text")
+	msg1 = httr::http_status(res1)$message
+	cnt1 = httr::headers(res1)$`content-type`
+	jsn1 = stringr::str_detect(httr::headers(res1)$`content-type`, 'json')
+	xml1 = stringr::str_detect(httr::headers(res1)$`content-type`, 'xml')
+	if (jsn1) {
+		e = get_json(txt1)
+	}
+	if (jsn1 && error_msg) {
+		w = getOption('width', 110)
+		if (is.null(e)) {
+			cat('\nerror in json ? (get_table_cbs_odata4_GET) :\n')
+			display_wrapped(txt1, w, T)
+		} else {
+			m = purrr::pluck(e, 'error', 'message')
+			if (length(m) > 0) {
+				cat('\nerror message (get_table_cbs_odata4_GET) :\n')
+				display_wrapped(m, w, T)
+				d = purrr::pluck(e, 'error', 'details')
+				if (length(d) > 0) {
+					cat('\nerror details:\n')
+					print(d)
+				}
 			}
 		}
 	}
 	if (response == TRUE) {
 		return(res1)
 	}
-	else if (httr::http_error(res1))
-		return(httr::http_status(res1)$message)
-	else if (stringr::str_detect(httr::headers(res1)$`content-type`, 'json')) {
-		res2 = jsonlite::fromJSON(httr::content(res1, as = "text"))
-		if (!is.null(res2$value)) {
-			return(res2$value)
+	else if (err1)
+		return(msg1)
+	else if (jsn1) {
+		if (!is.null(e$value)) {
+			return(e$value)
 		} else {
-			return(res2)
+			return(e)
 		}
-	} else if (stringr::str_detect(httr::headers(res1)$`content-type`, 'xml')) {
-		res2 = xml2::read_xml(httr::content(res1, as = "text"))
+	} else if (xml1) {
+		res2 = xml2::read_xml(txt1)
 	} else {
-		res2 = httr::content(res1, as = "text")
+		res2 = txt1
 	}
 }
 
+get_json <- function (tekst) {
+	hoqc_chr <- 'hoqc error'
+	tryCatch(
+		hoqc_chr <- jsonlite::fromJSON(tekst),
+		error = function(e)
+			e,
+		finally = {
+		}
+	)
+	if (length(hoqc_chr) == 1 && hoqc_chr == 'hoqc error') {
+		hoqc_chr = NULL
+	}
+	hoqc_chr
+}

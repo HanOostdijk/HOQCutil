@@ -120,7 +120,7 @@ expand_args <- function(...) {
 #' Each string is split in pieces that have that length (or less for the last part of the string)
 #' @name hard_split
 #' @param strings A vector of strings
-#' @param width The width (length) that each line have (at most)
+#' @param width The width (length) that each line will have (at most)
 #' @export
 #' @section acknowledgements:
 #' I was glad to be able to use the following (idea for) code from a StackOverflow article by \href{https://stackoverflow.com/questions/32398301/fastest-way-to-split-strings-into-fixed-length-elements-in-r}{akrun}.
@@ -129,9 +129,37 @@ expand_args <- function(...) {
 #' hard_wrap(paste(letters,collapse =''),10)
 #'
 
-
 hard_split <- function(strings, width) {
 	regarg <- sprintf(".{1,%d}", width)
 	strings1 = stringi::stri_extract_all_regex(strings, regarg)
 	purrr::flatten_chr(strings1)
+}
+
+#' display_wrapped shows strings in the console
+#'
+#' Each string is split in pieces not exceeding a certain length by using `HOQCutil::hard_split` or `stringr::str_wrap`
+#' @name display_wrapped
+#' @param strings A vector of strings
+#' @param width The width (length) that each line will have (at most)
+#' @param force_wrap Boolean When TRUE forces the use of `stringr::str_wrap`. When FALSE `HOQCutil::hard_split` will be used when `HOQCutil` is available (which is of course the case unless this function is copied outside the package). Default: FALSE
+#' @export
+#' @examples
+#' \dontrun{
+#' x=glue::glue_collapse(rep(c(letters,' '),5))
+#' display_wrapped(c(x,x),60)
+#' display_wrapped(c(x,x),60,T)
+#' }
+
+display_wrapped <- function (strings,
+	width = NULL,
+	force_wrap = FALSE) {
+	if (is.null(width))
+		width = getOption('width', 110)
+	suppressWarnings({
+		if (require('HOQCutil', quietly = TRUE) && force_wrap == FALSE) {
+			cat(paste0(HOQCutil::hard_split(strings, width)),sep= "\n")
+		} else {
+			cat(stringr::str_wrap(strings, width), sep="\n")
+		}
+	})
 }

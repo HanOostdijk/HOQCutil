@@ -1,5 +1,5 @@
 Package: HOQCutil
-Version: 0.1.6
+Version: 0.1.7
 Title: Utilities by Han Oostdijk.
 Description: Utilities by Han Oostdijk.
 Authors@R: person("Han", "Oostdijk", , "han@hanoostdijk.nl", c("aut", "cre"))

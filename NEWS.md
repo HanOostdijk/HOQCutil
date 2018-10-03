@@ -42,4 +42,12 @@
 
 * 02oct2018
    + get_table_cbs_odata4 shows extended error message with `error_msg = TRUE`
+   
+## HOQCutil 0.1.7
+
+* 03oct2018   
+   + get_table_cbs_odata4 no longer generates `$format=json` (the default)
+   + get_table_cbs_odata4 parameter `error_msg` now default `TRUE`
+   + get_table_cbs_odata4_GET reorganized to indicate json errors
+   + added display_wrapped
 

@@ -4,14 +4,14 @@
 \alias{get_table_cbs_odata4_GET}
 \title{get_table_cbs_odata4_GET : retrieves url}
 \usage{
-get_table_cbs_odata4_GET(url, response = F, error_msg = F)
+get_table_cbs_odata4_GET(url, response = FALSE, error_msg = TRUE)
 }
 \arguments{
 \item{url}{Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned. Default: none}
 
 \item{response}{Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE}
 
-\item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: FALSE}
+\item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE}
 }
 \value{
 if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the parameter response=TRUE is set, the result is a httr response object.

@@ -9,7 +9,7 @@ hard_split(strings, width)
 \arguments{
 \item{strings}{A vector of strings}
 
-\item{width}{The width (length) that each line have (at most)}
+\item{width}{The width (length) that each line will have (at most)}
 }
 \description{
 Each string is split in pieces that have that length (or less for the last part of the string)

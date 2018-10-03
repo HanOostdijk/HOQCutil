@@ -3,6 +3,7 @@
 export("%>%")
 export(cap.out)
 export(def_tab)
+export(display_wrapped)
 export(format_NS)
 export(format_WE)
 export(get_table_cbs_odata4)
