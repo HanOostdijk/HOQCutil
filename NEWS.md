@@ -50,4 +50,8 @@
    + get_table_cbs_odata4 parameter `error_msg` now default `TRUE`
    + get_table_cbs_odata4_GET reorganized to indicate json errors
    + added display_wrapped
+   
+## HOQCutil 0.1.8
 
+* 12oct2018   
+   + added pxtable: print.xtable with integrated `add.to.row` code
