@@ -6,7 +6,7 @@
 \usage{
 pxtable(df, tablabel = NULL, tabcap = NULL, adef = "l", ap = c(),
   av = c(), ddef = 0, dp = c(), dv = c(), tco = T, tcf = tco,
-  te = tcf, scalebox = NULL, include.colnames = T,
+  te = F, newpage = F, scalebox = NULL, include.colnames = T,
   include.rownames = F, rotate.colnames = T,
   sanitize.colnames.function = function(x) x, booktabs = F, ...)
 }
@@ -33,7 +33,9 @@ pxtable(df, tablabel = NULL, tabcap = NULL, adef = "l", ap = c(),
 
 \item{tcf}{Boolean indicating if 'continued from' should be displayed at the top of a page(only) when using the \code{longtable} package. Default: \code{tco}}
 
-\item{te}{Boolean indicating if 'end of table' should be displayed at the end of the table (only) when using the \code{longtable} package. Default: \code{tco}}
+\item{te}{Boolean indicating if 'end of table' should be displayed at the end of the table (only) when using the \code{longtable} package. Default: F}
+
+\item{newpage}{Boolean indicating if the table should start on a new page. Default: F}
 
 \item{scalebox}{Positive number for scaling the table. Forces the \code{tabular} environment. See \code{xtable::print.xtable}. Default: NULL}
 

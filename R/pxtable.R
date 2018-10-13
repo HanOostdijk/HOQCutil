@@ -14,7 +14,8 @@
 #' @param dv Integer vector with digit specifications for the positions in `dp`. Default: c()
 #' @param tco Boolean indicating if 'continued on' should be displayed at the bottom of a page(only) when using the `longtable` package. Default: T
 #' @param tcf Boolean indicating if 'continued from' should be displayed at the top of a page(only) when using the `longtable` package. Default: `tco`
-#' @param te Boolean indicating if 'end of table' should be displayed at the end of the table (only) when using the `longtable` package. Default: `tco`
+#' @param te Boolean indicating if 'end of table' should be displayed at the end of the table (only) when using the `longtable` package. Default: F
+#' @param newpage Boolean indicating if the table should start on a new page. Default: F
 #' @param scalebox Positive number for scaling the table. Forces the `tabular` environment. See `xtable::print.xtable`. Default: NULL
 #' @param include.colnames Boolean indicating if column names will be printed. See `xtable::print.xtable`. Default: T
 #' @param include.rownames Boolean indicating if row names will be printed. See `xtable::print.xtable`. Default: F
@@ -53,7 +54,8 @@ pxtable <- function(df,
 	dv = c(),
 	tco = T,
 	tcf = tco,
-	te = tcf,
+	te = F,
+	newpage = F,
 	scalebox = NULL,
 	include.colnames = T,
 	include.rownames = F,
@@ -69,10 +71,13 @@ pxtable <- function(df,
 	if (!is.null(scalebox)) {
 		floating = T
 		tenv = "tabular"
+		my_hline.after = c(0, nrow(df))
 		add.to.row <- NULL
+
 	} else {
 		floating = F
 		tenv = "longtable"
+		my_hline.after = 0 # hline at nrow(df) handled by add.to.row
 		add.to.row <-
 			format_addtorow(df,
 				include.colnames,
@@ -83,7 +88,9 @@ pxtable <- function(df,
 				tco,
 				te)
 	}
-
+  if (newpage) {
+  	cat('\\newpage')
+  }
 	print(
 		x = xtable::xtable (
 			df,
@@ -92,7 +99,7 @@ pxtable <- function(df,
 			digits = c(0, my_digits)
 		),
 		add.to.row = add.to.row,
-		hline.after = c(0, nrow(df)),
+		hline.after = my_hline.after,
 		include.colnames = include.colnames,
 		include.rownames = include.rownames,
 		rotate.colnames = rotate.colnames,
@@ -138,6 +145,9 @@ format_addtorow <-
 		tco = tcf,
 		te = tcf) {
 		nrc <- dim(my_df)[2]
+		if (include.rownames) {
+			nrc = nrc + 1
+		}
 		if (booktabs) {
 			top = '\\toprule'
 			mid = '\\midrule'
@@ -207,7 +217,7 @@ format_addtorow <-
 
 		)
 
-		command2 <- paste0(te1, "\n")
+		command2 <- paste0(te1, "\n",bot,"\\\\","\n%")
 		add.to.row <- list()
 		add.to.row$pos <- list(0, dim(my_df)[1])
 		add.to.row$command <- c(command1, command2)
