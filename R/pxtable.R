@@ -217,7 +217,11 @@ format_addtorow <-
 
 		)
 
-		command2 <- paste0(te1, "\n",bot,"\\\\","\n%")
+		command2 <- paste0(te1, "\n",bot,"\\\\","\n")
+		if (!booktabs) {
+			# remove the extra \hline when booktabs is not used
+			command2 <- paste0(command2, "%")
+		}
 		add.to.row <- list()
 		add.to.row$pos <- list(0, dim(my_df)[1])
 		add.to.row$command <- c(command1, command2)
