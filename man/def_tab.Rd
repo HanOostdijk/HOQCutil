@@ -4,12 +4,12 @@
 \alias{def_tab}
 \title{def_tab}
 \usage{
-def_tab(label_name, label_text)
+def_tab(label_name = "", label_text = "")
 }
 \arguments{
-\item{label_name}{Name of label}
+\item{label_name}{Name of label. Default ''}
 
-\item{label_text}{Text to which label is attached}
+\item{label_text}{Text to which label is attached. Default ''}
 }
 \description{
 def_tab produces a text with a label for a table or figure

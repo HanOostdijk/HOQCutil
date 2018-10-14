@@ -3,8 +3,8 @@
 #' def_tab produces a text with a label for a table or figure
 #'
 #' @name def_tab
-#' @param label_name Name of label
-#' @param label_text Text to which label is attached
+#' @param label_name Name of label. Default ''
+#' @param label_text Text to which label is attached. Default ''
 #' @importFrom knitr is_latex_output
 #' @export
 #' @section details:
@@ -20,7 +20,7 @@
 #' def_tab('lbltab1',cap_tab1)
 #' }
 
-def_tab <- function (label_name,label_text)
+def_tab <- function (label_name='',label_text='')
 { if ( knitr::is_latex_output() ) {
 	paste0(label_text,"\\label{table:",label_name,"}")
 } else {""}
@@ -32,8 +32,8 @@ def_tab <- function (label_name,label_text)
 #'
 #' @name ref_tab
 #' @param label_name Name of label
-#' @param table Boolean to indicate if the label is for table (T) or figure(F)
-#' @param add_page Boolean to indicate if the reference should include the page
+#' @param table Boolean to indicate if the label is for table (T) or figure(F). Default TRUE
+#' @param add_page Boolean to indicate if the reference should include the page. Default TRUE
 #' @param prefix Text to include before the reference
 #' @importFrom knitr is_latex_output
 #' @export

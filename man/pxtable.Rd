@@ -4,7 +4,7 @@
 \alias{pxtable}
 \title{print data.frame in LaTeX}
 \usage{
-pxtable(df, tablabel = NULL, tabcap = NULL, adef = "l", ap = c(),
+pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
   av = c(), ddef = 0, dp = c(), dv = c(), tco = T, tcf = tco,
   te = F, newpage = F, scalebox = NULL, include.colnames = T,
   include.rownames = F, rotate.colnames = T,
@@ -13,9 +13,9 @@ pxtable(df, tablabel = NULL, tabcap = NULL, adef = "l", ap = c(),
 \arguments{
 \item{df}{data.frame that will be printed.}
 
-\item{tablabel}{Character string that can be used to reference the table as \code{table:tablabel}.  Default: NULL}
+\item{tablabel}{Character string that can be used to reference the table as \code{table:tablabel}. Default: ''}
 
-\item{tabcap}{Character string that is as caption for the table. Default: NULL}
+\item{tabcap}{Character string that is as caption for the table. Default: ''}
 
 \item{adef}{Character string with the default alignment. Default: "l"}
 

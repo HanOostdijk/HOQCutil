@@ -4,8 +4,8 @@
 #'
 #' @name pxtable
 #' @param df data.frame that will be printed.
-#' @param tablabel Character string that can be used to reference the table as `table:tablabel`.  Default: NULL
-#' @param tabcap Character string that is as caption for the table. Default: NULL
+#' @param tablabel Character string that can be used to reference the table as `table:tablabel`. Default: ''
+#' @param tabcap Character string that is as caption for the table. Default: ''
 #' @param adef Character string with the default alignment. Default: "l"
 #' @param ap Integer vector with the positions of the columns for which an alignment specification is given in `av`. Default: c()
 #' @param av Character vector with aligment specifications for the positions in `ap`. E.g. with values as 'c', 'r', 'p{3cm}' . Default: c()
@@ -44,8 +44,8 @@
 #' }
 
 pxtable <- function(df,
-	tablabel = NULL,
-	tabcap = NULL,
+	tablabel = '',
+	tabcap = '',
 	adef = 'l',
 	ap = c(),
 	av = c(),

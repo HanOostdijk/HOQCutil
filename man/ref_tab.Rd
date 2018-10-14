@@ -9,9 +9,9 @@ ref_tab(label_name, table = T, add_page = T, prefix = "in")
 \arguments{
 \item{label_name}{Name of label}
 
-\item{table}{Boolean to indicate if the label is for table (T) or figure(F)}
+\item{table}{Boolean to indicate if the label is for table (T) or figure(F). Default TRUE}
 
-\item{add_page}{Boolean to indicate if the reference should include the page}
+\item{add_page}{Boolean to indicate if the reference should include the page. Default TRUE}
 
 \item{prefix}{Text to include before the reference}
 }
