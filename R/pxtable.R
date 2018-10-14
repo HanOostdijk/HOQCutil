@@ -18,8 +18,9 @@
 #' @param newpage Boolean indicating if the table should start on a new page. Default: F
 #' @param scalebox Positive number for scaling the table. Forces the `tabular` environment. See `xtable::print.xtable`. Default: NULL
 #' @param include.colnames Boolean indicating if column names will be printed. See `xtable::print.xtable`. Default: T
-#' @param include.rownames Boolean indicating if row names will be printed. See `xtable::print.xtable`. Default: F
+#' @param colnames Character vector with column headers to use instead of field names. Default: NA
 #' @param rotate.colnames Boolean indicating if column names will be printed vertically. See `xtable::print.xtable`. Default: T
+#' @param include.rownames Boolean indicating if row names will be printed. See `xtable::print.xtable`. Default: F
 #' @param sanitize.colnames.function Function used for nicer printing of column names. See `xtable::print.xtable`. Default: no change in column names
 #' @param booktabs Boolean indicating if LaTeX package `booktabs` will be used for formatting horizontal lines. See `xtable::print.xtable`. Default: F
 #' @param ... Additional arguments that are passed to `xtable::print.xtable`.
@@ -58,60 +59,85 @@ pxtable <- function(df,
 	newpage = F,
 	scalebox = NULL,
 	include.colnames = T,
-	include.rownames = F,
+	colnames = NA,
 	rotate.colnames = T,
-	sanitize.colnames.function = function(x) x,
+	include.rownames = F,
+	sanitize.colnames.function = function(x)
+		x,
 	booktabs = F,
 	...) {
 	my_align = rep(adef, dim(df)[2])
 	my_align[ap] = av
 	my_digits = rep(ddef, dim(df)[2])
 	my_digits[dp] = dv
+	my_caption = HOQCutil::def_tab(tablabel, tabcap)
 
-	if (!is.null(scalebox)) {
-		floating = T
-		tenv = "tabular"
-		my_hline.after = c(0, nrow(df))
-		add.to.row <- NULL
-
-	} else {
-		floating = F
-		tenv = "longtable"
-		my_hline.after = 0 # hline at nrow(df) handled by add.to.row
-		add.to.row <-
-			format_addtorow(df,
-				include.colnames,
-				include.rownames,
-				rotate.colnames,
-				booktabs,
-				tcf,
-				tco,
-				te)
+	if (!is.na(colnames) && length(colnames) == length(names(df))) {
+		names(df) <- colnames
 	}
-  if (newpage) {
-  	cat('\\newpage')
-  }
-	print(
-		x = xtable::xtable (
-			df,
-			caption = HOQCutil::def_tab(tablabel, tabcap),
-			align = c('l', my_align),
-			digits = c(0, my_digits)
-		),
-		add.to.row = add.to.row,
-		hline.after = my_hline.after,
-		include.colnames = include.colnames,
-		include.rownames = include.rownames,
-		rotate.colnames = rotate.colnames,
-		floating = floating,
-		sanitize.colnames.function = sanitize.colnames.function,
-		tabular.environment = tenv,
-		scalebox = scalebox,
-		booktabs = booktabs,
-		...
-	)
-}
 
+	if (!knitr::is_latex_output()) {
+		ao =purrr::map_lgl(my_align,function(x) x %in% c('r','l','c'))
+		if (purrr::some(ao, ~ isFALSE(.))){
+		  warning('one or more alignment specifications changed!')
+		  my_align = unlist(purrr::map_if(my_align,!ao,function(x) 'l') )
+		}
+		print(
+			knitr::kable(
+				df,
+				digits = my_digits,
+				row.names = include.rownames,
+				align = my_align,
+				caption = tabcap
+			)
+		)
+		invisible(NULL)
+	} else{
+		if (!is.null(scalebox)) {
+			floating = T
+			tenv = "tabular"
+			my_hline.after = c(0, nrow(df))
+			add.to.row <- NULL
+
+		} else {
+			floating = F
+			tenv = "longtable"
+			my_hline.after = 0 # hline at nrow(df) handled by add.to.row
+			add.to.row <-
+				format_addtorow(df,
+					include.colnames,
+					include.rownames,
+					rotate.colnames,
+					booktabs,
+					tcf,
+					tco,
+					te)
+		}
+		if (newpage) {
+			cat('\\newpage')
+		}
+		print(
+			x = xtable::xtable (
+				df,
+				caption = my_caption,
+				align = c('l', my_align),
+				digits = c(0, my_digits)
+			),
+			add.to.row = add.to.row,
+			hline.after = my_hline.after,
+			include.colnames = include.colnames,
+			include.rownames = include.rownames,
+			rotate.colnames = rotate.colnames,
+			floating = floating,
+			sanitize.colnames.function = sanitize.colnames.function,
+			tabular.environment = tenv,
+			scalebox = scalebox,
+			booktabs = booktabs,
+			...
+		)
+		invisible(NULL)
+	}
+}
 
 format_header <- function(names,
 	include.colnames = T,

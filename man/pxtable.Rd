@@ -7,7 +7,7 @@
 pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
   av = c(), ddef = 0, dp = c(), dv = c(), tco = T, tcf = tco,
   te = F, newpage = F, scalebox = NULL, include.colnames = T,
-  include.rownames = F, rotate.colnames = T,
+  colnames = NA, rotate.colnames = T, include.rownames = F,
   sanitize.colnames.function = function(x) x, booktabs = F, ...)
 }
 \arguments{
@@ -41,9 +41,11 @@ pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
 
 \item{include.colnames}{Boolean indicating if column names will be printed. See \code{xtable::print.xtable}. Default: T}
 
-\item{include.rownames}{Boolean indicating if row names will be printed. See \code{xtable::print.xtable}. Default: F}
+\item{colnames}{Character vector with column headers to use instead of field names. Default: NA}
 
 \item{rotate.colnames}{Boolean indicating if column names will be printed vertically. See \code{xtable::print.xtable}. Default: T}
+
+\item{include.rownames}{Boolean indicating if row names will be printed. See \code{xtable::print.xtable}. Default: F}
 
 \item{sanitize.colnames.function}{Function used for nicer printing of column names. See \code{xtable::print.xtable}. Default: no change in column names}
 
