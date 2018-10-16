@@ -30,7 +30,8 @@
 #'
 #' @param inputFile base file to render
 #' @param encoding encoding of basefile
-#' @param hoqc_render boolean to indicate that output file is to be created
+#' @param hoqc_render boolean to indicate that output file is to be created. Default TRUE
+#' @param clean boolean to indicate that intermediary files are removed. Default TRUE
 #' @importFrom magrittr %>%
 #' @importFrom utils head tail
 #' @importFrom rmarkdown render
@@ -39,7 +40,8 @@
 myknit <-
 	function (inputFile,
 		encoding = getOption("encoding"),
-		hoqc_render = TRUE) {
+		hoqc_render = TRUE,
+		clean = TRUE) {
 
 		# Acknowledgement: idea comes from
 		# https://stackoverflow.com/questions/39885363/importing-common-yaml-in-rstudio-knitr-document
@@ -192,7 +194,8 @@ myknit <-
 					tfile,
 					encoding = encoding,
 					output_file = hoqc_output,
-					envir = new.env()
+					envir = new.env(),
+					clean = clean
 				)
 			# remove temporary file
 			if (stringr::str_length(hoqc_rmd_out) == 0)

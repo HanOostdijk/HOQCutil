@@ -4,14 +4,17 @@
 \alias{myknit}
 \title{myknit}
 \usage{
-myknit(inputFile, encoding = getOption("encoding"), hoqc_render = TRUE)
+myknit(inputFile, encoding = getOption("encoding"), hoqc_render = TRUE,
+  clean = TRUE)
 }
 \arguments{
 \item{inputFile}{base file to render}
 
 \item{encoding}{encoding of basefile}
 
-\item{hoqc_render}{boolean to indicate that output file is to be created}
+\item{hoqc_render}{boolean to indicate that output file is to be created. Default TRUE}
+
+\item{clean}{boolean to indicate that intermediary files are removed. Default TRUE}
 }
 \description{
 myknit can be used to make the process of knitting more flexible.
