@@ -11,7 +11,7 @@ Currently the package includes
 * function `hard_split` that splits strings at certain positions
 * function `display_wrapped` that show split strings in the console
 * function `get_table_cbs_odata4` (and `get_table_cbs_odata4_GET`) used for access to CBS OData4 data
-* function `pxtable` that calls print.xtable with integrated `add.to.row` code
+* function `pxtable` that calls print.xtable with integrated `add.to.row` code and behave as `kable` when html output is produced
 
 
 ## Install HOQCutil
