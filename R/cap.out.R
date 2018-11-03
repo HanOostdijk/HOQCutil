@@ -5,7 +5,7 @@
 #' @param lines Line numbers to select from output. Default: all lines
 #' @param numlines_only Boolean indicating no wrapping takes place and only the number of lines and the captured output are returned (in a list). Default: FALSE
 #' @param se Start and End of each line (see details). Default: NULL (whole line)
-#' @param width Position in each line where wrapping takes place. Default: \code{getOption('width')}
+#' @param width Position in each line where wrapping takes place. Default: \code{getOption('width',110)-3}
 #' @param keep_empty Boolean indicating if empty should be kept. Default: FALSE
 #' @param fixed_wrap Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE
 #' @param abbr_ind Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE
@@ -36,7 +36,7 @@ cap.out <- function (cmd,
 	lines = NULL,
 	numlines_only = F,
 	se = NULL,
-	width = getOption('width'),
+	width = getOption('width',110)-3,
 	keep_empty = F,
 	fixed_wrap = T,
 	abbr_ind = T,
@@ -120,16 +120,16 @@ expand_args <- function(...) {
 #' Each string is split in pieces that have that length (or less for the last part of the string)
 #' @name hard_split
 #' @param strings A vector of strings
-#' @param width The width (length) that each line will have (at most)
+#' @param width The width (length) that each line will have (at most). Default \code{getOption('width',110)-3}
 #' @export
 #' @section acknowledgements:
 #' I was glad to be able to use the following (idea for) code from a StackOverflow article by \href{https://stackoverflow.com/questions/32398301/fastest-way-to-split-strings-into-fixed-length-elements-in-r}{akrun}.
 #' @examples
 #'
-#' hard_wrap(paste(letters,collapse =''),10)
+#' hard_split(paste(letters,collapse =''),width=10)
 #'
 
-hard_split <- function(strings, width) {
+hard_split <- function(strings, width=getOption('width',110)-3) {
 	regarg <- sprintf(".{1,%d}", width)
 	strings1 = stringi::stri_extract_all_regex(strings, regarg)
 	purrr::flatten_chr(strings1)
@@ -140,7 +140,7 @@ hard_split <- function(strings, width) {
 #' Each string is split in pieces not exceeding a certain length by using `HOQCutil::hard_split` or `stringr::str_wrap`
 #' @name display_wrapped
 #' @param strings A vector of strings
-#' @param width The width (length) that each line will have (at most)
+#' @param width The width (length) that each line will have (at most).  Default \code{getOption('width', 110)-3}
 #' @param force_wrap Boolean When TRUE forces the use of `stringr::str_wrap`. When FALSE `HOQCutil::hard_split` will be used when `HOQCutil` is available (which is of course the case unless this function is copied outside the package). Default: FALSE
 #' @export
 #' @examples
@@ -151,10 +151,8 @@ hard_split <- function(strings, width) {
 #' }
 
 display_wrapped <- function (strings,
-	width = NULL,
+	width = getOption('width', 110)-3,
 	force_wrap = FALSE) {
-	if (is.null(width))
-		width = getOption('width', 110)
 	suppressWarnings({
 		if (require('HOQCutil', quietly = TRUE) && force_wrap == FALSE) {
 			cat(paste0(HOQCutil::hard_split(strings, width)),sep= "\n")

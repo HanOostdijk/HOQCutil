@@ -4,12 +4,12 @@
 \alias{hard_split}
 \title{hard_split splits the output of strings at a specific width}
 \usage{
-hard_split(strings, width)
+hard_split(strings, width = getOption("width", 110) - 3)
 }
 \arguments{
 \item{strings}{A vector of strings}
 
-\item{width}{The width (length) that each line will have (at most)}
+\item{width}{The width (length) that each line will have (at most). Default \code{getOption('width',110)-3}}
 }
 \description{
 Each string is split in pieces that have that length (or less for the last part of the string)
@@ -21,6 +21,6 @@ I was glad to be able to use the following (idea for) code from a StackOverflow 
 
 \examples{
 
-hard_wrap(paste(letters,collapse =''),10)
+hard_split(paste(letters,collapse =''),width=10)
 
 }

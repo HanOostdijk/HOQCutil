@@ -4,12 +4,13 @@
 \alias{display_wrapped}
 \title{display_wrapped shows strings in the console}
 \usage{
-display_wrapped(strings, width = NULL, force_wrap = FALSE)
+display_wrapped(strings, width = getOption("width", 110) - 3,
+  force_wrap = FALSE)
 }
 \arguments{
 \item{strings}{A vector of strings}
 
-\item{width}{The width (length) that each line will have (at most)}
+\item{width}{The width (length) that each line will have (at most).  Default \code{getOption('width', 110)-3}}
 
 \item{force_wrap}{Boolean When TRUE forces the use of \code{stringr::str_wrap}. When FALSE \code{HOQCutil::hard_split} will be used when \code{HOQCutil} is available (which is of course the case unless this function is copied outside the package). Default: FALSE}
 }
