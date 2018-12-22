@@ -74,7 +74,7 @@ pxtable <- function(df,
 	if (!knitr::is_latex_output()) {
 		ao =purrr::map_lgl(my_align,function(x) x %in% c('r','l','c'))
 		if (purrr::some(ao, ~ isFALSE(.))){
-		  warning('one or more alignment specifications changed!')
+		  #warning('one or more alignment specifications changed!')
 		  my_align = unlist(purrr::map_if(my_align,!ao,function(x) 'l') )
 		}
 		print(
