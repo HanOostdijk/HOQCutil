@@ -12,7 +12,7 @@ Currently the package includes
 * function `display_wrapped` that show split strings in the console
 * function `get_table_cbs_odata4` (and `get_table_cbs_odata4_GET`) used for access to CBS OData4 data
 * function `pxtable` that calls print.xtable with integrated `add.to.row` code and behaves as `kable` when html output is produced
-* functions `plot_PCA` and `print_PCA1 that plot and print `FactoMineR::PCA` results
+* functions `plot_PCA` and `print_PCA1` that plot and print `FactoMineR::PCA` results
 
 
 ## Install HOQCutil
