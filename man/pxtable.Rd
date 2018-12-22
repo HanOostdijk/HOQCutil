@@ -8,7 +8,7 @@ pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
   av = c(), ddef = 0, dp = c(), dv = c(), tco = T, tcf = tco,
   te = F, newpage = F, scalebox = NULL, include.colnames = T,
   colnames = NA, rotate.colnames = T, include.rownames = F,
-  sanitize.colnames.function = function(x) x, booktabs = F, ...)
+  sanitize.colnames.function = xtable::sanitize, booktabs = F, ...)
 }
 \arguments{
 \item{df}{data.frame that will be printed.}
@@ -47,7 +47,7 @@ pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
 
 \item{include.rownames}{Boolean indicating if row names will be printed. See \code{xtable::print.xtable}. Default: F}
 
-\item{sanitize.colnames.function}{Function used for nicer printing of column names. See \code{xtable::print.xtable}. Default: no change in column names}
+\item{sanitize.colnames.function}{Function used for nicer printing of column names. See \code{xtable::print.xtable}. Default: xtable::sanitize}
 
 \item{booktabs}{Boolean indicating if LaTeX package \code{booktabs} will be used for formatting horizontal lines. See \code{xtable::print.xtable}. Default: F}
 

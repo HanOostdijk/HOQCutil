@@ -55,3 +55,9 @@
 
 * 12oct2018   
    + added pxtable: print.xtable with integrated `add.to.row` code
+   
+      
+## HOQCutil 0.1.9
+
+* 20dec2018   
+   + added plot_PCA, plot_PCA_sel and print_PCA

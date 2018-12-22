@@ -21,7 +21,7 @@
 #' @param colnames Character vector with column headers to use instead of field names. Default: NA
 #' @param rotate.colnames Boolean indicating if column names will be printed vertically. See `xtable::print.xtable`. Default: T
 #' @param include.rownames Boolean indicating if row names will be printed. See `xtable::print.xtable`. Default: F
-#' @param sanitize.colnames.function Function used for nicer printing of column names. See `xtable::print.xtable`. Default: no change in column names
+#' @param sanitize.colnames.function Function used for nicer printing of column names. See `xtable::print.xtable`. Default: xtable::sanitize
 #' @param booktabs Boolean indicating if LaTeX package `booktabs` will be used for formatting horizontal lines. See `xtable::print.xtable`. Default: F
 #' @param ... Additional arguments that are passed to `xtable::print.xtable`.
 #' @return  See `xtable::print.xtable` as this function prepares only its function arguments. Using this function in a `knitr` chunk with `results  ='markup'` will show the generated LaTeX text. With `results  ='asis'` the text is transfered to the intermediate output file and interpreted as LaTeX in the final pdf document.
@@ -62,8 +62,7 @@ pxtable <- function(df,
 	colnames = NA,
 	rotate.colnames = T,
 	include.rownames = F,
-	sanitize.colnames.function = function(x)
-		x,
+	sanitize.colnames.function = xtable::sanitize,
 	booktabs = F,
 	...) {
 	my_align = rep(adef, dim(df)[2])
@@ -71,10 +70,6 @@ pxtable <- function(df,
 	my_digits = rep(ddef, dim(df)[2])
 	my_digits[dp] = dv
 	my_caption = HOQCutil::def_tab(tablabel, tabcap)
-
-	if (!is.na(colnames) && length(colnames) == length(names(df))) {
-		names(df) <- colnames
-	}
 
 	if (!knitr::is_latex_output()) {
 		ao =purrr::map_lgl(my_align,function(x) x %in% c('r','l','c'))
@@ -86,6 +81,7 @@ pxtable <- function(df,
 			knitr::kable(
 				df,
 				digits = my_digits,
+				col.names = colnames,
 				row.names = include.rownames,
 				align = my_align,
 				caption = tabcap
@@ -103,8 +99,18 @@ pxtable <- function(df,
 			floating = F
 			tenv = "longtable"
 			my_hline.after = 0 # hline at nrow(df) handled by add.to.row
+			nms = names(df)
+			sanitize.colnames.function0 = sanitize.colnames.function
+			sanitize.colnames.function1 <- function( x ) {
+				colnames
+			}
+			if (!is.na(colnames) && length(colnames) == length(nms))
+				sanitize.colnames.function0 = purrr::compose(
+					sanitize.colnames.function,sanitize.colnames.function1
+				)
 			add.to.row <-
-				format_addtorow(df,
+				format_addtorow(sanitize.colnames.function0(nms),
+					dim(df)[1],
 					include.colnames,
 					include.rownames,
 					rotate.colnames,
@@ -129,7 +135,7 @@ pxtable <- function(df,
 			include.rownames = include.rownames,
 			rotate.colnames = rotate.colnames,
 			floating = floating,
-			sanitize.colnames.function = sanitize.colnames.function,
+			sanitize.colnames.function = sanitize.colnames.function0,
 			tabular.environment = tenv,
 			scalebox = scalebox,
 			booktabs = booktabs,
@@ -161,8 +167,8 @@ format_header <- function(names,
 }
 
 format_addtorow <-
-	function(my_df,
-		# helpful was https://tex.stackexchange.com/questions/41067/caption-for-longtable-in-sweave
+	function(nms,
+		nr,
 		include.colnames = T,
 		include.rownames = F,
 		rotate.colnames = include.colnames,
@@ -170,7 +176,7 @@ format_addtorow <-
 		tcf = T,
 		tco = tcf,
 		te = tcf) {
-		nrc <- dim(my_df)[2]
+		nrc <- length(nms)
 		if (include.rownames) {
 			nrc = nrc + 1
 		}
@@ -223,7 +229,7 @@ format_addtorow <-
 			tcf1,
 			" \n",
 			format_header(
-				names(my_df),
+				nms,
 				include.colnames = include.colnames,
 				include.rownames = include.rownames,
 				sideways = rotate.colnames
@@ -249,7 +255,7 @@ format_addtorow <-
 			command2 <- paste0(command2, "%")
 		}
 		add.to.row <- list()
-		add.to.row$pos <- list(0, dim(my_df)[1])
+		add.to.row$pos <- list(0, nr)
 		add.to.row$command <- c(command1, command2)
 		add.to.row
 	}

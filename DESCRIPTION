@@ -1,5 +1,5 @@
 Package: HOQCutil
-Version: 0.1.8
+Version: 0.1.9
 Title: Utilities by Han Oostdijk.
 Description: Utilities by Han Oostdijk.
 Authors@R: person("Han", "Oostdijk", , "han@hanoostdijk.nl", c("aut", "cre"))
@@ -8,10 +8,12 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Imports: 
     fs,
     magrittr,
     purrr,
     rmarkdown,
     stringr
+Suggests: 
+    FactoMiner
