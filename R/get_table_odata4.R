@@ -122,11 +122,13 @@ get_table_cbs_odata4_GET <- function (url,
 	error_msg = TRUE) {
 	res1 = httr::GET(url)
 	err1 = httr::http_error(res1)
-	txt1 = httr::content(res1, as = "text")
+	txt1 = httr::content(res1, as = "text",encoding='UTF-8')
 	msg1 = httr::http_status(res1)$message
 	cnt1 = httr::headers(res1)$`content-type`
 	jsn1 = stringr::str_detect(httr::headers(res1)$`content-type`, 'json')
 	xml1 = stringr::str_detect(httr::headers(res1)$`content-type`, 'xml')
+	if (length(jsn1) == 0 && err1)
+		return(msg1)
 	if (jsn1) {
 		e = get_json(txt1)
 	}
