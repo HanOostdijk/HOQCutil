@@ -7,7 +7,7 @@
 plot_PCA_select(res, var_ind = "ind", select = NULL, axes = 1:2)
 }
 \arguments{
-\item{res}{Structure that is the output of the function \link[FactoMineR]{PCA}}
+\item{res}{Structure that is the output of the function \link[FactoMineR:PCA]{PCA}}
 
 \item{var_ind}{Character string that indicates if variables (\code{var}) or individuals (\code{ind}) will be plotted.  Default: \code{"ind"}}
 
@@ -16,11 +16,11 @@ plot_PCA_select(res, var_ind = "ind", select = NULL, axes = 1:2)
 \item{axes}{Numeric vector with two integers indicating the dimensions that will be plotted.  Default: \code{1:2}}
 }
 \description{
-\code{plot_PCA} is a replacement for \link[FactoMineR]{plot.PCA}. \code{plot_PCA_select} handles the selection part for \code{plot_PCA}: determines for which of the active elements the labels (names) will be printed. Restricting the number of these elements can be useful if the plot contains a lot of elements.
+\code{plot_PCA} is a replacement for \link[FactoMineR:Plot.PCA]{Plot.PCA}. \code{plot_PCA_select} handles the selection part for \code{plot_PCA}: determines for which of the active elements the labels (names) will be printed. Restricting the number of these elements can be useful if the plot contains a lot of elements.
 }
 \section{Details}{
 
-The select mechanism is taken over asis from the \code{FactoMineR::PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
+The select mechanism is taken over asis from the \link[FactoMineR:PCA]{PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
 The select argument can be used in order to select a part of the elements (individuals if you draw the graph of individuals, or variables if you draw the graph of variables) that are drawn. For example, you can use:\cr
 \code{select = 1:5} and then the elements \code{1:5} are drawn.\cr
 \code{select = c("name1","name5")} and then the elements that have the names \code{name1} and \code{name5} are drawn.\cr
@@ -28,13 +28,13 @@ The select argument can be used in order to select a part of the elements (indiv
 \code{select = "contrib 10"} and then the 10 elements that have the highest contribution on the 2 dimensions of your plot are drawn.\cr
 \code{select = "cos2 5"} and then the 5 elements that have the highest cos2 on the 2 dimensions of your plot are drawn.\cr
 \code{select = "dist 8"} and then the 8 elements that have the highest distance to the center of gravity are drawn.\cr\cr
-NB. the following functionality is contained in \link[FactoMineR]{plot.PCA} but not described there:\cr
+NB. the following functionality is contained in \link[FactoMineR:Plot.PCA]{Plot.PCA} but not described there:\cr
 \code{select = "cos2 0.8"} and then the elements for which the sum of the cos2 on the 2 dimensions of your plot is greater than 0.8 are drawn.
 }
 
 \section{Acknowledgements}{
 
-All ideas come from the creators of the \code{FactoMiner} package. This implementation is mine and if you find any errors, these will be mine.
+All ideas come from the creators of the \link[FactoMineR:FactoMineR-package]{FactoMineR} package. This implementation is mine and if you find any errors, these will be mine.
 }
 
 \examples{

@@ -1,10 +1,10 @@
-#' plot_PCA: replacement for \link[FactoMineR]{plot.PCA}
+#' plot_PCA: replacement for [plot.PCA][FactoMineR::plot.PCA]
 #'
-#' plot_PCA is a replacement for \link[FactoMineR]{plot.PCA}. Out of this function I took the functionality that I need and added the functionality to emphasize points (variables or individuals).
-#' The function plots the variables or individuals information from the structure returned by the function  \link[FactoMineR]{PCA}.
+#' plot_PCA is a replacement for [plot.PCA][FactoMineR::plot.PCA]. Out of this function I took the functionality that I need and added the functionality to emphasize points (variables or individuals).
+#' The function plots the variables or individuals information from the structure returned by the function [PCA][FactoMineR::PCA].
 #'
 #' @name plot_PCA
-#' @param res Structure that is the output of the function \link[FactoMineR]{PCA}
+#' @param res Structure that is the output of the function [PCA][FactoMineR::PCA]
 #' @param var_ind Character string that indicates if variables (\code{var}) or individuals (\code{ind}) will be plotted.  Default: \code{"ind"}
 #' @param axes Numeric vector with two integers indicating the dimensions that will be plotted.  Default: \code{1:2}
 #' @param cex Positive number indicating the size of symbols and labels. Default: \code{1}
@@ -37,7 +37,7 @@
 #' NB. the following functionality is contained in \link[FactoMineR]{plot.PCA} but not described there:\cr
 #' \code{select = "cos2 0.8"} and then the elements for which the sum of the cos2 on the 2 dimensions of your plot is greater than 0.8 are drawn.
 #' @section Acknowledgements:
-#' All ideas come from the creators of the \code{FactoMiner} package. This implementation is mine and if you find any errors, these will be mine. In case of errors try using the original \link[FactoMineR]{PCA}.
+#' All ideas come from the creators of the [FactoMineR][FactoMineR::FactoMineR-package] package. This implementation is mine and if you find any errors, these will be mine. In case of errors try using the original [plot.PCA][FactoMineR::plot.PCA].
 #' @examples
 #' \dontrun{
 #' plot_PCA(res,cex=0.8,show.sup = F,emphasize = 'BU03620304',sel='contrib 6')
@@ -127,16 +127,16 @@ plot_PCA <-
 
 #' plot_PCA_select: auxiliary function for \link{plot_PCA}
 #'
-#' \code{plot_PCA} is a replacement for \link[FactoMineR]{plot.PCA}. \code{plot_PCA_select} handles the selection part for \code{plot_PCA}: determines for which of the active elements the labels (names) will be printed. Restricting the number of these elements can be useful if the plot contains a lot of elements.
+#' \code{plot_PCA} is a replacement for [Plot.PCA][FactoMineR::Plot.PCA]. \code{plot_PCA_select} handles the selection part for \code{plot_PCA}: determines for which of the active elements the labels (names) will be printed. Restricting the number of these elements can be useful if the plot contains a lot of elements.
 #'
 #' @name plot_PCA_select
-#' @param res Structure that is the output of the function \link[FactoMineR]{PCA}
+#' @param res Structure that is the output of the function [PCA][FactoMineR::PCA]
 #' @param var_ind Character string that indicates if variables (\code{var}) or individuals (\code{ind}) will be plotted.  Default: \code{"ind"}
 #' @param axes Numeric vector with two integers indicating the dimensions that will be plotted.  Default: \code{1:2}
 #' @param select Character string  with a selection criterion (see \code{details}) or an integer vector with the sequence numbers of the active elements that are selected (i.e. be given a different layout than the other elements). Default: NULL (i.e. all are selected)
 #' @export
 #' @section Details:
-#' The select mechanism is taken over asis from the \code{FactoMineR::PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
+#' The select mechanism is taken over asis from the [PCA][FactoMineR::PCA] function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
 #' The select argument can be used in order to select a part of the elements (individuals if you draw the graph of individuals, or variables if you draw the graph of variables) that are drawn. For example, you can use:\cr
 #' \code{select = 1:5} and then the elements \code{1:5} are drawn.\cr
 #' \code{select = c("name1","name5")} and then the elements that have the names \code{name1} and \code{name5} are drawn.\cr
@@ -144,10 +144,10 @@ plot_PCA <-
 #' \code{select = "contrib 10"} and then the 10 elements that have the highest contribution on the 2 dimensions of your plot are drawn.\cr
 #' \code{select = "cos2 5"} and then the 5 elements that have the highest cos2 on the 2 dimensions of your plot are drawn.\cr
 #' \code{select = "dist 8"} and then the 8 elements that have the highest distance to the center of gravity are drawn.\cr\cr
-#' NB. the following functionality is contained in \link[FactoMineR]{plot.PCA} but not described there:\cr
+#' NB. the following functionality is contained in [Plot.PCA][FactoMineR::Plot.PCA] but not described there:\cr
 #' \code{select = "cos2 0.8"} and then the elements for which the sum of the cos2 on the 2 dimensions of your plot is greater than 0.8 are drawn.
 #' @section Acknowledgements:
-#' All ideas come from the creators of the \code{FactoMiner} package. This implementation is mine and if you find any errors, these will be mine.
+#' All ideas come from the creators of the [FactoMineR][FactoMineR::FactoMineR-package] package. This implementation is mine and if you find any errors, these will be mine.
 #' @examples
 #' \dontrun{
 #' plot_PCA_select(res,var_ind = 'ind',sel='contrib 6', axes = 1:2)
@@ -203,6 +203,7 @@ plot_PCA_select <- function (res, var_ind = 'ind', select = NULL, axes = 1:2) {
 	unname(selection)
 }
 
+# See https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html for info about links etc.
 #' print_PCA: prints a part of \link[FactoMineR]{PCA} output (sorted)
 #'
 #' The output of the [PCA][FactoMineR::PCA] function of the [FactoMineR][FactoMineR::FactoMineR-package] package is an object that contains various matrices. The function [print.PCA][FactoMineR::print.PCA] of that package gives an overview of the available matrices. The function `print_PCA` displays a sorted version of one of these matrices. With this it is easier to check which variables or individuals play a large role for a certain dimension or pair of dimensions.

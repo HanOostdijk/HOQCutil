@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_PCA.R
 \name{plot_PCA}
 \alias{plot_PCA}
-\title{plot_PCA: replacement for \link[FactoMineR]{plot.PCA}}
+\title{plot_PCA: replacement for \link[FactoMineR:plot.PCA]{plot.PCA}}
 \usage{
 plot_PCA(res, var_ind = "ind", axes = 1:2, cex = 1, font.std = 1,
   pch.std = 20, col.std = "black", font.emp = 2, pch.emp = pch.std,
@@ -12,7 +12,7 @@ plot_PCA(res, var_ind = "ind", axes = 1:2, cex = 1, font.std = 1,
   invisible = NULL)
 }
 \arguments{
-\item{res}{Structure that is the output of the function \link[FactoMineR]{PCA}}
+\item{res}{Structure that is the output of the function \link[FactoMineR:PCA]{PCA}}
 
 \item{var_ind}{Character string that indicates if variables (\code{var}) or individuals (\code{ind}) will be plotted.  Default: \code{"ind"}}
 
@@ -53,8 +53,8 @@ plot_PCA(res, var_ind = "ind", axes = 1:2, cex = 1, font.std = 1,
 \item{invisible}{Character vector with the rownames of the elements (active and supplemental) that are not shown. Default: NULL}
 }
 \description{
-plot_PCA is a replacement for \link[FactoMineR]{plot.PCA}. Out of this function I took the functionality that I need and added the functionality to emphasize points (variables or individuals).
-The function plots the variables or individuals information from the structure returned by the function  \link[FactoMineR]{PCA}.
+plot_PCA is a replacement for \link[FactoMineR:plot.PCA]{plot.PCA}. Out of this function I took the functionality that I need and added the functionality to emphasize points (variables or individuals).
+The function plots the variables or individuals information from the structure returned by the function \link[FactoMineR:PCA]{PCA}.
 }
 \section{Details}{
 
@@ -72,7 +72,7 @@ NB. the following functionality is contained in \link[FactoMineR]{plot.PCA} but 
 
 \section{Acknowledgements}{
 
-All ideas come from the creators of the \code{FactoMiner} package. This implementation is mine and if you find any errors, these will be mine. In case of errors try using the original \link[FactoMineR]{PCA}.
+All ideas come from the creators of the \link[FactoMineR:FactoMineR-package]{FactoMineR} package. This implementation is mine and if you find any errors, these will be mine. In case of errors try using the original \link[FactoMineR:plot.PCA]{plot.PCA}.
 }
 
 \examples{
