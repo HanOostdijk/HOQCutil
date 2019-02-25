@@ -1,6 +1,6 @@
 #' print data.frame in LaTeX
 #'
-#' This function adds to the print function of the `xtable` package by providing predefined `add.to.row` code for the `longtable` LaTeX package: 'continued on/from ...' and 'end of table' lines that can switched on or off. This functionality can only be used with the `longtable` environment. When `scalebox` is specified the `tabular` environment is used and `add.to.row` code is not available. If the `longtable` package is not available then set `scalebox=1` or another appropriate value
+#' This function adds to the print function of the `xtable` package by providing predefined `add.to.row` code for the `longtable` LaTeX package: 'continued on/from ...' and 'end of table' lines that can switched on or off. This functionality can only be used with the `longtable` environment. When `scalebox` is specified the `tabular` environment is used and `add.to.row` code is not available. If the `longtable` package is not available then set `scalebox=1` or another appropriate value.
 #'
 #' @name pxtable
 #' @param df data.frame that will be printed.
@@ -89,6 +89,7 @@ pxtable <- function(df,
 		)
 		invisible(NULL)
 	} else{
+		sanitize.colnames.function0 = sanitize.colnames.function
 		if (!is.null(scalebox)) {
 			floating = T
 			tenv = "tabular"
@@ -100,7 +101,6 @@ pxtable <- function(df,
 			tenv = "longtable"
 			my_hline.after = 0 # hline at nrow(df) handled by add.to.row
 			nms = names(df)
-			sanitize.colnames.function0 = sanitize.colnames.function
 			sanitize.colnames.function1 <- function( x ) {
 				colnames
 			}

@@ -54,10 +54,10 @@ pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
 \item{...}{Additional arguments that are passed to \code{xtable::print.xtable}.}
 }
 \value{
-See \code{xtable::print.xtable} as this function prepares only its function arguments. Using this function in a \code{knitr} chunk with \code{results ='markup'} will show the generated LaTeX text. With \code{results ='asis'} the text is transfered to the intermediate output file and interpreted as LaTeX in the final pdf document.
+See \code{xtable::print.xtable} as this function prepares only its function arguments. Using this function in a \code{knitr} chunk with \code{results  ='markup'} will show the generated LaTeX text. With \code{results  ='asis'} the text is transfered to the intermediate output file and interpreted as LaTeX in the final pdf document.
 }
 \description{
-This function adds to the print function of the \code{xtable} package by providing predefined \code{add.to.row} code for the \code{longtable} LaTeX package: 'continued on/from ...' and 'end of table' lines that can switched on or off. This functionality can only be used with the \code{longtable} environment. When \code{scalebox} is specified the \code{tabular} environment is used and \code{add.to.row} code is not available. If the \code{longtable} package is not available then set \code{scalebox=1} or another appropriate value
+This function adds to the print function of the \code{xtable} package by providing predefined \code{add.to.row} code for the \code{longtable} LaTeX package: 'continued on/from ...' and 'end of table' lines that can switched on or off. This functionality can only be used with the \code{longtable} environment. When \code{scalebox} is specified the \code{tabular} environment is used and \code{add.to.row} code is not available. If the \code{longtable} package is not available then set \code{scalebox=1} or another appropriate value.
 }
 \examples{
 \dontrun{
