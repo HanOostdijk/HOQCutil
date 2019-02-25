@@ -34,6 +34,11 @@ if not succesful a character string with an error message. If succesful a data.f
 \description{
 This function can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in  \url{https://acc-ccb.cbs.nl/implement.html}
 }
+\section{Additional example}{
+
+See \url{https://gist.github.com/HanOostdijk/787e9724dcd63735a431bcd16cbd18a0} for an analysis done with \code{get_table_cbs_odata4}. The resulting PDF file can be found in \url{https://www.hanoostdijk.nl/hugo/opendata_beta_versie4_dec2018_20181225.pdf} .
+}
+
 \examples{
 \dontrun{
 t1=get_table_cbs_odata4()

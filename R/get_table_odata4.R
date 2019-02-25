@@ -28,6 +28,8 @@
 #' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$count")
 #' t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="(7)")
 #' }
+#' @section Additional example:
+#' See \url{https://gist.github.com/HanOostdijk/787e9724dcd63735a431bcd16cbd18a0} for an analysis done with `get_table_cbs_odata4`. The resulting PDF file can be found in \url{https://www.hanoostdijk.nl/hugo/opendata_beta_versie4_dec2018_20181225.pdf} .
 
 get_table_cbs_odata4 <-
 	function (root = NULL,
