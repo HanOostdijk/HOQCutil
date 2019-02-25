@@ -16,12 +16,12 @@ print_PCA(res, var_ind = "ind", measure = "contrib", decreasing = T,
 
 \item{decreasing}{Boolean indicating that greatest values come first (TRUE) or smallest values come first (FALSE). Default: \code{TRUE}}
 
-\item{absolute}{Boolean indicating that that absolute values will be sorted: TRUE means take absolute value and FALSE means leave value asis. (Only relevant for\code{measuer='coord'}). Default: \code{TRUE}}
+\item{absolute}{Boolean indicating that that absolute values will be sorted: TRUE means take absolute value and FALSE means leave value asis. (Only relevant for \code{measurer='coord'}). Default: \code{TRUE}}
 
 \item{dim}{Integer (or vector of two integers) indicating the dimension(s) on which the matrix will be sorted. Default: \code{1}}
 }
 \description{
-The output of \code{\link[FactoMineR]{PCA}} of the \link\link{FactoMineR} package is an object that contains various matrices. The function \code{\link[FactoMineR]{print.PCA}} of that  package gives an overview of the available matrices. This function displays a sorted version of one of these matrices. So it is easier to check which variables or individuals play a large role for a certain dimension or pair of dimensions.
+The output of the \link[FactoMineR:PCA]{PCA} function of the \link[FactoMineR:FactoMineR-package]{FactoMineR} package is an object that contains various matrices. The function \link[FactoMineR:print.PCA]{print.PCA} of that package gives an overview of the available matrices. The function \code{print_PCA} displays a sorted version of one of these matrices. With this it is easier to check which variables or individuals play a large role for a certain dimension or pair of dimensions.
 }
 \examples{
 \dontrun{

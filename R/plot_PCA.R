@@ -205,13 +205,13 @@ plot_PCA_select <- function (res, var_ind = 'ind', select = NULL, axes = 1:2) {
 
 #' print_PCA: prints a part of \link[FactoMineR]{PCA} output (sorted)
 #'
-#' The output of \code{\link[FactoMineR]{PCA}} of the \link[FactoMineR] package is an object that contains various matrices. The function \code{\link[FactoMineR]{print.PCA}} of that  package gives an overview of the available matrices. This function displays a sorted version of one of these matrices. So it is easier to check which variables or individuals play a large role for a certain dimension or pair of dimensions.
+#' The output of the [PCA][FactoMineR::PCA] function of the [FactoMineR][FactoMineR::FactoMineR-package] package is an object that contains various matrices. The function [print.PCA][FactoMineR::print.PCA] of that package gives an overview of the available matrices. The function `print_PCA` displays a sorted version of one of these matrices. With this it is easier to check which variables or individuals play a large role for a certain dimension or pair of dimensions.
 #' @name print_PCA
 #' @param res Structure that is the output of the function \link[FactoMineR]{PCA}
 #' @param var_ind Character string that indicates if output for variables (\code{var}) or individuals (\code{ind}) will be printed.  Default: \code{'ind'}
 #' @param measure Character string with the name of the matrix. Possible values are  \code{'coord'}, \code{'cor'}, \code{'cos2'}, \code{'contrib'} and \code{'dist'}. Default: \code{'contrib'}
 #' @param decreasing Boolean indicating that greatest values come first (TRUE) or smallest values come first (FALSE). Default: \code{TRUE}
-#' @param absolute Boolean indicating that that absolute values will be sorted: TRUE means take absolute value and FALSE means leave value asis. (Only relevant for\code{measuer='coord'}). Default: \code{TRUE}
+#' @param absolute Boolean indicating that that absolute values will be sorted: TRUE means take absolute value and FALSE means leave value asis. (Only relevant for \code{measurer='coord'}). Default: \code{TRUE}
 #' @param dim Integer (or vector of two integers) indicating the dimension(s) on which the matrix will be sorted. Default: \code{1}
 #' @export
 #' @examples
