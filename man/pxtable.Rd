@@ -69,7 +69,6 @@ df1 = data.frame(
  v5 = rep(c(pi,NA),50),
  stringsAsFactors = F
 )
-}
 
 HOQCutil::pxtable  (df1,tablabel='tab1',tabcap='mycaption',
 	ap = 1:4, av = c("r", "p{6cm}", "p{6cm}", "c"), adef = "l",
@@ -77,4 +76,5 @@ HOQCutil::pxtable  (df1,tablabel='tab1',tabcap='mycaption',
 	include.rownames = T,
 	rotate.rownames = T # passed to xtable::print.xtable
 )
+}
 }
