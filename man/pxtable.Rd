@@ -69,11 +69,12 @@ df1 = data.frame(
  v5 = rep(c(pi,NA),50),
  stringsAsFactors = F
 )
+}
 
 HOQCutil::pxtable  (df1,tablabel='tab1',tabcap='mycaption',
-	tablabel = "tab1", tabcap = "mycaption",
 	ap = 1:4, av = c("r", "p{6cm}", "p{6cm}", "c"), adef = "l",
 	dp = c(1, 5), dv = c(2, 3), ddef = 0, te = F,
-	include.rownames = T, rotate.rownames = T
-}
+	include.rownames = T,
+	rotate.rownames = T # passed to xtable::print.xtable
+)
 }
