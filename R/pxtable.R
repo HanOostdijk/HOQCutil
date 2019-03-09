@@ -31,7 +31,7 @@
 #' df1 = data.frame(
 #'  v1 = rep(c(1,NA),50),
 #'  v2 = rep(c('R version 3.5.0', 'R is free software'),50),
-#'  v3 = rep(c('Copyright (C) 2018', 'You are welcome'),50),
+#'  v3 = rep(c('Copyright (C) 2019', 'You are welcome'),50),
 #'  v4 = rep(c('a','b'),50),
 #'  v5 = rep(c(pi,NA),50),
 #'  stringsAsFactors = F
