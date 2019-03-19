@@ -64,17 +64,17 @@ This function adds to the print function of the \code{xtable} package by providi
 df1 = data.frame(
  v1 = rep(c(1,NA),50),
  v2 = rep(c('R version 3.5.0', 'R is free software'),50),
- v3 = rep(c('Copyright (C) 2018', 'You are welcome'),50),
+ v3 = rep(c('Copyright (C) 2019', 'You are welcome'),50),
  v4 = rep(c('a','b'),50),
  v5 = rep(c(pi,NA),50),
  stringsAsFactors = F
 )
 
-HOQCutil::pxtable  (df1,tablabel='tab1',tabcap='mycaption',
+pxtable  (df1,tablabel='tab1',tabcap='mycaption',
 	ap = 1:4, av = c("r", "p{6cm}", "p{6cm}", "c"), adef = "l",
 	dp = c(1, 5), dv = c(2, 3), ddef = 0, te = F,
 	include.rownames = T,
-	rotate.rownames = T # passed to xtable::print.xtable
+	rotate.rownames = T # example of an argument that will be passed to xtable::print.xtable
 )
 }
 }
