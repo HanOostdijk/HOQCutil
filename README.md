@@ -13,7 +13,7 @@ Currently the package includes
 * function `get_table_cbs_odata4` (and `get_table_cbs_odata4_GET`) used for access to CBS OData4 data
 * function `pxtable` that calls print.xtable with integrated `add.to.row` code and behaves as `kable` when html output is produced
 * functions `plot_PCA` and `print_PCA1` that plot and print `FactoMineR::PCA` results
-* functions `create_Child_chunk` and `readLines_part` that can be used to read a part of a text file and create a child chunk that can be used in a `.Rmd` document
+* functions `create_child_chunk` and `readLines_part` that can be used to read a part of a text file and create a child chunk that can be used in a `.Rmd` document
 
 
 ## Install HOQCutil
