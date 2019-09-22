@@ -6,7 +6,8 @@
 \usage{
 cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
   width = getOption("width", 110) - 3, keep_empty = F,
-  fixed_wrap = T, abbr_ind = T, file = "", append = FALSE)
+  fixed_wrap = T, line_numbering = F, abbr_ind = T, file = "",
+  append = FALSE)
 }
 \arguments{
 \item{cmd}{An expression or character vector}
@@ -22,6 +23,8 @@ cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
 \item{keep_empty}{Boolean indicating if empty should be kept. Default: FALSE}
 
 \item{fixed_wrap}{Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE}
+
+\item{line_numbering}{Boolen indicating if line are prefixed with the line number. Default: FALSE (no numbering). Line numbers are prefixed only after the selection of parts of the line by argument \code{se}.}
 
 \item{abbr_ind}{Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE}
 

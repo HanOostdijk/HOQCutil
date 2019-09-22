@@ -1,8 +1,8 @@
 Package: HOQCutil
-Version: 0.1.10
+Version: 0.1.11
 Title: Utilities by Han Oostdijk.
 Description: Utilities by Han Oostdijk.
-Authors@R: person("Han", "Oostdijk", , "han@hanoostdijk.nl", c("aut", "cre"))
+Authors@R: person(given="Han", family="Oostdijk", email="han@hanoostdijk.nl", role=c("aut", "cre"),comment=c(ORCID = "0000-0001-6710-4566"))
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

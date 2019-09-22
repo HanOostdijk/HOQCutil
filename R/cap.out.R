@@ -8,6 +8,7 @@
 #' @param width Position in each line where wrapping takes place. Default: \code{getOption('width',110)-3}
 #' @param keep_empty Boolean indicating if empty should be kept. Default: FALSE
 #' @param fixed_wrap Boolean indicating if wrapping takes place at a fixed position or takes into account word boundaries. Default: TRUE
+#' @param line_numbering Boolen indicating if line are prefixed with the line number. Default: FALSE (no numbering). Line numbers are prefixed only after the selection of parts of the line by argument `se`.
 #' @param abbr_ind Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE
 #' @param file A connection, or a character string naming the file to print to. If "" (the default), cat prints to the standard output connection, the console unless redirected by sink.
 #' @param append Boolean. Only used if the argument file is the name of file (and not a connection or "|cmd"). If TRUE output will be appended to file; otherwise, it will overwrite the contents of file.
@@ -39,6 +40,7 @@ cap.out <- function (cmd,
 	width = getOption('width',110)-3,
 	keep_empty = F,
 	fixed_wrap = T,
+	line_numbering = F,
 	abbr_ind = T,
 	file ="",
 	append = FALSE) {
@@ -55,11 +57,21 @@ cap.out <- function (cmd,
 		res <- list('numl' = numlines, 'res' = results)
 		return(res)
 	}
+	# determine line numbers
+	if (line_numbering ==T ) {
+	  seq_lines = seq_along(results)
+	  seq_lines_m = floor(1+log10(max(seq_lines)))
+	  seq_lines_f = paste0('%0',seq_lines_m,'.0f')
+	  seq_lines = sprintf('%03.0f',seq_lines)
+	} else {
+		seq_lines = rep('',length(results))
+	}
 	# determine which lines to extract
 	if (is.null(lines))
 		lines = seq_len(numlines)
 	lines    <- unique(pmin(lines, numlines))
 	results  <- results[lines]
+	seq_lines<- seq_lines[lines]
 	results  <- trimws(results, which = "right")
 	numlines <- length(results) # number of lines to keep
 	lresults <-
@@ -96,9 +108,11 @@ cap.out <- function (cmd,
 	# remove empty lines
 	if (keep_empty == FALSE){
 		results <- purrr::keep(results, nresults > 0)
+		seq_lines<- purrr::keep(seq_lines, nresults > 0)
 	} else {
 		results[nresults == 0] <- " "
 	}
+	results = paste(seq_lines,results)
 	if (fixed_wrap == T) {
 		cat(hard_split(results, width), sep = "\n",file=file,append=append)
 	} else {
