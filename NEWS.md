@@ -1,5 +1,15 @@
 # HOQCutil
 
+## HOQCutil 0.1.13
+
+* 04oct2019   
+   + added function `vassign` and `%va%`
+
+## HOQCutil 0.1.12
+
+* 27sep2019   
+   + added function `debug_httr_get`
+ 
 ## HOQCutil 0.1.11
 
 * 22sep2019   
