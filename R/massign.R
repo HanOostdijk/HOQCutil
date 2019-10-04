@@ -16,7 +16,7 @@
 
 massign <- function(..., values=NULL, envir = parent.frame()) {
 	# adapted from
-	# https://stackoverflow.com/questions/7519790/assign-multiple-new-variables-on-lhs-in-a-single-line
+	# https://stackoverflow.com/questions/7519790/assign-multiple-new-variables-on-lhs-in-a-single-line by Tommy
 	# to allow for character string with variable names in first argument
 	x <- substitute(...())
 	if (length(x) > 1) {
