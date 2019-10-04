@@ -1,4 +1,4 @@
-#' cap.out captures and wraps the output of an expression
+#' captures and wraps the output of an expression
 #'
 #' @name cap.out
 #' @param cmd An expression or character vector
@@ -12,6 +12,7 @@
 #' @param abbr_ind Boolean indicating if abbreviations will be indicated with ...  . Default: TRUE
 #' @param file A connection, or a character string naming the file to print to. If "" (the default), cat prints to the standard output connection, the console unless redirected by sink.
 #' @param append Boolean. Only used if the argument file is the name of file (and not a connection or "|cmd"). If TRUE output will be appended to file; otherwise, it will overwrite the contents of file.
+#' @return NULL (invisible)
 #' @export
 #' @section details:
 #'
@@ -49,7 +50,7 @@ cap.out <- function (cmd,
 	if (type_cmd == 'character') {
 		results <- cmd
 	} else {
-		results <- capture.output(cmd, type = "output")
+		results <- utils::capture.output(cmd, type = "output")
 	}
 	# determine number of lines of result
 	numlines <- length(results)
@@ -118,6 +119,7 @@ cap.out <- function (cmd,
 	} else {
 		cat(stringr::str_wrap(results, width), sep = "\n",file=file,append=append)
 	}
+	invisible(NULL)
 }
 
 expand_args <- function(...) {

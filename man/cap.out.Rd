@@ -2,7 +2,7 @@
 % Please edit documentation in R/cap.out.R
 \name{cap.out}
 \alias{cap.out}
-\title{cap.out captures and wraps the output of an expression}
+\title{captures and wraps the output of an expression}
 \usage{
 cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
   width = getOption("width", 110) - 3, keep_empty = F,
@@ -32,8 +32,11 @@ cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
 
 \item{append}{Boolean. Only used if the argument file is the name of file (and not a connection or "|cmd"). If TRUE output will be appended to file; otherwise, it will overwrite the contents of file.}
 }
+\value{
+NULL (invisible)
+}
 \description{
-cap.out captures and wraps the output of an expression
+captures and wraps the output of an expression
 }
 \section{details}{
 

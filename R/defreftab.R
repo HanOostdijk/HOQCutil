@@ -5,7 +5,7 @@
 #' @name def_tab
 #' @param label_name Name of label. Default ''
 #' @param label_text Text to which label is attached. Default ''
-#' @importFrom knitr is_latex_output
+# @importFrom knitr is_latex_output
 #' @export
 #' @section details:
 #' An example of use: \cr
@@ -35,7 +35,7 @@ def_tab <- function (label_name='',label_text='')
 #' @param table Boolean to indicate if the label is for table (T) or figure(F). Default TRUE
 #' @param add_page Boolean to indicate if the reference should include the page. Default TRUE
 #' @param prefix Text to include before the reference
-#' @importFrom knitr is_latex_output
+# @importFrom knitr is_latex_output
 #' @export
 #' @section details:
 #' An example of use: \cr

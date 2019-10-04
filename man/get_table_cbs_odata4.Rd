@@ -10,6 +10,8 @@ get_table_cbs_odata4(root = NULL, table_id = NULL, subtable = NULL,
   response = FALSE, error_msg = TRUE)
 }
 \arguments{
+\item{root}{Character string with the root for the url. Default: NULL (and in that case \code{odata_root} is used)}
+
 \item{table_id}{Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned. Default: NULL}
 
 \item{subtable}{Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned. Default: NULL}

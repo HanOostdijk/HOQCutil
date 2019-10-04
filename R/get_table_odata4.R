@@ -3,6 +3,7 @@
 #' This function can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in  \url{https://acc-ccb.cbs.nl/implement.html}
 #'
 #' @name get_table_cbs_odata4
+#' @param root Character string with the root for the url. Default: NULL (and in that case `odata_root` is used)
 #' @param table_id Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned. Default: NULL
 #' @param subtable Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned. Default: NULL
 #' @param query Character string with an OData4 query. See \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} for the general OData4 query possibilities and \url{https://acc-ccb.cbs.nl/implement.html} for the subset of the CBS implementation. Default: ""
@@ -67,7 +68,7 @@ get_table_cbs_odata4 <-
 				query1 = stringr::str_trim(query)
 			}	else {
 				if (encode == TRUE) {
-					query1 = URLencode(query)
+					query1 = utils::URLencode(query)
 				} else {
 					query1 = query
 				}

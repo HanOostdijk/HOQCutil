@@ -26,7 +26,7 @@
 #' @param invisible Character vector with the rownames of the elements (active and supplemental) that are not shown. Default: NULL
 #' @export
 #' @section Details:
-#' The select mechanism is taken over asis from the \code{FactoMineR::PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
+#' The select mechanism is taken over asis from the \code{FactoMineR::PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \url{husson@agrocampus-ouest.fr} and Jeremy Mazet describe it as follows:\cr\cr
 #' The select argument can be used in order to select a part of the elements (individuals if you draw the graph of individuals, or variables if you draw the graph of variables) that are drawn. For example, you can use:\cr
 #' \code{select = 1:5} and then the elements \code{1:5} are drawn.\cr
 #' \code{select = c("name1","name5")} and then the elements that have the names \code{name1} and \code{name5} are drawn.\cr
@@ -52,11 +52,21 @@ plot_PCA <-
 		select = NULL, emphasize = NULL, invisible = NULL )
 	{
 		# replacement for FactoMineR::plot.PCA
-		if (require('FactoMineR', quietly = TRUE) == FALSE) {
+		is_inst <- function(pkg) {
+			# https://stackoverflow.com/questions/9341635/check-for-installed-packages-before-running-install-packages
+			# answer by Artem Klevtsov
+			nzchar(system.file(package = pkg))
+		}
+		#if (requireNamespace(FactoMineR, quietly = TRUE) == FALSE) {
+		if (!is_inst('FactoMineR')) {
 			cat('\nYou probably need to install FactoMiner:\n')
 			cat('  the first argument is the result of FactoMineR::PCA or similar\n')
 			cat('  and FactoMineR::autoLab is used in this function\n')
 		}
+		is_inst <- function(pkg) {
+			nzchar(system.file(package = pkg))
+		}
+
 		act = purrr::pluck(res, var_ind)
 		sup = purrr::pluck(res, glue::glue("{var_ind}.sup"))
 		all_nrs = 1:nrow(act$coord)
@@ -117,17 +127,17 @@ plot_PCA <-
 			a2 = sprintf("%.2f", res$eig[axes[2], 2]))
 		main = "Individuals factor map (PCA)"
 
-		plot(	x2, 	y2, 	pch = p2, 	cex = cex, 	col = c2,
+		graphics::plot(	x2, 	y2, 	pch = p2, 	cex = cex, 	col = c2,
 			main = main, 	xlab = xlab, 	ylab = ylab )
 		FactoMineR::autoLab( x2, 	y2, labels = t2,
 			cex = cex, 	col = c2, font = f2, 	shadotext = TRUE )
-		abline(v = 0, lty = 2)
-		abline(h = 0, lty = 2)
+		graphics::abline(v = 0, lty = 2)
+		graphics::abline(h = 0, lty = 2)
 	}
 
 #' plot_PCA_select: auxiliary function for \link{plot_PCA}
 #'
-#' \code{plot_PCA} is a replacement for [Plot.PCA][FactoMineR::Plot.PCA]. \code{plot_PCA_select} handles the selection part for \code{plot_PCA}: determines for which of the active elements the labels (names) will be printed. Restricting the number of these elements can be useful if the plot contains a lot of elements.
+#' \code{plot_PCA} is a replacement for [plot.PCA][FactoMineR::plot.PCA]. \code{plot_PCA_select} handles the selection part for \code{plot_PCA}: determines for which of the active elements the labels (names) will be printed. Restricting the number of these elements can be useful if the plot contains a lot of elements.
 #'
 #' @name plot_PCA_select
 #' @param res Structure that is the output of the function [PCA][FactoMineR::PCA]
@@ -136,7 +146,7 @@ plot_PCA <-
 #' @param select Character string  with a selection criterion (see \code{details}) or an integer vector with the sequence numbers of the active elements that are selected (i.e. be given a different layout than the other elements). Default: NULL (i.e. all are selected)
 #' @export
 #' @section Details:
-#' The select mechanism is taken over asis from the [PCA][FactoMineR::PCA] function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
+#' The select mechanism is taken over asis from the [PCA][FactoMineR::PCA] function. The labels of selected elements will be plotted.\cr The authors Francois Husson \url{husson@agrocampus-ouest.fr} and Jeremy Mazet describe it as follows:\cr\cr
 #' The select argument can be used in order to select a part of the elements (individuals if you draw the graph of individuals, or variables if you draw the graph of variables) that are drawn. For example, you can use:\cr
 #' \code{select = 1:5} and then the elements \code{1:5} are drawn.\cr
 #' \code{select = c("name1","name5")} and then the elements that have the names \code{name1} and \code{name5} are drawn.\cr
@@ -144,7 +154,7 @@ plot_PCA <-
 #' \code{select = "contrib 10"} and then the 10 elements that have the highest contribution on the 2 dimensions of your plot are drawn.\cr
 #' \code{select = "cos2 5"} and then the 5 elements that have the highest cos2 on the 2 dimensions of your plot are drawn.\cr
 #' \code{select = "dist 8"} and then the 8 elements that have the highest distance to the center of gravity are drawn.\cr\cr
-#' NB. the following functionality is contained in [Plot.PCA][FactoMineR::Plot.PCA] but not described there:\cr
+#' NB. the following functionality is contained in [plot.PCA][FactoMineR::plot.PCA] but not described there:\cr
 #' \code{select = "cos2 0.8"} and then the elements for which the sum of the cos2 on the 2 dimensions of your plot is greater than 0.8 are drawn.
 #' @section Acknowledgements:
 #' All ideas come from the creators of the [FactoMineR][FactoMineR::FactoMineR-package] package. This implementation is mine and if you find any errors, these will be mine.

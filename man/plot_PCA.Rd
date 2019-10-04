@@ -58,7 +58,7 @@ The function plots the variables or individuals information from the structure r
 }
 \section{Details}{
 
-The select mechanism is taken over asis from the \code{FactoMineR::PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \code{\url{husson@agrocampus-ouest.fr}} and Jeremy Mazet describe it as follows:\cr\cr
+The select mechanism is taken over asis from the \code{FactoMineR::PCA} function. The labels of selected elements will be plotted.\cr The authors Francois Husson \url{husson@agrocampus-ouest.fr} and Jeremy Mazet describe it as follows:\cr\cr
 The select argument can be used in order to select a part of the elements (individuals if you draw the graph of individuals, or variables if you draw the graph of variables) that are drawn. For example, you can use:\cr
 \code{select = 1:5} and then the elements \code{1:5} are drawn.\cr
 \code{select = c("name1","name5")} and then the elements that have the names \code{name1} and \code{name5} are drawn.\cr
