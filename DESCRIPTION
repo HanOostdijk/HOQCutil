@@ -1,6 +1,6 @@
 Package: HOQCutil
-Version: 0.1.11
-Title: Utilities by Han Oostdijk.
+Version: 0.1.13
+Title: Utilities by Han Oostdijk
 Description: Utilities by Han Oostdijk.
 Authors@R: person(given="Han", family="Oostdijk", email="han@hanoostdijk.nl", role=c("aut", "cre"),comment=c(ORCID = "0000-0001-6710-4566"))
 License: MIT + file LICENSE
@@ -14,6 +14,14 @@ Imports:
     magrittr,
     purrr,
     rmarkdown,
-    stringr
-Suggests: 
+    stringr,
+    stringi,
+    glue,
+    jsonlite,
+    knitr,
+    xml2,
+    xtable,
+    rtweet
+Suggests:
+    httr,
     FactoMiner

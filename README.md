@@ -14,7 +14,8 @@ Currently the package includes
 * function `pxtable` that calls print.xtable with integrated `add.to.row` code and behaves as `kable` when html output is produced
 * functions `plot_PCA` and `print_PCA1` that plot and print `FactoMineR::PCA` results
 * functions `create_child_chunk` and `readLines_part` that can be used to read a part of a text file and create a child chunk that can be used in a `.Rmd` document
-
+* function `debug_httr_plot` that debugs `httr::GET` by setting a temporarian trace and retrieving its input and output
+* function `vassign` and derived binary operator `%va%` that allow for assigning multiple variables in one call
 
 ## Install HOQCutil
 
