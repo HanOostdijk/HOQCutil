@@ -28,52 +28,62 @@
 #' str(x)
 #' }
 
-debug_httr_get <- function (fn,ret='finalurl') {
+debug_httr_get <- function (fn, ret = 'finalurl') {
 	# setup for initialisation and exit
-	on.exit(remove('debug_httr_get_data',envir = .GlobalEnv))
-	base::assign('debug_httr_get_data',list(),envir = .GlobalEnv)
+	on.exit(remove('debug_httr_get_data', envir = .GlobalEnv))
+	base::assign('debug_httr_get_data', list(), envir = .GlobalEnv)
 	what_to_do <-  quote({
 		odata =
-			get('debug_httr_get_data',envir = .GlobalEnv)
+			get('debug_httr_get_data', envir = .GlobalEnv)
 		base::assign('debug_httr_get_data',
-					 append(odata,list(list(hu=hu,url=url,ret=returnValue()))),
-					 envir = .GlobalEnv)
+								 append(odata, list(
+								 	list(
+								 		hu = hu,
+								 		url = url,
+								 		ret = returnValue()
+								 	)
+								 )),
+								 envir = .GlobalEnv)
 	})
 	# set trace, execute statement, do untrace, and retrieve collected data
-	d = utils::capture.output(
-		{  trace(httr::GET,
-						 exit=what_to_do,
-						 print=FALSE,
-						 where=asNamespace("rtweet")
+	d = utils::capture.output({
+		trace(
+			httr::GET,
+			exit = what_to_do,
+			print = FALSE,
+			where = asNamespace("rtweet")
 		)
-			fn
-			untrace(httr::GET)
-			res=base::get('debug_httr_get_data',
-							envir = .GlobalEnv)
-		},
-		type=c('message')
-	)
+		fn
+		untrace(httr::GET)
+		res = base::get('debug_httr_get_data',
+										envir = .GlobalEnv)
+	},
+	type = c('message'))
 	# select the requested information from the collected data
 	if (is.numeric(ret)) {
 		ret1 = as.list(ret)
 		ret = 'numeric'
 	}
-	resp = purrr::map(res,~purrr::pluck(.x,'ret'))
+	resp = purrr::map(res,  ~ purrr::pluck(.x, 'ret'))
 	`%>%` = magrittr::`%>%`
-	res=switch(ret,
-						 purrr::map_chr(res,~purrr::pluck(.x,'hu','url')),
-						 'inputurl' = purrr::map(res,~purrr::pluck(.x,'url')),
-						 'resp' = resp,
-						 'numeric' = purrr::map(resp,~do.call(purrr::pluck,c(list(.x),ret1))),
-						 'json' = purrr::map(resp,~httr::content(.x,as='text')) %>%
-						 	purrr::map(~jsonlite::prettify(.x,indent=2)),
-						 'fjson' = purrr::map(resp,~httr::content(.x,as='text')) %>%
-						 	purrr::map(~jsonlite::fromJSON(.x))
+	res = switch(
+		ret,
+		purrr::map_chr(res,  ~ purrr::pluck(.x, 'hu', 'url')),
+		'inputurl' = purrr::map(res,  ~ purrr::pluck(.x, 'url')),
+		'resp' = resp,
+		'numeric' = purrr::map(resp,  ~ do.call(purrr::pluck, c(list(
+			.x
+		), ret1))),
+		'json' = purrr::map(resp,  ~ httr::content(.x, as = 'text')) %>%
+			purrr::map( ~ jsonlite::prettify(.x, indent = 2)),
+		'fjson' = purrr::map(resp,  ~ httr::content(.x, as = 'text')) %>%
+			purrr::map( ~ jsonlite::fromJSON(.x))
 	)
-	if ( is.list(res) && all(purrr::map_lgl(res,is.character)) && ret != 'json' )
+	if (is.list(res) &&
+			all(purrr::map_lgl(res, is.character)) && ret != 'json')
 		res = purrr::flatten_chr(res)
 	#if (length(res) == 1 && ret == 'json' )
-	if (length(res) == 1 && is.list(res) )
+	if (length(res) == 1 && is.list(res))
 		res = res[[1]]
 	res
 }
