@@ -16,6 +16,7 @@ Currently the package includes
 * functions `create_child_chunk` and `readLines_part` that can be used to read a part of a text file and create a child chunk that can be used in a `.Rmd` document
 * function `debug_httr_plot` that debugs `httr::GET` by setting a temporarian trace and retrieving its input and output
 * function `vassign` and derived binary operator `%va%` that allow for assigning multiple variables in one call
+* function `silent_library` to attach a library with as few messages as possible
 
 ## Install HOQCutil
 

@@ -27,6 +27,7 @@ The function works by temporarily setting a trace on the \code{httr::GET} functi
 \item{'resp':}{the resulting \code{httr::GET} response object}
 \item{'json':}{the formatted \code{json} representation of the content of the response object}
 \item{'fjson':}{the content of the response object after applying \code{jsonlite::fromJSON}}
+\item{'org_result':}{the original results of the expression (as if no tracing had been used)}
 \item{a numeric vector:}{a portion of the response object according to the vector used in \code{purrr::pluck} to extract from the response object}
 }
 }

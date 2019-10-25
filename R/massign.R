@@ -6,7 +6,7 @@
 #' @param envir The environment in which the values are assigned (bound) to the variable names
 #' @return NULL
 #' @export
-#' @section acknowledgement:
+#' @section Acknowledgement:
 #' I encountered this function in a contribution by Tommy (\url{https://stackoverflow.com/users/662787/tommy}) in \url{https://stackoverflow.com/questions/7519790/assign-multiple-new-variables-on-lhs-in-a-single-line}. I adapted the function slightly to allow a character vector for the first argument and derived the binary operator \code{\%ma\%} from it. I also changed the name of the function from \code{vassign} to \code{massign} because the relevant feature is assignment to multiple variables.
 #' @examples
 #' \dontrun{

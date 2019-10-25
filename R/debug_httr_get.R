@@ -16,6 +16,7 @@
 #' \item{'resp':}{the resulting \code{httr::GET} response object}
 #' \item{'json':}{the formatted `json` representation of the content of the response object}
 #' \item{'fjson':}{the content of the response object after applying \code{jsonlite::fromJSON}}
+#' \item{'org_result':}{the original results of the expression (as if no tracing had been used)}
 #' \item{a numeric vector:}{a portion of the response object according to the vector used in \code{purrr::pluck} to extract from the response object}
 #' }
 #' @examples
@@ -53,7 +54,7 @@ debug_httr_get <- function (fn, ret = 'finalurl') {
 			print = FALSE,
 			where = asNamespace("rtweet")
 		)
-		fn
+	  debug_httr_get_data_org_result = fn
 		untrace(httr::GET)
 		res = base::get('debug_httr_get_data',
 										envir = .GlobalEnv)
@@ -77,12 +78,13 @@ debug_httr_get <- function (fn, ret = 'finalurl') {
 		'json' = purrr::map(resp,  ~ httr::content(.x, as = 'text')) %>%
 			purrr::map( ~ jsonlite::prettify(.x, indent = 2)),
 		'fjson' = purrr::map(resp,  ~ httr::content(.x, as = 'text')) %>%
-			purrr::map( ~ jsonlite::fromJSON(.x))
+		  purrr::map( ~ jsonlite::fromJSON(.x)),
+		'org_result' = debug_httr_get_data_org_result
 	)
 	if (is.list(res) &&
-			all(purrr::map_lgl(res, is.character)) && ret != 'json')
+			all(purrr::map_lgl(res, is.character))  &&
+			ret != 'json' && ret != 'org_result')
 		res = purrr::flatten_chr(res)
-	#if (length(res) == 1 && ret == 'json' )
 	if (length(res) == 1 && is.list(res))
 		res = res[[1]]
 	res
