@@ -4,8 +4,14 @@
 \alias{print_PCA}
 \title{print_PCA: prints a part of \link[FactoMineR]{PCA} output (sorted)}
 \usage{
-print_PCA(res, var_ind = "ind", measure = "contrib", decreasing = T,
-  absolute = T, dim = 1)
+print_PCA(
+  res,
+  var_ind = "ind",
+  measure = "contrib",
+  decreasing = T,
+  absolute = T,
+  dim = 1
+)
 }
 \arguments{
 \item{res}{Structure that is the output of the function \link[FactoMineR]{PCA}}

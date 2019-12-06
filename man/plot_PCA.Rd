@@ -4,12 +4,28 @@
 \alias{plot_PCA}
 \title{plot_PCA: replacement for \link[FactoMineR:plot.PCA]{plot.PCA}}
 \usage{
-plot_PCA(res, var_ind = "ind", axes = 1:2, cex = 1, font.std = 1,
-  pch.std = 20, col.std = "black", font.emp = 2, pch.emp = pch.std,
-  col.emp = "red", font.sel = font.std, pch.sel = pch.std,
-  col.sel = col.std, font.sup = 3, pch.sup = 1, col.sup = "blue",
-  show.sup = TRUE, select = NULL, emphasize = NULL,
-  invisible = NULL)
+plot_PCA(
+  res,
+  var_ind = "ind",
+  axes = 1:2,
+  cex = 1,
+  font.std = 1,
+  pch.std = 20,
+  col.std = "black",
+  font.emp = 2,
+  pch.emp = pch.std,
+  col.emp = "red",
+  font.sel = font.std,
+  pch.sel = pch.std,
+  col.sel = col.std,
+  font.sup = 3,
+  pch.sup = 1,
+  col.sup = "blue",
+  show.sup = TRUE,
+  select = NULL,
+  emphasize = NULL,
+  invisible = NULL
+)
 }
 \arguments{
 \item{res}{Structure that is the output of the function \link[FactoMineR:PCA]{PCA}}

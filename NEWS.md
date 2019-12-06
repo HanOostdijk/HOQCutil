@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.15
+
+* 06dec2019   
+   + added functions `silent_library`
+
 ## HOQCutil 0.1.14
 
 * 25oct2019   

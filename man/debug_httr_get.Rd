@@ -9,15 +9,15 @@ debug_httr_get(fn, ret = "finalurl")
 \arguments{
 \item{fn}{An expression that calls (indirectly) the \code{httr::GET} function}
 
-\item{ret}{A character string or a numeric vector indicating the information that should be returned from the call(s) to \code{httr::GET}. Default: finalurl'. See details section.}
+\item{ret}{A character string or a numeric vector indicating the information that should be returned from the call(s) to \code{httr::GET}. Default: \code{finalurl}. See details section.}
 }
 \value{
-List or character value with the requested information. See details section
+List or character value with the requested information. See Details section
 }
 \description{
 By temporarily setting a trace on \code{httr::GET} the \code{debug_httr_get} function is able to retrieve the url that is used as input and the resulting response object. This is especially useful when debugging a high-level function that somewhere in a subfunction makes one of more calls to \code{httr::GET}.
 }
-\section{details}{
+\section{Details}{
 
 
 The function works by temporarily setting a trace on the \code{httr::GET} function. The result is a list with the requested information for each call to \code{httr::GET} that is caused by the expression in \code{fn}. If there is only one call to \code{httr::GET} the list has length 1 and will be unpacked. The possible values for \code{fn} and the returned information:

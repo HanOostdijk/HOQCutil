@@ -17,11 +17,10 @@ Currently the package includes
 * function `debug_httr_plot` that debugs `httr::GET` by setting a temporarian trace and retrieving its input and output
 * function `vassign` and derived binary operator `%va%` that allow for assigning multiple variables in one call
 * function `silent_library` to attach a library with as few messages as possible
+* functions `cleanup_bw`, `scan_with_hocr` and `extract_table` to cleanup and scan (OCR) an image and extract a table into a data.frame format
 
 ## Install HOQCutil
 
 ```R
-install.packages("devtools")  
-library(devtools)  
-install_github("HanOostdijk/HOQCutil") 
+devtools::install_github("HanOostdijk/HOQCutil") 
 ```

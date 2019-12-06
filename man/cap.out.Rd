@@ -4,10 +4,19 @@
 \alias{cap.out}
 \title{captures and wraps the output of an expression}
 \usage{
-cap.out(cmd, lines = NULL, numlines_only = F, se = NULL,
-  width = getOption("width", 110) - 3, keep_empty = F,
-  fixed_wrap = T, line_numbering = F, abbr_ind = T, file = "",
-  append = FALSE)
+cap.out(
+  cmd,
+  lines = NULL,
+  numlines_only = F,
+  se = NULL,
+  width = getOption("width", 110) - 3,
+  keep_empty = F,
+  fixed_wrap = T,
+  line_numbering = F,
+  abbr_ind = T,
+  file = "",
+  append = FALSE
+)
 }
 \arguments{
 \item{cmd}{An expression or character vector}

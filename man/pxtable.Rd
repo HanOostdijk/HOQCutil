@@ -4,11 +4,29 @@
 \alias{pxtable}
 \title{print data.frame in LaTeX}
 \usage{
-pxtable(df, tablabel = "", tabcap = "", adef = "l", ap = c(),
-  av = c(), ddef = 0, dp = c(), dv = c(), tco = T, tcf = tco,
-  te = F, newpage = F, scalebox = NULL, include.colnames = T,
-  colnames = NA, rotate.colnames = T, include.rownames = F,
-  sanitize.colnames.function = xtable::sanitize, booktabs = F, ...)
+pxtable(
+  df,
+  tablabel = "",
+  tabcap = "",
+  adef = "l",
+  ap = c(),
+  av = c(),
+  ddef = 0,
+  dp = c(),
+  dv = c(),
+  tco = T,
+  tcf = tco,
+  te = F,
+  newpage = F,
+  scalebox = NULL,
+  include.colnames = T,
+  colnames = NA,
+  rotate.colnames = T,
+  include.rownames = F,
+  sanitize.colnames.function = xtable::sanitize,
+  booktabs = F,
+  ...
+)
 }
 \arguments{
 \item{df}{data.frame that will be printed.}

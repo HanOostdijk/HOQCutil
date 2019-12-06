@@ -4,8 +4,14 @@
 \alias{readLines_part}
 \title{readLines_part}
 \usage{
-readLines_part(filename, suffixes = NULL, start_str = "HOQC_start",
-  end_str = "HOQC_end", symbols = "###", warn = FALSE)
+readLines_part(
+  filename,
+  suffixes = NULL,
+  start_str = "HOQC_start",
+  end_str = "HOQC_end",
+  symbols = "###",
+  warn = FALSE
+)
 }
 \arguments{
 \item{filename}{Character string with the name of the file}

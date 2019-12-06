@@ -3,7 +3,6 @@
 \docType{package}
 \name{HOQCutil}
 \alias{HOQCutil}
-\alias{HOQCutil-package}
 \title{HOQCutil: A package with miscellaneous utility functions.}
 \description{
 HOQCutil: A package with miscellaneous utility functions.

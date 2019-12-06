@@ -4,10 +4,18 @@
 \alias{get_table_cbs_odata4}
 \title{get_table_cbs_odata4 : retrieves CBS Odata4 table data}
 \usage{
-get_table_cbs_odata4(root = NULL, table_id = NULL, subtable = NULL,
-  query = NULL, verbose = FALSE, encode = TRUE,
-  odata_root = "https://acc-ccb.cbs.nl", odata_cat = "CBS",
-  response = FALSE, error_msg = TRUE)
+get_table_cbs_odata4(
+  root = NULL,
+  table_id = NULL,
+  subtable = NULL,
+  query = NULL,
+  verbose = FALSE,
+  encode = TRUE,
+  odata_root = "https://acc-ccb.cbs.nl",
+  odata_cat = "CBS",
+  response = FALSE,
+  error_msg = TRUE
+)
 }
 \arguments{
 \item{root}{Character string with the root for the url. Default: NULL (and in that case \code{odata_root} is used)}

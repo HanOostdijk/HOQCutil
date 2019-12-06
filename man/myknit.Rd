@@ -4,8 +4,12 @@
 \alias{myknit}
 \title{myknit}
 \usage{
-myknit(inputFile, encoding = getOption("encoding"), hoqc_render = TRUE,
-  clean = TRUE)
+myknit(
+  inputFile,
+  encoding = getOption("encoding"),
+  hoqc_render = TRUE,
+  clean = TRUE
+)
 }
 \arguments{
 \item{inputFile}{base file to render}
@@ -18,17 +22,12 @@ myknit(inputFile, encoding = getOption("encoding"), hoqc_render = TRUE,
 }
 \description{
 myknit can be used to make the process of knitting more flexible.
-}
-\details{
-The Usage and Arguments section specify how the function would be used on a standalone base. \cr
-Normally I do the \code{knit} with the \strong{knit} button in RStudio.
+The Usage and Arguments section specify how the function would be used on a standalone base. \cr\cr
+Normally however I do the \code{knit} with the \strong{knit} button in RStudio.
 When I include in the yaml metadata block the yaml statement \cr
-\code{knit:  (function (...) \{  HOQCutil::myknit(...) \})} \cr
-the \code{myknit} code will be run instead of \code{rmarkdown::render}.
-
-The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra 'yaml' statements):
-
-By specifying additional options in the yaml metadata block the user can do one or more of the following things:
+\code{knit:  (function (...) \{  HOQCutil::myknit(...) \})}
+the \code{myknit} code will be run instead of \code{rmarkdown::render}.\cr\cr
+The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra 'yaml' statements): \cr
 \itemize{
 \item specify an alternative name for the output file (based on \code{hoqc_output})
 \item append a version indicator to the name of the output file (based on \code{hoqc_version})
@@ -37,12 +36,11 @@ By specifying additional options in the yaml metadata block the user can do one 
 \item create a file with the yaml metadata block after processing with a name including the version indicator (based on \code{hoqc_yaml_new})
 \item create a copy of the input file with a name including the version indicator (based on \code{hoqc_rmd_in})
 \item create a copy of the processed input file with a name including the version indicator (based on \code{hoqc_rmd_out})
-}
-
 An example of use  is given in the
 \href{https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/output/Flex\%20Knit_v1.pdf}{pdf file}
 and the corresponding
 \href{https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/flexknit.Rmd}{rmd file} of the GitHub repository
-\strong{rmd_pdf_examples}.
+\strong{rmd_pdf_examples}.\cr
 Note: in the repository the myknit function is (still) included as a separate function.
+}
 }

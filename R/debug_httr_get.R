@@ -4,10 +4,10 @@
 #'
 #' @name debug_httr_get
 #' @param fn An expression that calls (indirectly) the \code{httr::GET} function
-#' @param ret A character string or a numeric vector indicating the information that should be returned from the call(s) to \code{httr::GET}. Default: finalurl'. See details section.
-#' @return List or character value with the requested information. See details section
+#' @param ret A character string or a numeric vector indicating the information that should be returned from the call(s) to \code{httr::GET}. Default: `finalurl`. See details section.
+#' @return List or character value with the requested information. See Details section
 #' @export
-#' @section details:
+#' @section Details:
 #'
 #' The function works by temporarily setting a trace on the \code{httr::GET} function. The result is a list with the requested information for each call to \code{httr::GET} that is caused by the expression in \code{fn}. If there is only one call to \code{httr::GET} the list has length 1 and will be unpacked. The possible values for \code{fn} and the returned information:
 #' \describe{

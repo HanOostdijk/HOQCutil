@@ -4,8 +4,11 @@
 \alias{display_wrapped}
 \title{display_wrapped shows strings in the console}
 \usage{
-display_wrapped(strings, width = getOption("width", 110) - 3,
-  force_wrap = FALSE)
+display_wrapped(
+  strings,
+  width = getOption("width", 110) - 3,
+  force_wrap = FALSE
+)
 }
 \arguments{
 \item{strings}{A vector of strings}
