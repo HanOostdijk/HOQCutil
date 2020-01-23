@@ -6,7 +6,7 @@
 #'  - define the list with cleanup options \cr e.g.
 #'    `cln_options1 = list(resize="4000x",trim=10,enhance=TRUE,sharpen=1)`
 #'  - use the [cleanup_bw()] function with this list \cr e.g.
-#'    `img2 = img2 = clean_up (img1,cln_options1)`
+#'    `img2 = cleanup_bw (img1,cln_options1)`
 #'  - scan (OCR) the cleansed image with [scan_with_hocr()] \cr e.g.
 #'    `df1  = scan_with_hocr(img2,add_header_cols=F)`
 #'  - indicate in the columns of `df1` which fields belong to the table headers (or alternatively define a `headers` list)

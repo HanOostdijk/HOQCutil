@@ -6,7 +6,7 @@ note1 <- sprintf("R package version %s", meta$Version)
 note2 <- sprintf("(v%s)", meta$Version)
 
 bibentry(
-  bibtype  = "Misc",
+  bibtype  = "Manual",
   title    = "{HOQCutil}: Utilities by Han Oostdijk",
   author   = person(given = "Han",
              family = "Oostdijk"),

@@ -11,7 +11,7 @@
 \item define the list with cleanup options \cr e.g.
 \code{cln_options1 = list(resize="4000x",trim=10,enhance=TRUE,sharpen=1)}
 \item use the \code{\link[=cleanup_bw]{cleanup_bw()}} function with this list \cr e.g.
-\code{img2 = img2 = clean_up (img1,cln_options1)}
+\code{img2 = cleanup_bw (img1,cln_options1)}
 \item scan (OCR) the cleansed image with \code{\link[=scan_with_hocr]{scan_with_hocr()}} \cr e.g.
 \code{df1  = scan_with_hocr(img2,add_header_cols=F)}
 \item indicate in the columns of \code{df1} which fields belong to the table headers (or alternatively define a \code{headers} list)
