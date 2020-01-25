@@ -3,7 +3,7 @@
 ## HOQCutil 0.1.15
 
 * 06dec2019   
-   + added functions `silent_library`
+   + added functions scanner functions `cleanup_bw`, `scan_with_hocr` and `extract_table` 
 
 ## HOQCutil 0.1.14
 
