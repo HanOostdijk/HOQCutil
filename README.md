@@ -18,6 +18,7 @@ Currently the package includes
 * function `vassign` and derived binary operator `%va%` that allow for assigning multiple variables in one call
 * function `silent_library` to attach a library with as few messages as possible
 * functions `cleanup_bw`, `scan_with_hocr` and `extract_table` to cleanup and scan (OCR) an image and extract a table into a data.frame format
+* functions `replace_package_fun` and `set_fun_env` and `replace_package_fun` that can be used to (temporarily) replace a function in a package 
 
 ## Install HOQCutil
 

@@ -1,9 +1,14 @@
 # HOQCutil
 
+## HOQCutil 0.1.16
+
+* 30jan2020   
+   + added functions  `set_fun_env` and `replace_package_fun` 
+
 ## HOQCutil 0.1.15
 
 * 06dec2019   
-   + added functions scanner functions `cleanup_bw`, `scan_with_hocr` and `extract_table` 
+   + added scanner functions `cleanup_bw`, `scan_with_hocr` and `extract_table` 
 
 ## HOQCutil 0.1.14
 
