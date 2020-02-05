@@ -4,14 +4,14 @@
 \alias{set_fun_env}
 \title{set environment for function}
 \usage{
-set_fun_env(fn, ns = NULL, e = globalenv())
+set_fun_env(fn, ns = NULL, envir = globalenv())
 }
 \arguments{
 \item{fn}{Character with name of function}
 
 \item{ns}{Character with name of package}
 
-\item{e}{Environment in which the environment statement is executed}
+\item{envir}{Environment in which the environment statement is executed}
 }
 \description{
 This function can set/reset the environment of a function. This is e.g. used in function \url{replace_package_fun} where a function in a package is replaced by a global one. In such a case the environment of the function should be changed to that of the package otherwise other package functions can not be used.
