@@ -6,6 +6,7 @@
 #' @param fn2 Character string with name of function in the global environment
 #' @param ns Character with name of package
 #' @param start Boolean indicating if the rename should be activated (when TRUE) or redone (when FALSE)
+#' @param envir Environment in which the new environment wil be set
 #' @return NULL
 #' @export
 #' @section Acknowledgement:
@@ -23,7 +24,7 @@
 #' replace_package_fun('format_WENS','format_WENS2','HOQCutil',start=F)
 #' }
 
-replace_package_fun <- function (fn1, fn2, ns, start = T) {
+replace_package_fun <- function (fn1, fn2, ns, envir=globalenv(), start = T) {
 
   fun_call <- paste('return(',fn2,'(',
                     paste(names(formals(fn1,envir=asNamespace(ns))),collapse=','),
@@ -50,24 +51,28 @@ replace_package_fun <- function (fn1, fn2, ns, start = T) {
     writeLines(deparsed, con = file)
     # next line commented: no need for manual editing
     # .Call("rs_editFile", file, PACKAGE = "(embedding)")
-    eval(parse(file), envir = globalenv())
+    #### eval(parse(file), envir = globalenv())
+    eval(parse(file), envir = envir)
   }
 
   old_edit = options("editor"= my_edit)
   on.exit(options(old_edit),add=T)
-  if (start) {
-    trace(
-      fn1,
-      browser,
-      print = FALSE, edit = TRUE,
-      where = asNamespace(ns)
-    )
-    set_fun_env(fn2,ns)
-  }
-  else {
-    untrace(fn1, where = asNamespace(ns))
-    set_fun_env(fn2)
-  }
+  utils::capture.output(
+    {
+      if (start) {
+        trace(
+          fn1,
+          browser,
+          print = FALSE, edit = TRUE,
+          where = asNamespace(ns)
+        )
+        HOQCutil::set_fun_env(fn2,ns,envir)
+      }
+      else {
+        untrace(fn1, where = asNamespace(ns))
+        HOQCutil::set_fun_env(fn2,envir,envir)
+      }
+    },type = "message")
   invisible(NULL)
 }
 

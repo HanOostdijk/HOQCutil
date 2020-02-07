@@ -4,7 +4,7 @@
 \alias{replace_package_fun}
 \title{replace function in package}
 \usage{
-replace_package_fun(fn1, fn2, ns, start = T)
+replace_package_fun(fn1, fn2, ns, envir = globalenv(), start = T)
 }
 \arguments{
 \item{fn1}{Character string with name of function in package}
@@ -12,6 +12,8 @@ replace_package_fun(fn1, fn2, ns, start = T)
 \item{fn2}{Character string with name of function in the global environment}
 
 \item{ns}{Character with name of package}
+
+\item{envir}{Environment in which the new environment wil be set}
 
 \item{start}{Boolean indicating if the rename should be activated (when TRUE) or redone (when FALSE)}
 }
