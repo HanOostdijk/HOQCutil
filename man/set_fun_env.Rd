@@ -13,6 +13,9 @@ set_fun_env(fn, ns = NULL, envir = globalenv())
 
 \item{envir}{Environment in which the environment statement is executed}
 }
+\value{
+the environment that is set (invisible)
+}
 \description{
 This function can set/reset the environment of a function. This is e.g. used in function \url{replace_package_fun} where a function in a package is replaced by a global one. In such a case the environment of the function should be changed to that of the package otherwise other package functions can not be used.
 }

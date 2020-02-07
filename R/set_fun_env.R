@@ -5,6 +5,7 @@
 #' @param fn Character with name of function
 #' @param ns Character with name of package
 #' @param envir Environment in which the environment statement is executed
+#' @return the environment that is set (invisible)
 #' @export
 #' @examples
 #' \dontrun{
@@ -18,11 +19,11 @@ set_fun_env <- function(fn, ns = NULL, envir = globalenv()) {
     ns = paste0('asNamespace(\"', ns, '\")')
   if ((class(ns) == "character")) {
     stmt = paste0('environment(', fn, ')<-', ns)
-    eval(parse(text = stmt), envir = envir)
+    invisible(eval(parse(text = stmt), envir = envir))
   } else if (class(ns) == "environment") {
     x = eval(parse(text="rlang::set_env(get(fn,envir=envir),new_env=ns)"))
     assign(fn,x,envir=envir)
     stmt = paste0('environment(', fn, ')')
-    eval(parse(text=stmt),envir=envir)
+    invisible(eval(parse(text=stmt),envir=envir))
   }
 }
