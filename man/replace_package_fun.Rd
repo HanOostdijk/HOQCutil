@@ -9,7 +9,7 @@ replace_package_fun(fn1, fn2, ns, envir = globalenv(), start = T)
 \arguments{
 \item{fn1}{Character string with name of function in package}
 
-\item{fn2}{Character string with name of function in the global environment}
+\item{fn2}{Character string with name of function in the \strong{global} environment. See details}
 
 \item{ns}{Character with name of package}
 
@@ -27,17 +27,29 @@ The inner function \code{my_edit} is an adaptation of the code gotten by using \
 
 \section{Details}{
 
-The function works by using \code{trace} to insert a \code{browser()} line in a function and immediately replacing this line, by using a customized editor function, to a call of the replacement function.
+The function works by using \code{trace} to insert a \code{browser()} line in a function and immediately replacing this line, by using a customized editor function, to a call of the replacement function. See \href{https://www.hanoostdijk.nl/hugo/post/2020/01/25/use-internal-functions-of-a-package/}{blog entry} for an example of use. A non-global function \code{fn2} can temporarily copied to the global environment. See examples.
 }
 
 \examples{
 \dontrun{
+# example function
 format_WENS2 <- function (x,WENS='NS',dig=3) {
 cat('print of  the body of internal function HOQCutil:::internal_demo_function :',sep='\n')
 print(internal_demo_function)
+NULL
 }
+
 replace_package_fun('format_WENS','format_WENS2','HOQCutil',start=T)
 HOQCutil:::format_WENS(3.1415,WENS='NS',dig=3)
 replace_package_fun('format_WENS','format_WENS2','HOQCutil',start=F)
+
+# when format_WENS2 is not a global function :
+
+assign('HOQC1181_format_WENS2',format_WENS2,envir = globalenv())
+replace_package_fun('format_WENS','HOQC1181_format_WENS2','HOQCutil',start=T)
+HOQCutil:::format_WENS(3.1415,WENS='NS',dig=3)
+replace_package_fun('format_WENS','HOQC1181_format_WENS2','HOQCutil',start=F)
+rm(list='HOQC1181_format_WENS2',envir = globalenv() )
+
 }
 }
