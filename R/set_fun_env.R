@@ -6,6 +6,8 @@
 #' @param ns Character with name of package
 #' @param envir Environment in which the environment statement is executed
 #' @return the environment that is set (invisible)
+#' @section Details:
+#' See [blog entry](https://www.hanoostdijk.nl/hugo/post/2020/01/25/use-internal-functions-of-a-package/) for an example of use.
 #' @export
 #' @examples
 #' \dontrun{
