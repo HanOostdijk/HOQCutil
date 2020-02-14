@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.17
+
+* 14feb2020   
+   + `silent_library` now accepts expression for package name
+
 ## HOQCutil 0.1.16
 
 * 30jan2020   

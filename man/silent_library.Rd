@@ -21,5 +21,8 @@ attach library as silent as possible
 \dontrun{
 silent_library('knitr')
 silent_library(knitr)
+packages_to_load <- c('glue','FactoMineR','curl')
+purrr::walk(packages_to_load[1:2],silent_library)
+silent_library(packages_to_load[[3]])
 }
 }
