@@ -9,7 +9,7 @@ silent_library(package_name, mywarnings = FALSE)
 \arguments{
 \item{package_name}{Character string with name of package or \code{name} (as in \code{as.name}) of package}
 
-\item{mywarnings}{Boolean indicating if warnings should be displayed. Default: FALSE}
+\item{mywarnings}{Boolean indicating if warnings should be displayed. This argument is left in for compatibility reason but will be ignored.}
 }
 \value{
 Character vector (invisible) with the names of attached packages after attaching \code{package_name}: identical to (invisible) .packages()

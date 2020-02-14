@@ -2,7 +2,7 @@
 #'
 #' @name silent_library
 #' @param package_name Character string with name of package or `name` (as in `as.name`) of package
-#' @param mywarnings Boolean indicating if warnings should be displayed. Default: FALSE
+#' @param mywarnings Boolean indicating if warnings should be displayed. This argument is left in for compatibility reason but will be ignored.
 #' @return Character vector (invisible) with the names of attached packages after attaching `package_name`: identical to (invisible) .packages()
 #' @export
 #' @examples
@@ -23,9 +23,9 @@ silent_library <- function (package_name,mywarnings = FALSE) {
       library(
         package_name,
         character.only = TRUE,
-        warn.conflicts = mywarnings,
-        quietly = !mywarnings,
-        verbose = mywarnings
+        warn.conflicts = FALSE,
+        quietly = TRUE,
+        verbose = FALSE
       )
     })
   })
