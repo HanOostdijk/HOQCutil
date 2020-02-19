@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.18
+
+* 19feb2020   
+   + `mfe_lookup` added
+
 ## HOQCutil 0.1.17
 
 * 14feb2020   

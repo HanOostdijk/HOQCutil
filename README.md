@@ -19,6 +19,7 @@ Currently the package includes
 * function `silent_library` to attach a library with as few messages as possible
 * functions `cleanup_bw`, `scan_with_hocr` and `extract_table` to cleanup and scan (OCR) an image and extract a table into a data.frame format
 * functions `replace_package_fun` and `set_fun_env` that can be used to (temporarily) replace a function in a package 
+* function `mfe_lookup` that can be used to lookup strings e.g. to categorize transactions
 
 ## Install HOQCutil
 
