@@ -55,27 +55,31 @@ mfe_lookup <-
             lookup_result_col=2,
             default = TRUE,
             case_sensitive = FALSE) {
-    res = datavec 											# default is entry itself
+    res = datavec 											# default result is entry itself
     toupper2 <- function(x) {
       if (case_sensitive == FALSE) x = toupper(x)
       x
     }
+    lookup_data <- purrr::map(lookup_df[[lookup_search_col]],toupper2)
+    llookup_data <- length(lookup_data)
     d   = purrr::map(toupper2(res),  # loop over vector elements
                      function(x) {
                        # find the first lookup_df entry that matches x
-                       z = purrr::map_lgl(lookup_df[[lookup_search_col]], # loop over lookup table
-                                          function(y) { # and loop over multiple conditions
-                                            purrr::reduce(purrr::map(y,~grepl(toupper2(.),x,fixed = TRUE)),`&`)
-                                          }
-                       )
-                       c(which(z == TRUE), 0)[1]
+                       z = 0
+                       for (i in seq(llookup_data)) {
+                         if (purrr::reduce(purrr::map(lookup_data[[i]],~grepl(.,x,fixed = TRUE)),`&`)) {
+                           z = i
+                           break
+                         }
+                       }
+                       z
                      })
     d   = as.numeric(d)
     if (is.logical(default) && default == FALSE)
-      res = rep("", length(res)) 				# default is empty string
+      res = rep("", length(res)) 				# empty string is used as default result
     else if (!is.logical(default))
-      res = rep(default, length(res))  	# default is function argument
-    res[d > 0] = lookup_df[[lookup_result_col]][d[d > 0]] # replace by found match
+      res = rep(default, length(res))  	# function argument 'default' is used as default result
+    res[d > 0] = lookup_df[[lookup_result_col]][d[d > 0]] # default result replaced by its match
     res
   }
 
