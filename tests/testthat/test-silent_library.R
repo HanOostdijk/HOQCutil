@@ -38,4 +38,25 @@ test_that("load is silent for package named in an expression", {
   expect_true( is.na(ind) )
 })
 
+test_that("load is silent for packages named in character string ", {
+  ind = match('package:dplyr',search())
+  expect_true( is.na(ind) )
+  packages_to_load <- c('glue','FactoMineR','dplyr')
+  expect_output(silent_library(c('glue','FactoMineR','dplyr')),NA)
+  ind = match('package:dplyr',search())
+  expect_false( is.na(ind))
+  detach(pos=ind)
+  ind = match('package:dplyr',search())
+  expect_true( is.na(ind) )
+})
+
+test_that("load gives error for packages in a named character string ", {
+  ind = match('package:dplyr',search())
+  expect_true( is.na(ind) )
+  packages_to_load <- c('glue','FactoMineR','dplyr')
+  expect_error(silent_library(packages_to_load),class = "packageNotFoundError")
+  ind = match('package:dplyr',search())
+  expect_true( is.na(ind))
+})
+
 

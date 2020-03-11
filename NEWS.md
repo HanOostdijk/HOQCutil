@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.19
+
+* 11mar2020   
+   + `silent_library` now accepts character vector with package names
+
 ## HOQCutil 0.1.18
 
 * 19feb2020   

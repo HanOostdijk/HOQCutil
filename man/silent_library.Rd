@@ -7,12 +7,12 @@
 silent_library(package_name, mywarnings = FALSE)
 }
 \arguments{
-\item{package_name}{Character string with name of package or \code{name} (as in \code{as.name}) of package}
+\item{package_name}{Character string with name of package or \code{name} (as in \code{as.name}) of package or a hardcode character vector (\strong{not} the \strong{name} of a character vector)}
 
 \item{mywarnings}{Boolean indicating if warnings should be displayed. This argument is left in for compatibility reason but will be ignored.}
 }
 \value{
-Character vector (invisible) with the names of attached packages after attaching \code{package_name}: identical to (invisible) .packages()
+NULL (invisible)
 }
 \description{
 attach library as silent as possible
@@ -24,5 +24,7 @@ silent_library(knitr)
 packages_to_load <- c('glue','FactoMineR','curl')
 purrr::walk(packages_to_load[1:2],silent_library)
 silent_library(packages_to_load[[3]])
+silent_library(c('glue','FactoMineR','curl'))
+# silent_library(packages_to_load) # won't work: "there is no package called 'packages_to_load'"
 }
 }
