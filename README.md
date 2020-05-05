@@ -20,6 +20,7 @@ Currently the package includes
 * functions `cleanup_bw`, `scan_with_hocr` and `extract_table` to cleanup and scan (OCR) an image and extract a table into a data.frame format
 * functions `replace_package_fun` and `set_fun_env` that can be used to (temporarily) replace a function in a package 
 * function `mfe_lookup` that can be used to lookup strings e.g. to categorize transactions
+* function `igs` that can be used to insert an html statement to include an image in a web document
 
 ## Install HOQCutil
 

@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.20
+
+* 11mar2020   
+   + `igs` added that generates insert of graphical statement
+
 ## HOQCutil 0.1.19
 
 * 11mar2020   

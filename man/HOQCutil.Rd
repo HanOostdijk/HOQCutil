@@ -4,6 +4,3 @@
 \name{HOQCutil}
 \alias{HOQCutil}
 \title{HOQCutil: A package with miscellaneous utility functions.}
-\description{
-HOQCutil: A package with miscellaneous utility functions.
-}
