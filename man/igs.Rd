@@ -26,6 +26,12 @@ Especially useful when an externally created image has to be included . It can b
 \code{link}, \code{rel}, \code{alt}, \code{caption}, \code{width}, \code{height}, \code{attr} and \code{attrlink}
 }
 
+\section{Acknowledgement}{
+
+Idea is from the article \href{https://ropensci.org/technotes/2020/04/23/rmd-learnings/}{Miscellaneous Wisdom about R Markdown & Hugo Gained from Work on our Website}
+by Maëlle Salmon
+}
+
 \examples{
 \dontrun{
 igs("post/2020-05-04-dir_files/my.png",opts=list(width='75\%',alt="my.png"))

@@ -12,6 +12,9 @@
 #' Especially useful when an externally created image has to be included . It can be used in a text chunk with e.g.
 #' &#96;`​r igs(...)`&#96; . In `opts` can be specified all the options for the html `img` statement (with exception of `src`) :
 #' `link`, `rel`, `alt`, `caption`, `width`, `height`, `attr` and `attrlink`
+#' @section Acknowledgement:
+#' Idea is from the article [Miscellaneous Wisdom about R Markdown & Hugo Gained from Work on our Website](https://ropensci.org/technotes/2020/04/23/rmd-learnings/)
+#' by Maëlle Salmon
 #' @examples
 #' \dontrun{
 #' igs("post/2020-05-04-dir_files/my.png",opts=list(width='75%',alt="my.png"))
