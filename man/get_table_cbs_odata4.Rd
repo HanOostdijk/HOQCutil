@@ -2,6 +2,7 @@
 % Please edit documentation in R/get_table_odata4.R
 \name{get_table_cbs_odata4}
 \alias{get_table_cbs_odata4}
+\alias{get_table_cbs_odata4_GET}
 \title{get_table_cbs_odata4 : retrieves CBS Odata4 table data}
 \usage{
 get_table_cbs_odata4(
@@ -11,38 +12,46 @@ get_table_cbs_odata4(
   query = NULL,
   verbose = FALSE,
   encode = TRUE,
-  odata_root = "https://acc-ccb.cbs.nl",
+  odata_root = "https://beta-odata4.cbs.nl",
   odata_cat = "CBS",
   response = FALSE,
   error_msg = TRUE
 )
+
+get_table_cbs_odata4_GET(url, response = FALSE, error_msg = TRUE)
 }
 \arguments{
-\item{root}{Character string with the root for the url. Default: NULL (and in that case \code{odata_root} is used)}
+\item{root}{Character string with the root for the url. When specified \code{odata_root} and \code{odata_cat} are not used}
 
-\item{table_id}{Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned. Default: NULL}
+\item{table_id}{Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned.}
 
-\item{subtable}{Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned. Default: NULL}
+\item{subtable}{Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned.}
 
-\item{query}{Character string with an OData4 query. See \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} for the general OData4 query possibilities and \url{https://acc-ccb.cbs.nl/implement.html} for the subset of the CBS implementation. Default: ""}
+\item{query}{Character string with an OData4 query. See \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} for the general OData4 query possibilities and \url{https://acc-ccb.cbs.nl/implement.html} for the subset of the CBS implementation.}
 
-\item{verbose}{Boolean indicating if the generated url should be shown as a message. Default: FALSE}
+\item{verbose}{Boolean indicating if the generated url should be shown as a message.}
 
-\item{encode}{Boolean indicating if the query has to be encode by URLencode. Default: TRUE}
+\item{encode}{Boolean indicating if the query has to be encode by URLencode.}
 
-\item{odata_root}{Character string with the root for the url. Default: "https://acc-ccb.cbs.nl"}
+\item{odata_root}{Character string with the root for the url.}
 
-\item{odata_cat}{Character string with the catalog identifier. Default: "CBS"}
+\item{odata_cat}{Character string with the catalog identifier.}
 
 \item{response}{Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE}
 
 \item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE}
+
+\item{url}{Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned. Default: none}
 }
 \value{
-if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If the extra parameter response=TRUE is set, the result is a httr response object.
+if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If \code{response==TRUE} , the result is a httr response object.
+
+if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the parameter response=TRUE is set, the result is a httr response object.
 }
 \description{
 This function can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in  \url{https://acc-ccb.cbs.nl/implement.html}
+
+This function handles the network IO for the \code{\link{get_table_cbs_odata4}} function but can also be used stand-alone.
 }
 \section{Additional example}{
 
@@ -60,5 +69,11 @@ t1=get_table_cbs_odata4(table_id="82931NED",subtable="Properties")
 t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$skip=1&$top=2")
 t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$count")
 t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="(7)")
+}
+\dontrun{
+myurl = "https://beta-odata4.cbs.nl/CBS/82931NED/Observations?$format=json&$skip=1&$top=2"
+t1=get_table_cbs_odata4_GET(myurl)
+t1=get_table_cbs_odata4_GET(myurl,response=T)
+t1=get_table_cbs_odata4_GET(myurl,error_msg=T)
 }
 }

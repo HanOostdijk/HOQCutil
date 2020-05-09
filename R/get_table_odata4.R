@@ -3,17 +3,17 @@
 #' This function can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in  \url{https://acc-ccb.cbs.nl/implement.html}
 #'
 #' @name get_table_cbs_odata4
-#' @param root Character string with the root for the url. Default: NULL (and in that case `odata_root` is used)
-#' @param table_id Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned. Default: NULL
-#' @param subtable Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned. Default: NULL
-#' @param query Character string with an OData4 query. See \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} for the general OData4 query possibilities and \url{https://acc-ccb.cbs.nl/implement.html} for the subset of the CBS implementation. Default: ""
-#' @param verbose Boolean indicating if the generated url should be shown as a message. Default: FALSE
-#' @param encode Boolean indicating if the query has to be encode by URLencode. Default: TRUE
-#' @param odata_root Character string with the root for the url. Default: "https://acc-ccb.cbs.nl"
-#' @param odata_cat Character string with the catalog identifier. Default: "CBS"
-#' @param response Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE
-#' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE
-#' @return if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If the extra parameter response=TRUE is set, the result is a httr response object.
+#' @param root Character string with the root for the url. When specified `odata_root` and `odata_cat` are not used
+#' @param table_id Character string identifying table for which information will be returned. When table_id == NULL catalog information will be returned.
+#' @param subtable Character string indicating subtable for which information will be returned. When subtable == NULL information about the available subtables will be returned.
+#' @param query Character string with an OData4 query. See \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} for the general OData4 query possibilities and \url{https://acc-ccb.cbs.nl/implement.html} for the subset of the CBS implementation.
+#' @param verbose Boolean indicating if the generated url should be shown as a message.
+#' @param encode Boolean indicating if the query has to be encode by URLencode.
+#' @param odata_root Character string with the root for the url.
+#' @param odata_cat Character string with the catalog identifier.
+#' @param response Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging.
+#' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging.
+#' @return if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If `response==TRUE` , the result is a httr response object.
 
 #' @export
 
@@ -39,7 +39,7 @@ get_table_cbs_odata4 <-
 		query = NULL,
 		verbose = FALSE,
 		encode = TRUE,
-		odata_root = "https://acc-ccb.cbs.nl",
+		odata_root = "https://beta-odata4.cbs.nl",
 		odata_cat  = "CBS",
 		response = FALSE,
 		error_msg = TRUE) {
@@ -110,11 +110,12 @@ get_table_cbs_odata4 <-
 #' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE
 #' @return if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the parameter response=TRUE is set, the result is a httr response object.
 
+#' @rdname get_table_cbs_odata4
 #' @export
 
 #' @examples
 #' \dontrun{
-#' myurl = "https://acc-ccb.cbs.nl/CBS/82931NED/Observations?$format=json&$skip=1&$top=2"
+#' myurl = "https://beta-odata4.cbs.nl/CBS/82931NED/Observations?$format=json&$skip=1&$top=2"
 #' t1=get_table_cbs_odata4_GET(myurl)
 #' t1=get_table_cbs_odata4_GET(myurl,response=T)
 #' t1=get_table_cbs_odata4_GET(myurl,error_msg=T)

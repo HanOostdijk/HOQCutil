@@ -1,8 +1,13 @@
 # HOQCutil
 
+## HOQCutil 0.1.21
+
+* 09may2020   
+   + `get_table_cbs_odata4` default for parameter `odata_root` adapted for new CBS beta test
+
 ## HOQCutil 0.1.20
 
-* 11mar2020   
+* 05may2020   
    + `igs` added that generates insert of graphical statement
 
 ## HOQCutil 0.1.19
