@@ -4,16 +4,18 @@
 \alias{ref_tab}
 \title{ref_tab}
 \usage{
-ref_tab(label_name, table = T, add_page = T, prefix = "in")
+ref_tab(label_name, table = T, add_page = T, prefix = "in", def_text = "")
 }
 \arguments{
 \item{label_name}{Name of label}
 
-\item{table}{Boolean to indicate if the label is for table (T) or figure(F). Default TRUE}
+\item{table}{Boolean to indicate if the label is for table (T) or figure(F)}
 
-\item{add_page}{Boolean to indicate if the reference should include the page. Default TRUE}
+\item{add_page}{Boolean to indicate if the reference should include the page}
 
 \item{prefix}{Text to include before the reference}
+
+\item{def_text}{Text to include when the output is not Latex}
 }
 \description{
 ref_tab produces a reference to a label of a table or figure

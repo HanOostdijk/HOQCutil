@@ -32,9 +32,10 @@ def_tab <- function (label_name='',label_text='')
 #'
 #' @name ref_tab
 #' @param label_name Name of label
-#' @param table Boolean to indicate if the label is for table (T) or figure(F). Default TRUE
-#' @param add_page Boolean to indicate if the reference should include the page. Default TRUE
+#' @param table Boolean to indicate if the label is for table (T) or figure(F)
+#' @param add_page Boolean to indicate if the reference should include the page
 #' @param prefix Text to include before the reference
+#' @param def_text Text to include when the output is not Latex
 # @importFrom knitr is_latex_output
 #' @export
 #' @section details:
@@ -50,8 +51,8 @@ def_tab <- function (label_name='',label_text='')
 #' ref_tab("lbltab1",table=T,prefix="")
 #' }
 
-ref_tab <- function (label_name,table=T,add_page=T,prefix='in') {
-	if (!knitr::is_latex_output()) return("")
+ref_tab <- function (label_name,table=T,add_page=T,prefix='in',def_text='') {
+	if (!knitr::is_latex_output()) return(def_text)
 	if (table==T) {
 		obj1 = 'Table' ;  obj2 = 'table' ;
 	}  else {

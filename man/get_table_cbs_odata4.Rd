@@ -3,7 +3,7 @@
 \name{get_table_cbs_odata4}
 \alias{get_table_cbs_odata4}
 \alias{get_table_cbs_odata4_GET}
-\title{get_table_cbs_odata4 : retrieves CBS Odata4 table data}
+\title{Retrieving CBS Odata4 table data}
 \usage{
 get_table_cbs_odata4(
   root = NULL,
@@ -14,11 +14,11 @@ get_table_cbs_odata4(
   encode = TRUE,
   odata_root = "https://beta-odata4.cbs.nl",
   odata_cat = "CBS",
-  response = FALSE,
+  restype = "",
   error_msg = TRUE
 )
 
-get_table_cbs_odata4_GET(url, response = FALSE, error_msg = TRUE)
+get_table_cbs_odata4_GET(url, restype = "", error_msg = TRUE)
 }
 \arguments{
 \item{root}{Character string with the root for the url. When specified \code{odata_root} and \code{odata_cat} are not used}
@@ -35,23 +35,21 @@ get_table_cbs_odata4_GET(url, response = FALSE, error_msg = TRUE)
 
 \item{odata_root}{Character string with the root for the url.}
 
-\item{odata_cat}{Character string with the catalog identifier.}
+\item{odata_cat}{Character string with the catalog identifier.#' @param restype Character string indicating if the query has to return a \code{data.frame} or \code{list} (when \code{''}), a httr response object (when \code{resp}) or a JSON string (when \code{json}).}
 
-\item{response}{Boolean indicating if the query has to return the httr response object instead of a table. Useful for debugging. Default: FALSE}
+\item{restype}{Character string indicating if the query has to return a \code{data.frame} or \code{list} (when \code{''}), a httr response object (when \code{resp}) or a JSON string (when \code{json}).}
 
-\item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging. Default: TRUE}
+\item{error_msg}{Boolean indicating if the query has to return a more extensive error message. Useful for debugging.}
 
-\item{url}{Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned. Default: none}
+\item{url}{Character string with url that will be passed to GET function without further encoding. It is assumed that a json result can be returned.}
 }
 \value{
-if not succesful a character string with an error message. If succesful a data.frame when the contents of a subtable was requested and a list with the properties of the table when Properties was requested. If \code{response==TRUE} , the result is a httr response object.
-
-if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. If the parameter response=TRUE is set, the result is a httr response object.
+if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. However if  \code{restype='resp'}  the result is a httr response object and when \code{restype='json'} the JSON string is not converted
 }
 \description{
-This function can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in  \url{https://acc-ccb.cbs.nl/implement.html}
+The function \code{get_table_cbs_odata4} can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in \url{https://beta-dataportal.cbs.nl/}
 
-This function handles the network IO for the \code{\link{get_table_cbs_odata4}} function but can also be used stand-alone.
+The function \code{get_table_cbs_odata4_GET} handles the network IO for the \code{get_table_cbs_odata4} function but can also be used stand-alone.
 }
 \section{Additional example}{
 
@@ -69,11 +67,11 @@ t1=get_table_cbs_odata4(table_id="82931NED",subtable="Properties")
 t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$skip=1&$top=2")
 t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="$count")
 t1=get_table_cbs_odata4(table_id="82931NED",subtable="Observations",query="(7)")
-}
-\dontrun{
+
 myurl = "https://beta-odata4.cbs.nl/CBS/82931NED/Observations?$format=json&$skip=1&$top=2"
 t1=get_table_cbs_odata4_GET(myurl)
-t1=get_table_cbs_odata4_GET(myurl,response=T)
+t1=get_table_cbs_odata4_GET(myurl,restype='resp')
+t1=get_table_cbs_odata4_GET(myurl,restype='json')
 t1=get_table_cbs_odata4_GET(myurl,error_msg=T)
 }
 }

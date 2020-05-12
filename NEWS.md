@@ -1,5 +1,11 @@
 # HOQCutil
 
+## HOQCutil 0.1.22
+
+* 12may2020   
+   + `get_table_cbs_odata4` and `get_table_cbs_odata4` also produce JSON output
+   + `ref_tab` now has `def_text` parameter for the non-Latex case
+
 ## HOQCutil 0.1.21
 
 * 09may2020   
