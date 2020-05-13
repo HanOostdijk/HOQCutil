@@ -200,3 +200,114 @@ test_that("table queries table queries id", {
 
 })
 
+context('get_table_cbs_odata4 table queries select, le, ge, and, or, lt, gt, eq \n')
+
+test_that("table queries table queries select, le, ge, and, or, lt, gt, eq", {
+  table_id  = '900002NED'
+  odata_cat = 'CBS-asd'
+  get_beta  =
+    purrr::partial(HOQCutil::get_table_cbs_odata4,
+                   table_id  = table_id,
+                   odata_cat = odata_cat)
+
+  q0 = as.integer(
+        get_beta(subtable='Observations',
+          query = "$filter=(Id le 20)&$select=Id")[,1] )
+  q1 = q0[(q0 < 6 & q0 > 3) | (q0 == 7) | (q0 <= 15 & q0 >= 12)]
+  q2 = get_beta(subtable='Observations',
+          query="$filter=(Id lt 6 and Id gt 3) or (Id eq 7) or (Id le 15 and Id ge 12)" )[,1]
+  expect_identical(q1, q2)
+
+  q3 =  get_beta(subtable='Observations',
+                 query = "$select=Id,Measure&$top=3")
+  expect_equal(dim(q3), c(3,2))
+  expect_equal(names(q3), c("Id","Measure"))
+})
+
+
+context('get_table_cbs_odata4 table queries ne, mod, not, in  \n')
+
+test_that("table queries table queries ne, mod, not, in", {
+  table_id  = '900002NED'
+  odata_cat = 'CBS-asd'
+  get_beta  =
+    purrr::partial(HOQCutil::get_table_cbs_odata4,
+                   table_id  = table_id,
+                   odata_cat = odata_cat)
+
+  q0 = as.integer(
+    get_beta(subtable='Observations',
+             query = "$filter=(Id le 15)&$select=Id")[,1] )
+  q1 = q0[(q0%%3 == 0) & (q0 != 9) ]
+  q2 = get_beta(subtable='Observations',
+                query="$filter=(Id le 15) and (Id mod 3 eq 0) and (Id ne 9)" )[,1]
+  q3 = get_beta(subtable='Observations',
+                query="$filter=(Id le 15) and (Id mod 3 eq 0) and not (Id eq 9)" )[,1]
+  q4 = get_beta(subtable='Observations',
+                query="$filter=Id in (3, 9, 13)" )[,1]
+  q5 = get_beta(subtable='Observations',
+                query="$filter=(Id le 15) and substring(OData3Identifier,0,6) in ('Totaal','Winnin')" )
+  q5 = unique(stringr::str_sub(q5$OData3Identifier,1,6))
+  q6 =  get_beta(subtable='Observations',
+                 query = "$select=Id,Measure&$top=3")
+
+  expect_identical(q1, q2)
+  expect_identical(q2, q3)
+  expect_identical(q4, c(3L, 9L, 13L))
+  expect_equal(q5, c('Totaal','Winnin'))
+  expect_equal(dim(q6), c(3,2))
+  expect_equal(names(q6), c('Id','Measure'))
+
+})
+
+context('get_table_cbs_odata4 table queries date and time  \n')
+
+test_that("table queries table queries  date and time", {
+  table_id  = '900002NED'
+  odata_cat = 'CBS-asd'
+  get_beta  =
+    purrr::partial(HOQCutil::get_table_cbs_odata4,
+                   odata_cat = odata_cat)
+
+  q0 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified")
+  d0 = stringr::str_match(q0[1,2],'(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2})')
+  d0 = as.vector(d0)[-1]
+  query = glue::glue(
+    "$select=Identifier,ObservationsModified&$filter=",
+    "date(ObservationsModified) eq {d0[1]}-{d0[2]}-{d0[3]} and ",
+    "year(ObservationsModified) eq {d0[1]} and ",
+    "month(ObservationsModified) eq {d0[2]} and ",
+    "day(ObservationsModified) eq {d0[3]} and ",
+    "hour(ObservationsModified) eq {d0[4]} and ",
+    "minute(ObservationsModified) eq {d0[5]}"
+  )
+  q1 = get_beta(subtable='Datasets',query=query )
+  expect_identical(q0[1,], q1)
+
+})
+
+context('get_table_cbs_odata4 table queries tolower, toupper, indexof  \n')
+
+test_that("table queries table queries  date and time", {
+  table_id  = '900002NED'
+  odata_cat = 'CBS-asd'
+  get_beta  =
+    purrr::partial(HOQCutil::get_table_cbs_odata4,
+                   table_id  = table_id,
+                   odata_cat = odata_cat)
+
+  q0 = get_beta(subtable='Observations')
+
+  q1 = q0[stringr::str_detect(q0$OData3Identifier,stringr::regex('uitvoer',ignore_case = T)),]
+  rownames(q1)=NULL
+  q2 = get_beta(subtable='Observations',query="$filter=contains(tolower(OData3Identifier),'uitvoer')")
+  q3 = get_beta(subtable='Observations',query="$filter=contains(toupper(OData3Identifier),'UITVOER')")
+  expect_identical(q1,q2)
+  expect_identical(q1,q3)
+
+  q4 = q0[stringr::str_sub(q0$OData3Identifier,11,15)=='IGDFI',]
+  rownames(q4)=NULL
+  q5 = get_beta(subtable='Observations',query="$filter=indexof(OData3Identifier,'IGDFI') eq 10")
+  expect_identical(q4,q5)
+
+})
