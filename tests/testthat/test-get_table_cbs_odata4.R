@@ -290,10 +290,17 @@ test_that("table queries table queries  date and time", {
   q1 = get_beta(subtable='Datasets',query=query )
   expect_identical(q0[1,], q1)
 
+  # orderby not implemented
   q2 = q0[order(q0$ObservationsModified,decreasing = F),]
   q3 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified")
-  # orderby not implemented
   expect_false(all(q2$ObservationsModified == q3$ObservationsModified))
+
+  q4 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified asc")
+  q5 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified desc")
+  q6 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified ??")
+  expect_identical(q3,q4)
+  expect_identical(q4,q5)
+  expect_identical(q5,q6)
 
 })
 
