@@ -146,10 +146,10 @@ test_that("table queries count, skip, top", {
 })
 
 
-context('get_table_cbs_odata4 table queries startswith, endswith, substring, contains\n')
+context('get_table_cbs_odata4 table queries startswith, endswith, substring, contains, length\n')
 
 
-test_that("table queries startswith, endswith, substr, contains", {
+test_that("table queries startswith, endswith, substr, contains, length", {
   table_id  = '900002NED'
   odata_cat = 'CBS-asd'
   get_beta  =
@@ -177,6 +177,11 @@ test_that("table queries startswith, endswith, substr, contains", {
   rownames(q7)=NULL
   q8 = get_beta(subtable='Observations',query="$filter=substring(OData3Identifier,11,7) eq 'Uitvoer'")
   expect_identical(q7,q8)
+
+  q9 = q0[stringr::str_length(q0$OData3Identifier) == 12,]
+  rownames(q9)=NULL
+  q10 = get_beta(subtable='Observations',query="$filter=length(OData3Identifier) eq 12")
+  expect_identical(q9,q10)
 
 })
 
@@ -260,7 +265,7 @@ test_that("table queries table queries ne, mod, not, in", {
 
 })
 
-context('get_table_cbs_odata4 table queries date and time  \n')
+context('get_table_cbs_odata4 table queries date, time, orderby  \n')
 
 test_that("table queries table queries  date and time", {
   table_id  = '900002NED'
@@ -270,6 +275,7 @@ test_that("table queries table queries  date and time", {
                    odata_cat = odata_cat)
 
   q0 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified")
+  rownames(q0)=NULL
   d0 = stringr::str_match(q0[1,2],'(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2})')
   d0 = as.vector(d0)[-1]
   query = glue::glue(
@@ -283,6 +289,11 @@ test_that("table queries table queries  date and time", {
   )
   q1 = get_beta(subtable='Datasets',query=query )
   expect_identical(q0[1,], q1)
+
+  q2 = q0[order(q0$ObservationsModified,decreasing = F),]
+  q3 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified")
+  # orderby not implemented
+  expect_false(all(q2$ObservationsModified == q3$ObservationsModified))
 
 })
 
