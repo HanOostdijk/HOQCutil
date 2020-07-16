@@ -6,7 +6,7 @@
 \description{
 \code{\link[=cleanup_bw]{cleanup_bw()}}, \code{\link[=scan_with_hocr]{scan_with_hocr()}} and \code{\link[=extract_table]{extract_table()}} can be used to cleanup and scan (OCR) an image and extract a table into a data.frame format. The workflow would then be:
 \itemize{
-\item read an image from file with \code{\link[magick:image_read]{magick::image_read()}} \cr e.g.
+\item read an image from file with \code{\link[magick:editing]{magick::image_read()}} \cr e.g.
 \code{img1 = magick::image_read('example1.png')}
 \item define the list with cleanup options \cr e.g.
 \code{cln_options1 = list(resize="4000x",trim=10,enhance=TRUE,sharpen=1)}

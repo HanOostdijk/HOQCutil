@@ -26,7 +26,7 @@ An example of use: \cr
 Create a table with label \code{mylabel} \cr
 \code{xtable(uf,caption=def_tab('mylabel','mycaption'))} \cr
 and refer to it in a \code{knitr} text chunk with \cr
-\code{`r ref_tab('mylabel',table=T,prefix="")`}
+\code{}
 }
 
 \examples{

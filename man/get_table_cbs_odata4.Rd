@@ -12,7 +12,7 @@ get_table_cbs_odata4(
   query = NULL,
   verbose = FALSE,
   encode = TRUE,
-  odata_root = "https://beta-odata4.cbs.nl",
+  odata_root = "https://odata4.cbs.nl",
   odata_cat = "CBS",
   restype = "",
   error_msg = TRUE
@@ -35,7 +35,7 @@ get_table_cbs_odata4_GET(url, restype = "", error_msg = TRUE)
 
 \item{odata_root}{Character string with the root for the url.}
 
-\item{odata_cat}{Character string with the catalog identifier.#' @param restype Character string indicating if the query has to return a \code{data.frame} or \code{list} (when \code{''}), a httr response object (when \code{resp}) or a JSON string (when \code{json}).}
+\item{odata_cat}{Character string with the catalog identifier.}
 
 \item{restype}{Character string indicating if the query has to return a \code{data.frame} or \code{list} (when \code{''}), a httr response object (when \code{resp}) or a JSON string (when \code{json}).}
 

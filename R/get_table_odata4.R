@@ -10,7 +10,8 @@
 #' @param verbose Boolean indicating if the generated url should be shown as a message.
 #' @param encode Boolean indicating if the query has to be encode by URLencode.
 #' @param odata_root Character string with the root for the url.
-#' @param odata_cat Character string with the catalog identifier.#' @param restype Character string indicating if the query has to return a `data.frame` or `list` (when `''`), a httr response object (when `resp`) or a JSON string (when `json`).
+#' @param odata_cat Character string with the catalog identifier.
+#' @param restype Character string indicating if the query has to return a `data.frame` or `list` (when `''`), a httr response object (when `resp`) or a JSON string (when `json`).
 #' @param error_msg Boolean indicating if the query has to return a more extensive error message. Useful for debugging.
 #' @return if not succesful a character string with an error message. If succesful the contents is regarded as a json object and translated to a data.frame or list when possible. However if  `restype='resp'`  the result is a httr response object and when `restype='json'` the JSON string is not converted
 
@@ -44,7 +45,7 @@ get_table_cbs_odata4 <-
 		query = NULL,
 		verbose = FALSE,
 		encode = TRUE,
-		odata_root = "https://beta-odata4.cbs.nl",
+		odata_root = "https://odata4.cbs.nl",
 		odata_cat  = "CBS",
 		restype = '',
 		error_msg = TRUE) {

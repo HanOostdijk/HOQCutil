@@ -22,13 +22,13 @@ A Tesseract scan often gives better results when the image is transformed. The \
 
 The following list describe the transformations and the order in which they are done. Also is indicated if they are always done or only when specified in the \code{cln_options} list:
 \itemize{
-\item \code{\link[magick:image_trim]{magick::image_trim()}} removes edges that are the background color from the image. Only when \verb{trim=} is in the list
-\item \code{\link[magick:image_resize]{magick::image_resize()}} magick documentation : \emph{resizes using custom filterType} (??). Only when \verb{resize=} is in the list. (I use it as \code{resize= "4000x"})
-\item \code{\link[magick:image_modulate]{magick::image_modulate()}} adjusts brightness, saturation and hue of image relative to current. The transformation is always done with the value 100 for each of the \code{brightness}, \code{saturation} and \code{hue} arguments unless overwritten by a equally named entry in the \code{cln_options} list (e.g. \code{brightness=120})
-\item \code{\link[magick:image_contrast]{magick::image_contrast()}} enhances intensity differences in image. Only when \verb{sharpen=} is in the list (e.g. \code{sharpen=1})
-\item \code{\link[magick:image_quantize]{magick::image_quantize()}} reduces number of unique colors in the image. Is always done with argument \code{colorspace='gray'}
-\item \code{\link[magick:image_transparent]{magick::image_transparent()}} and \code{\link[magick:image_background]{magick::image_background()}} are always done for the 'colors' white and black to make the image black-and-white
-\item \code{\link[magick:image_enhance]{magick::image_enhance()}} tries to minimize noise. Done only when \code{enhance=TRUE} in the list.
+\item \code{\link[magick:transform]{magick::image_trim()}} removes edges that are the background color from the image. Only when \verb{trim=} is in the list
+\item \code{\link[magick:transform]{magick::image_resize()}} magick documentation : \emph{resizes using custom filterType} (??). Only when \verb{resize=} is in the list. (I use it as \code{resize= "4000x"})
+\item \code{\link[magick:color]{magick::image_modulate()}} adjusts brightness, saturation and hue of image relative to current. The transformation is always done with the value 100 for each of the \code{brightness}, \code{saturation} and \code{hue} arguments unless overwritten by a equally named entry in the \code{cln_options} list (e.g. \code{brightness=120})
+\item \code{\link[magick:color]{magick::image_contrast()}} enhances intensity differences in image. Only when \verb{sharpen=} is in the list (e.g. \code{sharpen=1})
+\item \code{\link[magick:color]{magick::image_quantize()}} reduces number of unique colors in the image. Is always done with argument \code{colorspace='gray'}
+\item \code{\link[magick:color]{magick::image_transparent()}} and \code{\link[magick:color]{magick::image_background()}} are always done for the 'colors' white and black to make the image black-and-white
+\item \code{\link[magick:color]{magick::image_enhance()}} tries to minimize noise. Done only when \code{enhance=TRUE} in the list.
 }
 }
 
