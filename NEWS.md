@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.24
+
+* 28sep2020   
+   + `capture.output.both` added that is an extension of `util::capture.output` and captures output, messages or both
+
 ## HOQCutil 0.1.23
 
 * 12may2020   

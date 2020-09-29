@@ -50,8 +50,8 @@ captures and wraps the output of an expression
 \section{details}{
 
 
-Prints of XML documents can be very lengthy. Therefore I defined the function \code{cap.out} as a cover function of \code{capture.output}. With the argument \code{lines} one can specify the numbers of the lines that will be kept. For each line of output it can specified which part will be displayed. When the argument \code{se} is a 2-column matrix it specifies the start and end of the part. When \code{se} is an integer vector it gives the start position of the part when a number is negative and the end position when a number is postive. In those cases the part extends to the end or from the start of the line. When a number is 0, the line is not displayed. When \code{se} is not specified, all characters for all selected lines will be displayed.
-To ensure that the specification of the lines and the positions match I will recycle the position  specification when necessary.
+Prints of XML documents can be very lengthy. Therefore the function \code{cap.out} is defined as a cover function of \code{util::capture.output}. With the argument \code{lines} one can specify the numbers of the lines that will be kept. For each line of output it can specified which part will be displayed. When the argument \code{se} is a 2-column matrix it specifies the start and end of the part. When \code{se} is an integer vector it gives the start position of the part when a number is negative and the end position when a number is postive. In those cases the part extends to the end or from the start of the line. When a number is 0, the line is not displayed. When \code{se} is not specified, all characters for all selected lines will be displayed.
+To ensure that the specification of the lines and the positions match the position specification is recycled when necessary.
 }
 
 \section{acknowledgements}{

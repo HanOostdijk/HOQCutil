@@ -3,6 +3,7 @@
 export("%>%")
 export("%ma%")
 export(cap.out)
+export(capture.output.both)
 export(cleanup_bw)
 export(create_child_chunk)
 export(debug_httr_get)
