@@ -188,6 +188,7 @@ display_wrapped <- function (strings,
 #' @param append logical. If file a file name or unopened connection, append or overwrite?
 #' @param type is passed to sink, see there (but `both` is allowed)
 #' @param split is passed to sink, see there
+#' @return A character string (if file = NULL), or invisible NULL
 #' @export
 #' @section details:
 #'

@@ -23,6 +23,9 @@ capture.output.both(
 
 \item{split}{is passed to sink, see there}
 }
+\value{
+A character string (if file = NULL), or invisible NULL
+}
 \description{
 Adaptation of \code{\link[utils:capture.output]{utils::capture.output()}} to enable capture of both output and messages
 }
