@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.25
+
+* 20mar2021   
+   + `hugo_plot_hook` is a knitr plot hook for use in the Hugo environment
+
 ## HOQCutil 0.1.24
 
 * 28sep2020   
