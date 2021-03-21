@@ -20,33 +20,30 @@ This \code{\link[=knitr]{knitr()}} plot hook uses the options in a knitr code ch
 \href{https://gohugo.io/}{Hugo} lines that after handling by Hugo processor will produce
 HTML code to display an image produced by an knitr code chunk. The last section
 of \strong{Details} shows the HTML that can be generated.
-With the default settings the image is wrapped in a \code{div} with class \code{hoqc-center}.
-In the css of my Hugo template \code{hoqc-center} has the attributes \code{text-align: center} .
 }
 \details{
 After setting the hook with \code{knitr::knit_hooks$set} each time that an image is
-generated the function is called with the filename and the list with chunk options.
+generated the function is called with the file name and the list with chunk options.
 
 The function uses the chunk options:
 \itemize{
 \item \code{hugoopts}. This is a list with parameters for he Hugo shortcode \code{figure} .
-Possible parameters (no defaults) are:
+Possible parameters (no defaults except \code{cappos}) are:
 \itemize{
+\item \code{class} : 'class' to use in HTML figure statement
+\item \code{id} : 'id' to use in HTML figure statement
 \item \code{link} : 'href' to navigate to when image is clicked
 \item \code{target} : 'target' to use when image is clicked. E.g. '_blank'
 \item \code{rel} : 'rel' to use when image is clicked. E.g. 'nofollow'
 \item \code{src} : 'url' of generated image
 \item \code{alt} : 'alt-text' for image
 \item \code{caption} : 'caption' to place under image
+\item \code{cappos} : position of caption ('down' or 'up' with default 'down')
 \item \code{width} : 'width' of the image
 \item \code{height} :  'height' of the image
 \item \code{attr} : 'text' of the 'caption' link
 \item \code{attrlink} : 'url' of the 'caption' link
 }
-\item \code{hugowrapin} : start of wrapping the {{figure}} shortcode. Default
-is \verb{<div class="hoqc-center" >}
-\item \code{hugowrapout}: start of wrapping the {{figure}} shortcode. Default
-is \verb{</div >}
 }
 
 Example of generated HTML:\preformatted{```   hugoopts= list(link="https://www.hanoostdijk.nl",target="_blank",rel="nofollow",
@@ -68,7 +65,8 @@ results after Hugo processing in the following HTML:
 }
 \section{Acknowledgement}{
 
-started with the idea from https://ropensci.org/technotes/2020/04/23/rmd-learnings/
+Started with the idea from https://ropensci.org/technotes/2020/04/23/rmd-learnings/ \cr
+This function use the Hugo shortcode figureHOQC that is an adaption of Hugo shortcode \href{hugo/tpl/tplimpl/embedded/templates/shortcodes/figure.html}{figureHOQC}
 }
 
 \examples{
