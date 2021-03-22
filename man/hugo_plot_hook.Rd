@@ -28,7 +28,7 @@ generated the function is called with the file name and the list with chunk opti
 The function uses the chunk options:
 \itemize{
 \item \code{hugoopts}. This is a list with parameters for he Hugo shortcode \code{figure} .
-Possible parameters (no defaults except \code{cappos}) are:
+Possible parameters (no defaults except for \code{caption} and \code{cappos}) are:
 \itemize{
 \item \code{class} : 'class' to use in HTML figure statement
 \item \code{id} : 'id' to use in HTML figure statement
@@ -37,8 +37,8 @@ Possible parameters (no defaults except \code{cappos}) are:
 \item \code{rel} : 'rel' to use when image is clicked. E.g. 'nofollow'
 \item \code{src} : 'url' of generated image
 \item \code{alt} : 'alt-text' for image
-\item \code{caption} : 'caption' to place under image
-\item \code{cappos} : position of caption ('down' or 'up' with default 'down')
+\item \code{caption} : 'caption' to place below or above image. (default \code{fig.cap} chunk option)
+\item \code{cappos} : position of caption ('below' or 'above' with default 'below')
 \item \code{width} : 'width' of the image
 \item \code{height} :  'height' of the image
 \item \code{attr} : 'text' of the 'caption' link
@@ -66,7 +66,8 @@ results after Hugo processing in the following HTML:
 \section{Acknowledgement}{
 
 Started with the idea from https://ropensci.org/technotes/2020/04/23/rmd-learnings/ \cr
-This function use the Hugo shortcode figureHOQC that is an adaption of Hugo shortcode \href{hugo/tpl/tplimpl/embedded/templates/shortcodes/figure.html}{figureHOQC}
+This function use the Hugo shortcode figureHOQC that is an adaption of Hugo shortcode
+\href{https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/shortcodes/figure.html}{figureHOQC}
 }
 
 \examples{

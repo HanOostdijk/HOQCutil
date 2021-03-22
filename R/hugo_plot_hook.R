@@ -11,7 +11,7 @@
 #' The function uses the chunk options:
 #'
 #'  - `hugoopts`. This is a list with parameters for he Hugo shortcode `figure` .
-#'  Possible parameters (no defaults except `cappos`) are:
+#'  Possible parameters (no defaults except for `caption` and `cappos`) are:
 #'
 #'    -    `class` : 'class' to use in HTML figure statement
 #'    -    `id` : 'id' to use in HTML figure statement
@@ -20,8 +20,8 @@
 #'    -    `rel` : 'rel' to use when image is clicked. E.g. 'nofollow'
 #'    -    `src` : 'url' of generated image
 #'    -    `alt` : 'alt-text' for image
-#'    -    `caption` : 'caption' to place under image
-#'    -    `cappos` : position of caption ('down' or 'up' with default 'down')
+#'    -    `caption` : 'caption' to place below or above image. (default `fig.cap` chunk option)
+#'    -    `cappos` : position of caption ('below' or 'above' with default 'below')
 #'    -    `width` : 'width' of the image
 #'    -    `height` :  'height' of the image
 #'    -    `attr` : 'text' of the 'caption' link
@@ -53,7 +53,8 @@
 #' @return Character string to be processed by Hugo to create picture
 #' @section Acknowledgement:
 #' Started with the idea from https://ropensci.org/technotes/2020/04/23/rmd-learnings/ \cr
-#' This function use the Hugo shortcode figureHOQC that is an adaption of Hugo shortcode [figureHOQC](hugo/tpl/tplimpl/embedded/templates/shortcodes/figure.html)
+#' This function use the Hugo shortcode figureHOQC that is an adaption of Hugo shortcode
+#' [figureHOQC](https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/shortcodes/figure.html)
 #' @export
 #' @examples
 #' \dontrun{
@@ -69,9 +70,11 @@
 
 hugo_plot_hook <- function (x, options) {
   hugoopts <- options$hugoopts
-
+   if ( is.null(hugoopts$caption)  && (!is.null(options$fig.cap))  ){
+    hugoopts$caption = options$fig.cap
+  }
   if ( is.null(hugoopts$cappos)  && (!is.null(hugoopts$caption))  ){
-    hugoopts$cappos = "down"
+    hugoopts$cappos = "below"
   }
   paste0("{",
          "{<figureHOQC src=",
