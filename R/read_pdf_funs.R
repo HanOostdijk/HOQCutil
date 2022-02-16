@@ -3,7 +3,7 @@
 #' @name read_pdf
 #' @param filename Character string with path of the pdf-file
 #' @param vtolerance Numeric scalar with vertical tolerance
-#' @param by Character string with value "line" or "cell" indicating if text is gathered by text line of text cell
+#' @param by Character string with value "line" or "cell" indicating if text is gathered by text line or cell
 #' @param pageno Integer indicating the number of the page to read
 #' @return data.frame with the fields 'text', 'y'  and (when by=="cell")  'x'
 #' @section Details:

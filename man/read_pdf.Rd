@@ -11,7 +11,7 @@ read_pdf(filename, vtolerance = 2, by = "line", pageno = 1)
 
 \item{vtolerance}{Numeric scalar with vertical tolerance}
 
-\item{by}{Character string with value "line" or "cell" indicating if text is gathered by text line of text cell}
+\item{by}{Character string with value "line" or "cell" indicating if text is gathered by text line or cell}
 
 \item{pageno}{Integer indicating the number of the page to read}
 }
