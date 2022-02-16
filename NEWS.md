@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.26
+
+* 16feb2022   
+   + `read_pdf`  and `read_pdf_fields` used for reading PDF text data
+   
 ## HOQCutil 0.1.25
 
 * 20mar2021   

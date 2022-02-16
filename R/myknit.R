@@ -6,7 +6,7 @@
 #' When I include in the yaml metadata block the yaml statement \cr
 #' \code{knit:  (function (...) \{  HOQCutil::myknit(...) \})}
 #' the \code{myknit} code will be run instead of \code{rmarkdown::render}.\cr\cr
-#' The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra 'yaml' statements): \cr
+#' The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra YAML statements): \cr
 #' * specify an alternative name for the output file (based on \code{hoqc_output})
 #' * append a version indicator to the name of the output file (based on \code{hoqc_version})
 #' * force that the proper extension is given to the name of the output file (when not specified) (based on \code{hoqc_force_ext})
@@ -15,7 +15,7 @@
 #' * create a copy of the input file with a name including the version indicator (based on \code{hoqc_rmd_in})
 #' * create a copy of the processed input file with a name including the version indicator (based on \code{hoqc_rmd_out})
 #' An example of use  is given in the
-#' [pdf file](https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/output/Flex\%20Knit_v1.pdf)
+#' [pdf file](https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/output/Flex/%20Knit_v1.pdf)
 #' and the corresponding
 #' [rmd file](https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/flexknit.Rmd) of the GitHub repository
 #' **rmd_pdf_examples**.\cr

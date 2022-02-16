@@ -27,7 +27,7 @@ Normally however I do the \code{knit} with the \strong{knit} button in RStudio.
 When I include in the yaml metadata block the yaml statement \cr
 \code{knit:  (function (...) \{  HOQCutil::myknit(...) \})}
 the \code{myknit} code will be run instead of \code{rmarkdown::render}.\cr\cr
-The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra 'yaml' statements): \cr
+The \code{myknit} function removes (R) commented lines from the yaml metadata block and can do one or more of the following things (based on extra YAML statements): \cr
 \itemize{
 \item specify an alternative name for the output file (based on \code{hoqc_output})
 \item append a version indicator to the name of the output file (based on \code{hoqc_version})
@@ -37,7 +37,7 @@ The \code{myknit} function removes (R) commented lines from the yaml metadata bl
 \item create a copy of the input file with a name including the version indicator (based on \code{hoqc_rmd_in})
 \item create a copy of the processed input file with a name including the version indicator (based on \code{hoqc_rmd_out})
 An example of use  is given in the
-\href{https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/output/Flex\%20Knit_v1.pdf}{pdf file}
+\href{https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/output/Flex/\%20Knit_v1.pdf}{pdf file}
 and the corresponding
 \href{https://github.com/HanOostdijk/rmd_pdf_examples/blob/master/flexknit.Rmd}{rmd file} of the GitHub repository
 \strong{rmd_pdf_examples}.\cr
