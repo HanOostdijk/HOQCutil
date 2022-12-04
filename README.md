@@ -23,7 +23,7 @@ Currently the package includes
 * function `mfe_lookup` that can be used to lookup strings e.g. to categorize transactions
 * function `igs` that can be used to insert an html statement to include an image in a web document
 * function `hugo_plot_hook` is a knitr plot hook for use in the Hugo environment.
-* functions `read_pdf`  and `read_pdf_fields` used for reading PDF text data
+* functions `read_pdf`, `read_pdf_line` and `read_pdf_fields` are used for reading PDF text data
 
 ## Install HOQCutil
 

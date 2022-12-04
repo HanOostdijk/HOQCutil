@@ -46,7 +46,9 @@ Possible parameters (no defaults except for \code{caption} and \code{cappos}) ar
 }
 }
 
-Example of generated HTML:\preformatted{```   hugoopts= list(link="https://www.hanoostdijk.nl",target="_blank",rel="nofollow",
+Example of generated HTML:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{```   hugoopts= list(link="https://www.hanoostdijk.nl",target="_blank",rel="nofollow",
 ```               alt="alt-text",caption="caption-text",width="500",
 ```               attrlink="https://www.hanoostdijk.nl",attr="click here")
 results after Hugo processing in the following HTML:
@@ -61,7 +63,7 @@ results after Hugo processing in the following HTML:
 ```      </figcaption>
 ```    </figure>
 ```  </div >
-}
+}\if{html}{\out{</div>}}
 }
 \section{Acknowledgement}{
 
