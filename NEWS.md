@@ -3,7 +3,7 @@
 ## HOQCutil 0.1.27
 
 * 04dec2022   
-   + `read_pdf` and `read_pdf_line` extended
+   + `read_pdf` and `read_pdf_line` extended. `cut3d` added
 
 ## HOQCutil 0.1.26
 

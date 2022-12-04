@@ -7,28 +7,28 @@
 #' @name read_pdf
 #' @param filename Character string with path of the pdf-file
 #' @param vtolerance Numeric scalar with vertical tolerance
-#' @param block_breaks to be included
+#' @param frame_table data.frame indicating data frames on pages
 #' @param by Character string with value "line" or "cell" indicating if text is gathered by text line or cell
 #' @return read_pdf returns a data.frame with the fields \cr
-#' "page", "seqnr", "blocknr", "width", "height", "space", "x", "y" and "text"  when `by` == 'cell' and \cr
-#' "page", "blocknr", "seqnr", "x", "y" and "text" when `by` == 'line' \cr \cr
+#' "page", "seqnr", "framenr", "width", "height", "space", "x", "y" and "text"  when `by` == 'cell' and \cr
+#' "page", "framenr", "seqnr", "x", "y" and "text" when `by` == 'line' \cr \cr
 #' read_pdf_line always returns a data.frame with the fields
-#' "page", "blocknr", "seqnr", "x", "y" and "text" \cr \cr
+#' "page", "framenr", "seqnr", "x", "y" and "text" \cr \cr
 #' read_pdf_fields returns a data.frame with the table . All fields have character values
 #' @export
 #' @rdname readpdffuns
 #' @examples
 #' \dontrun{
 #' df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "line")
-#' names(df1) # [1] "page"    "blocknr" "seqnr"   "x"       "y"       "text"
+#' names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 #' df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
-#' names(df1) # [1] "page"    "seqnr"   "blocknr" "width"   "height"  "space"   "x"       "y"       "text"
+#' names(df1) # [1] "page"    "seqnr"   "framenr" "width"   "height"  "space"   "x"       "y"       "text"
 #' }
 #'
 
 read_pdf <- function (filename,
                       vtolerance = 2,
-                      block_breaks = NULL,
+                      frame_table = NULL,
                       by = "line") {
   df1 <- pdftools::pdf_data(filename)
   if (length(df1) == 0)
@@ -50,16 +50,16 @@ read_pdf <- function (filename,
     dplyr::rename(y = y2) |>
     tidyr::unnest(data) |>
     dplyr::arrange(page, y, x)
-  if (is.null(block_breaks)) {
+  if (is.null(frame_table)) {
     df1 <- df1 |>
-      dplyr::mutate (blocknr = 1)
+      dplyr::mutate (framenr = 1)
   } else {
-    df1 <- df1 |>
-      dplyr::mutate (blocknr = cut(x, breaks = block_breaks, labels = F))
+    framenr <- cut3d(df1[c('page','x','y'),],frame_table)
+    df1 <- dplyr::mutate (df1,framenr = !!framenr)
   }
   df1 <- df1 |>
-    dplyr::select (page, seqnr, blocknr, width, height, space, x, y, text) |>
-    dplyr::arrange(page, blocknr, y, x)
+    dplyr::select (page, seqnr, framenr, width, height, space, x, y, text) |>
+    dplyr::arrange(page, framenr, y, x)
   if (by == "line") {
     df1 <- hoqc_read_pdf_line(df1)
   }
@@ -72,28 +72,30 @@ read_pdf <- function (filename,
 #' @param read_pdf_df data.frame created by `read_pdf` function
 #' @section Details:
 #' Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
-#' The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'.
+#' The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'. \cr \cr
+#' The `frame_table` is a data.frame that indicates the location of
+#'
 #' @export
 #' @rdname readpdffuns
 #' @examples
 #' \dontrun{
 #' df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
 #' df2 <- read_pdf_line(df1)
-#' names(df1) # [1] "page"    "blocknr" "seqnr"   "x"       "y"       "text"
+#' names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 #' }
 
 read_pdf_line <- function (read_pdf_df) {
   # read_pdf_df is a data.frame created by read_pdf
   read_pdf_df |>
     dplyr::mutate(space = ifelse(space == T, " ", "")) |>
-    dplyr::nest_by(page, blocknr, y)  |>
+    dplyr::nest_by(page, framenr, y)  |>
     dplyr::mutate(
       x = data$x[1],
       seqnr = data$seqnr[1],
       text = paste(data$text, data$space, collapse = "", sep = "")
     ) |>
     dplyr::ungroup() |>
-    dplyr::select(page, blocknr, seqnr, x, y, text)
+    dplyr::select(page, framenr, seqnr, x, y, text)
 }
 
 
@@ -164,4 +166,68 @@ read_pdf_fields <- function (filename,
   }
 
   mufun(fields, lines)
+}
+
+
+#' classify 3D data according to rules
+#'
+#' @name cut3d
+#' @param df1 data.frame with three columns of numerical data that is to be classified (i.e. assigned a number)
+#' @param dfclass  data.frame with the rules used for classifying. See Details
+#' @param def  numeric value that is assigned to row of `df1` when no rule is satisfied
+#' @section Details:
+#' `dfclass` (containing the rules) is a data.frame with seven columns: tree times the lower and upper boundary of each of three dimensions
+#' and the numeric value that is assigned when a row from `df1` satisfies the rule.
+#' A row satifies a rule if each of its fields has a value in the range `[lower,upper]` or when the lower bound is NaN.
+#' If the rule is not satisfied, the next rule is checked and so on.
+#' @export
+#' @examples
+#' \dontrun{
+#' d123tab <- tibble::tribble(
+#'   ~d1L, ~d1U, ~d2L, ~d2U, ~d3L, ~d3U, ~r ,
+#'    1,    1,    1,    1,    NaN,  NaN, 1 ,
+#'    1,    1,    2,    3,    NaN,  NaN, 2 ,
+#'    1,    1,    4,    4,    1,    1,   3 ,
+#'    1,    1,    4,    5,    2,    3,   4 ,
+#'    1,    1,    NaN,  NaN,  4,    10,   5
+#' )
+#'
+#' mymat <- tibble::tribble(
+#'   ~d1, ~d2, ~d3,
+#'   1, 1, 6,
+#'   1, 4, 1,
+#'   1, 4, 6 ,
+#'   1, 4, 12
+#' )
+#'
+#' cut3d(mymat,d123tab)
+#' # [1] 1 3 5 1
+#'
+#' }
+#'
+
+cut3d <- function (df1, dfclass,def=1) {
+  cut3d1 <- function (dfL, dfclass, def1) {
+    res = def1
+    for (i in seq(nrow(dfclass))) {
+      d1 <- ifelse( is.na(dfclass[i,1]) |
+                    ((dfclass[i,1] <= dfL$d1) &
+                    (dfclass[i,2] >= dfL$d1)), T,F)
+      if (d1 == F) next ;
+      d2 <- ifelse( is.na(dfclass[i,3]) |
+                    ((dfclass[i,3] <= dfL$d2) &
+                    (dfclass[i,4] >= dfL$d2)), T,F)
+      if (d2 == F) next ;
+      d3 <- ifelse( is.na(dfclass[i,5]) |
+                    ((dfclass[i,5] <= dfL$d3) &
+                    (dfclass[i,6] >= dfL$d3)), T,F)
+      if (d3 == T) {
+        res <- dfclass[[i,7]]
+        break
+      }
+    }
+    res
+  }
+  dfL <- purrr::pmap(as.list(df1), list) # https://rpubs.com/wch/200398
+  purrr::map_dbl(dfL,~cut3d1(.,dfclass,def1=def))
 }

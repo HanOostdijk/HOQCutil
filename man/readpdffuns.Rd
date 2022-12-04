@@ -6,7 +6,7 @@
 \alias{read_pdf_fields}
 \title{read text of pdf-file by line, cell or table}
 \usage{
-read_pdf(filename, vtolerance = 2, block_breaks = NULL, by = "line")
+read_pdf(filename, vtolerance = 2, frame_table = NULL, by = "line")
 
 read_pdf_line(read_pdf_df)
 
@@ -23,7 +23,7 @@ read_pdf_fields(
 
 \item{vtolerance}{Numeric scalar with vertical tolerance to fix vertical mismatches}
 
-\item{block_breaks}{to be included}
+\item{frame_table}{data.frame indicating data frames on pages}
 
 \item{by}{Character string with value "line" or "cell" indicating if text is gathered by text line or cell}
 
@@ -37,10 +37,10 @@ read_pdf_fields(
 }
 \value{
 read_pdf returns a data.frame with the fields \cr
-"page", "seqnr", "blocknr", "width", "height", "space", "x", "y" and "text"  when \code{by} == 'cell' and \cr
-"page", "blocknr", "seqnr", "x", "y" and "text" when \code{by} == 'line' \cr \cr
+"page", "seqnr", "framenr", "width", "height", "space", "x", "y" and "text"  when \code{by} == 'cell' and \cr
+"page", "framenr", "seqnr", "x", "y" and "text" when \code{by} == 'line' \cr \cr
 read_pdf_line always returns a data.frame with the fields
-"page", "blocknr", "seqnr", "x", "y" and "text" \cr \cr
+"page", "framenr", "seqnr", "x", "y" and "text" \cr \cr
 read_pdf_fields returns a data.frame with the table . All fields have character values
 }
 \description{
@@ -51,7 +51,8 @@ The function \code{read_pdf_fields} reads text of a table from a page of a pdf-f
 \section{Details}{
 
 Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
-The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'.
+The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'. \cr \cr
+The \code{frame_table} is a data.frame that indicates the location of
 
 
 Using read_pdf_fields,it is assumed that the table occupies a whole page and that the columns are defined by the words in the header.\cr
@@ -66,15 +67,15 @@ The actual reading of the file is done with  \code{\link{read_pdf}} and  \code{\
 \examples{
 \dontrun{
 df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "line")
-names(df1) # [1] "page"    "blocknr" "seqnr"   "x"       "y"       "text"
+names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
-names(df1) # [1] "page"    "seqnr"   "blocknr" "width"   "height"  "space"   "x"       "y"       "text"
+names(df1) # [1] "page"    "seqnr"   "framenr" "width"   "height"  "space"   "x"       "y"       "text"
 }
 
 \dontrun{
 df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
 df2 <- read_pdf_line(df1)
-names(df1) # [1] "page"    "blocknr" "seqnr"   "x"       "y"       "text"
+names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 }
 \dontrun{
 df1 <- read_pdf_fields (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)" )
