@@ -6,7 +6,7 @@
 \alias{read_pdf_fields}
 \title{read text of pdf-file by line, cell or table}
 \usage{
-read_pdf(filename, vtolerance = 2, frame_table = NULL, by = "line")
+read_pdf(filename, vtolerance = 6, frame_table = NULL, by = "line")
 
 read_pdf_line(read_pdf_df)
 
@@ -23,7 +23,7 @@ read_pdf_fields(
 
 \item{vtolerance}{Numeric scalar with vertical tolerance to fix vertical mismatches}
 
-\item{frame_table}{data.frame indicating data frames on pages}
+\item{frame_table}{data.frame indicating data frames on pages. See Details}
 
 \item{by}{Character string with value "line" or "cell" indicating if text is gathered by text line or cell}
 
@@ -49,6 +49,11 @@ The output of \code{read_pdf} on cell level can be combined by function \code{re
 The function \code{read_pdf_fields} reads text of a table from a page of a pdf-file. \cr
 }
 \section{Details}{
+
+Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
+The \code{frame_table} is a data.frame that indicates the location of the frames in the pages.
+The function \code{\link[=cut3d]{cut3d()}} is used to assign a frame number to each cell. See this function for a description
+
 
 Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
 The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'. \cr \cr

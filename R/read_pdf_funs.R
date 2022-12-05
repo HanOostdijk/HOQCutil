@@ -7,7 +7,7 @@
 #' @name read_pdf
 #' @param filename Character string with path of the pdf-file
 #' @param vtolerance Numeric scalar with vertical tolerance
-#' @param frame_table data.frame indicating data frames on pages
+#' @param frame_table data.frame indicating data frames on pages. See Details
 #' @param by Character string with value "line" or "cell" indicating if text is gathered by text line or cell
 #' @return read_pdf returns a data.frame with the fields \cr
 #' "page", "seqnr", "framenr", "width", "height", "space", "x", "y" and "text"  when `by` == 'cell' and \cr
@@ -15,6 +15,11 @@
 #' read_pdf_line always returns a data.frame with the fields
 #' "page", "framenr", "seqnr", "x", "y" and "text" \cr \cr
 #' read_pdf_fields returns a data.frame with the table . All fields have character values
+#' @section Details:
+#' Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
+#' The `frame_table` is a data.frame that indicates the location of the frames in the pages.
+#' The function [cut3d()] is used to assign a frame number to each cell. See this function for a description
+#'
 #' @export
 #' @rdname readpdffuns
 #' @examples
@@ -27,7 +32,7 @@
 #'
 
 read_pdf <- function (filename,
-                      vtolerance = 2,
+                      vtolerance = 6,
                       frame_table = NULL,
                       by = "line") {
   df1 <- pdftools::pdf_data(filename)
@@ -36,10 +41,17 @@ read_pdf <- function (filename,
   df1 <-
     purrr::imap_dfr(df1, function(x, i)
       cbind(data.frame(page = i), x)) |>
-    dplyr::mutate(seqnr = dplyr::row_number()) |>
-    dplyr::arrange(page, y, x)
+    dplyr::mutate(seqnr = dplyr::row_number())
+  if (is.null(frame_table)) {
+    df1 <- df1 |>
+      dplyr::mutate (framenr = 1)
+  } else {
+    framenr <- cut3d(df1[,c('page','x','y')],frame_table)
+    df1 <- dplyr::mutate (df1,framenr = !!framenr)
+  }
   df1 <- df1 |>
-    dplyr::nest_by(page, y) |>
+    dplyr::arrange(page, framenr, y, x) |>
+    dplyr::nest_by(page, framenr, y) |>
     dplyr::ungroup() |>
     # if difference with previous is small (< vtolerance), then keep them the same
     dplyr::mutate(y1 = lag(y, default = -vtolerance - 1) ,
@@ -49,15 +61,6 @@ read_pdf <- function (filename,
     dplyr::select(-c(y, y1)) |>
     dplyr::rename(y = y2) |>
     tidyr::unnest(data) |>
-    dplyr::arrange(page, y, x)
-  if (is.null(frame_table)) {
-    df1 <- df1 |>
-      dplyr::mutate (framenr = 1)
-  } else {
-    framenr <- cut3d(df1[c('page','x','y'),],frame_table)
-    df1 <- dplyr::mutate (df1,framenr = !!framenr)
-  }
-  df1 <- df1 |>
     dplyr::select (page, seqnr, framenr, width, height, space, x, y, text) |>
     dplyr::arrange(page, framenr, y, x)
   if (by == "line") {
@@ -207,27 +210,29 @@ read_pdf_fields <- function (filename,
 #'
 
 cut3d <- function (df1, dfclass,def=1) {
-  cut3d1 <- function (dfL, dfclass, def1) {
-    res = def1
-    for (i in seq(nrow(dfclass))) {
-      d1 <- ifelse( is.na(dfclass[i,1]) |
-                    ((dfclass[i,1] <= dfL$d1) &
-                    (dfclass[i,2] >= dfL$d1)), T,F)
-      if (d1 == F) next ;
-      d2 <- ifelse( is.na(dfclass[i,3]) |
-                    ((dfclass[i,3] <= dfL$d2) &
-                    (dfclass[i,4] >= dfL$d2)), T,F)
-      if (d2 == F) next ;
-      d3 <- ifelse( is.na(dfclass[i,5]) |
-                    ((dfclass[i,5] <= dfL$d3) &
-                    (dfclass[i,6] >= dfL$d3)), T,F)
-      if (d3 == T) {
-        res <- dfclass[[i,7]]
-        break
-      }
-    }
-    res
-  }
+
   dfL <- purrr::pmap(as.list(df1), list) # https://rpubs.com/wch/200398
   purrr::map_dbl(dfL,~cut3d1(.,dfclass,def1=def))
+}
+
+cut3d1 <- function (dfL, dfclass, def1) {
+  res = def1
+  for (i in seq(nrow(dfclass))) {
+    d1 <- ifelse( is.na(dfclass[i,1]) |
+                  ((dfclass[i,1] <= dfL[[1]]) &
+                  (dfclass[i,2] >= dfL[[1]])), T,F)
+    if (d1 == F) next ;
+    d2 <- ifelse( is.na(dfclass[i,3]) |
+                  ((dfclass[i,3] <= dfL[[2]]) &
+                  (dfclass[i,4] >= dfL[[2]])), T,F)
+    if (d2 == F) next ;
+    d3 <- ifelse( is.na(dfclass[i,5]) |
+                  ((dfclass[i,5] <= dfL[[3]]) &
+                  (dfclass[i,6] >= dfL[[3]])), T,F)
+    if (d3 == T) {
+      res <- dfclass[[i,7]]
+      break
+    }
+  }
+  res
 }
