@@ -13,12 +13,13 @@ test_that("retrieve global info", {
   contents1b = jsonlite::fromJSON(get_beta(restype='json'))
   contents1c = get_beta(restype='resp')
   expect_identical(class(contents1),"data.frame")
-  expect_identical(dim(contents1),c(2L,3L))
+  expect_identical(dim(contents1),c(3L,3L))
+  expect_identical(dplyr::pull(contents1,"name"),c("Datasets","Catalogs","ReleaseCalendar"))
   expect_identical(class(cats1),"data.frame")
-  expect_identical(dim(cats1),c(2L,9L))
+  expect_identical(dim(cats1),c(2L,10L))
   expect_identical(class(dsets1),"data.frame")
   expect_true(dim(dsets1)[1]>0)
-  expect_equal(dim(dsets1)[2],13)
+  expect_equal(dim(dsets1)[2],16)
   expect_identical(class(xml1),c("xml_document", "xml_node"))
   expect_identical(contents1,contents1a)
   expect_equal(names(contents1b),c("@odata.context", "value"))
@@ -36,10 +37,10 @@ test_that("retrieve cat info", {
   expect_identical(class(contents2),"data.frame")
   expect_identical(dim(contents2),c(2L,3L))
   expect_identical(class(cats2),"data.frame")
-  expect_identical(dim(cats2),c(1L,9L))
+  expect_identical(dim(cats2),c(1L,10L))
   expect_identical(class(dsets2),"data.frame")
   expect_true(dim(dsets2)[1]>0)
-  expect_equal(dim(dsets2)[2],13)
+  expect_equal(dim(dsets2)[2],16)
 })
 
 context('get_table_cbs_odata4 retrieve table info\n')
@@ -64,11 +65,11 @@ test_that("retrieve table info", {
 
   subtable1 = get_beta(subtable='Properties')
   expect_identical(class(subtable1),"list")
-  expect_equal(length(subtable1),28L)
+  expect_equal(length(subtable1),29L)
 
   subtable2 = get_beta(subtable='MeasureCodes')
   expect_identical(class(subtable2),"data.frame")
-  expect_equal(dim(subtable2)[2],10L)
+  expect_equal(dim(subtable2)[2],9L)
 
   if ('MeasureGroups' %in% contents3$name) {
     subtable3 = get_beta(subtable='MeasureGroups')
@@ -78,7 +79,7 @@ test_that("retrieve table info", {
 
   subtable4 = get_beta(subtable='Dimensions')
   expect_identical(class(subtable4),"data.frame")
-  expect_equal(dim(subtable4)[2],6L)
+  expect_equal(dim(subtable4)[2],11L)
 
   # Handling of codes and groups in Dimensions
   purrr::walk(subtable4$Identifier,
@@ -99,6 +100,38 @@ test_that("retrieve table info", {
 
 })
 
+context('get_table_cbs_odata4 large results\n')
+
+
+test_that("table queries count, skip, top", {
+  table_id  = '900002NED'
+  odata_cat = 'CBS-asd'
+  get_beta  =
+    purrr::partial(HOQCutil::get_table_cbs_odata4,
+                   table_id  = table_id,
+                   odata_cat = odata_cat)
+
+  q0 = as.integer(get_beta(subtable='Observations',query="$count"))
+  q1 = get_beta(subtable='Observations',query="$select=Id,Measure")
+  expect_equal(q0,nrow(q1))
+  expect_equal(ncol(q1),2)
+
+  # $skip and $top
+  q0 = get_beta(subtable='MeasureCodes')$Identifier
+  q1 = get_beta(subtable='MeasureCodes',query='$skip=1')$Identifier
+  q2 = get_beta(subtable='MeasureCodes',query='$top=2')$Identifier
+  q3 = get_beta(subtable='MeasureCodes',query='$skip=1&$top=1')$Identifier
+
+  if (q5 > 1) {
+    expect_equal(q1, q0[-1])
+    expect_equal(q2, q0[1:2])
+    expect_equal(q3, q0[2])
+  } else {
+    expect_true(is.null(q1))
+    expect_equal(length(q2), 1L)
+    expect_true(is.null(q3))
+  }
+})
 
 context('get_table_cbs_odata4 table queries count, skip, top\n')
 
@@ -150,37 +183,37 @@ context('get_table_cbs_odata4 table queries startswith, endswith, substring, con
 
 
 test_that("table queries startswith, endswith, substr, contains, length", {
-  table_id  = '900002NED'
-  odata_cat = 'CBS-asd'
+  table_id  = '83300NED'
+  odata_cat = 'CBS'
   get_beta  =
     purrr::partial(HOQCutil::get_table_cbs_odata4,
                    table_id  = table_id,
                    odata_cat = odata_cat)
 
-  q0 = get_beta(subtable='Observations')
+  q0 = get_beta(subtable='NederlandseEconomieCodes')
 
-  q1 = q0[stringr::str_detect(q0$OData3Identifier,'^Uitvoer'),]
+  q1 = q0[stringr::str_detect(q0$Description,'^Vervaard'),]
   rownames(q1)=NULL
-  q2 = get_beta(subtable='Observations',query="$filter=startswith(OData3Identifier,'Uitvoer')")
+  q2 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=startswith(Description,'Vervaard')")
   expect_identical(q1,q2)
-  q3 = q0[stringr::str_detect(q0$OData3Identifier,'_20$'),]
+  q3 = q0[stringr::str_detect(q0$Title,'visserij$'),]
   rownames(q3)=NULL
-  q4 = get_beta(subtable='Observations',query="$filter=endswith(OData3Identifier,'_20')")
+  q4 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=endswith(Title,'visserij')")
   expect_identical(q3,q4)
 
-  q5 = q0[stringr::str_detect(q0$OData3Identifier,stringr::regex('Uitvoer',ignore_case=F)),]
+  q5 = q0[stringr::str_detect(q0$Title,stringr::regex('visserij',ignore_case=F)),]
   rownames(q5)=NULL
-  q6 = get_beta(subtable='Observations',query="$filter=contains(OData3Identifier,'Uitvoer')")
+  q6 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=contains(Title,'visserij')")
   expect_identical(q5,q6)
 
-  q7 = q0[stringr::str_sub(q0$OData3Identifier,12,18) == 'Uitvoer',]
+  q7 = q0[stringr::str_sub(q0$Description,5,8) == 'aard',]
   rownames(q7)=NULL
-  q8 = get_beta(subtable='Observations',query="$filter=substring(OData3Identifier,11,7) eq 'Uitvoer'")
+  q8 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=substring(Description,4,4) eq 'aard'")
   expect_identical(q7,q8)
 
-  q9 = q0[stringr::str_length(q0$OData3Identifier) == 12,]
+  q9 = q0[stringr::str_length(q0$Title) == 31,]
   rownames(q9)=NULL
-  q10 = get_beta(subtable='Observations',query="$filter=length(OData3Identifier) eq 12")
+  q10 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=length(Title) eq 31")
   expect_identical(q9,q10)
 
 })
@@ -251,7 +284,7 @@ test_that("table queries table queries ne, mod, not, in", {
   q4 = get_beta(subtable='Observations',
                 query="$filter=Id in (3, 9, 13)" )[,1]
   q5 = get_beta(subtable='Observations',
-                query="$filter=(Id le 15) and substring(OData3Identifier,0,6) in ('Totaal','Winnin')" )
+                query="$filter=(Id le 15) and substring(OData3Identifier,0,6) in ('Reisti','SfeerT')" )
   q5 = unique(stringr::str_sub(q5$OData3Identifier,1,6))
   q6 =  get_beta(subtable='Observations',
                  query = "$select=Id,Measure&$top=3")
@@ -259,7 +292,7 @@ test_that("table queries table queries ne, mod, not, in", {
   expect_identical(q1, q2)
   expect_identical(q2, q3)
   expect_identical(q4, c(3L, 9L, 13L))
-  expect_equal(q5, c('Totaal','Winnin'))
+  expect_equal(q5, c('Reisti','SfeerT'))
   expect_equal(dim(q6), c(3,2))
   expect_equal(names(q6), c('Id','Measure'))
 
@@ -290,42 +323,40 @@ test_that("table queries table queries  date and time", {
   q1 = get_beta(subtable='Datasets',query=query )
   expect_identical(q0[1,], q1)
 
-  # orderby not implemented
-  q2 = q0[order(q0$ObservationsModified,decreasing = F),]
-  q3 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified")
-  expect_false(all(q2$ObservationsModified == q3$ObservationsModified))
-
-  q4 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified asc")
-  q5 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified desc")
-  q6 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified ??")
-  expect_identical(q3,q4)
-  expect_identical(q4,q5)
-  expect_identical(q5,q6)
+  # orderby now implemented
+  q2a = q0[order(q0$ObservationsModified,decreasing = F),]
+  q2b = q0[order(q0$ObservationsModified,decreasing = T),]
+  q3 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified asc")
+  q4 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified desc")
+  q5 = get_beta(subtable='Datasets',query="$select=Identifier,ObservationsModified&orderby=ObservationsModified")
+  expect_identical(q3,q5)
+  expect_true(all(q2a$ObservationsModified == q3$ObservationsModified))
+  expect_true(all(q2b$ObservationsModified == q4$ObservationsModified))
 
 })
 
 context('get_table_cbs_odata4 table queries tolower, toupper, indexof  \n')
 
 test_that("table queries table queries  date and time", {
-  table_id  = '900002NED'
-  odata_cat = 'CBS-asd'
+  table_id  = '83300NED'
+  odata_cat = 'CBS'
   get_beta  =
     purrr::partial(HOQCutil::get_table_cbs_odata4,
                    table_id  = table_id,
                    odata_cat = odata_cat)
 
-  q0 = get_beta(subtable='Observations')
+  q0 = get_beta(subtable='NederlandseEconomieCodes')
 
-  q1 = q0[stringr::str_detect(q0$OData3Identifier,stringr::regex('uitvoer',ignore_case = T)),]
-  rownames(q1)=NULL
-  q2 = get_beta(subtable='Observations',query="$filter=contains(tolower(OData3Identifier),'uitvoer')")
-  q3 = get_beta(subtable='Observations',query="$filter=contains(toupper(OData3Identifier),'UITVOER')")
+  q1 = q0[stringr::str_detect(q0$Description,stringr::regex('hout',ignore_case = T)),]
+  q2 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=contains(tolower(Description),'hout')")
+  q3 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=contains(toupper(Description),'HOUT')")
+  rownames(q1)=NULL ;rownames(q2)=NULL;rownames(q3)=NULL
   expect_identical(q1,q2)
   expect_identical(q1,q3)
 
-  q4 = q0[stringr::str_sub(q0$OData3Identifier,11,15)=='IGDFI',]
-  rownames(q4)=NULL
-  q5 = get_beta(subtable='Observations',query="$filter=indexof(OData3Identifier,'IGDFI') eq 10")
+  q4 = q0[stringr::str_sub(q0$Description,5,8)=='aard',]
+  q5 = get_beta(subtable='NederlandseEconomieCodes',query="$filter=indexof(Description,'aard') eq 4")
+  rownames(q4)=NULL;  rownames(q5)=NULL
   expect_identical(q4,q5)
 
 })

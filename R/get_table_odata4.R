@@ -161,7 +161,14 @@ get_table_cbs_odata4_GET <- function (url,
 	  return(txt1)
 	else if (jsn1) {
 		if (!is.null(e$value)) {
-			return(e$value)
+		  ev = e$value
+		  while (!is.null(e$`@odata.nextLink`)) {
+		    res1 = httr::GET(e$`@odata.nextLink`)
+  	    txt1 = httr::content(res1, as = "text",encoding='UTF-8')
+	   		e = get_jsonx(txt1)
+		    ev <- rbind(ev,e$value)
+		  }
+			return(ev)
 		} else {
 			return(e)
 		}

@@ -3,7 +3,8 @@
 ## HOQCutil 0.1.27
 
 * 04dec2022   
-   + `read_pdf` and `read_pdf_line` extended. `cut3d` added
+   + `read_pdf` and `read_pdf_line` extended and therefore `cut3d` added
+   + `get_table_cbs_odata4` now can handle queries with more than 100000 rows as result
 
 ## HOQCutil 0.1.26
 
