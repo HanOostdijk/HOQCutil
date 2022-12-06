@@ -27,7 +27,7 @@
 #' df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "line")
 #' names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 #' df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
-#' names(df1) # [1] "page"    "seqnr"   "framenr" "width"   "height"  "space"   "x"       "y"       "text"
+#' names(df1) # [1] "page"    "framenr" "seqnr"   "width"   "height"  "space"   "x"       "y"       "text"
 #' }
 #'
 
@@ -54,17 +54,17 @@ read_pdf <- function (filename,
     dplyr::nest_by(page, framenr, y) |>
     dplyr::ungroup() |>
     # if difference with previous is small (< vtolerance), then keep them the same
-    dplyr::mutate(y1 = lag(y, default = -vtolerance - 1) ,
+    dplyr::mutate(y1 = dplyr::lag(y, default = -vtolerance - 1) ,
                   y2 = ifelse(abs(y - y1) > vtolerance, y, NaN)) |>
     tidyr::fill(y2, .direction = "down") |>
     # corrected y now in y2, remove temp. fields and rename
     dplyr::select(-c(y, y1)) |>
     dplyr::rename(y = y2) |>
     tidyr::unnest(data) |>
-    dplyr::select (page, seqnr, framenr, width, height, space, x, y, text) |>
+    dplyr::select (page, framenr, seqnr, width, height, space, x, y, text) |>
     dplyr::arrange(page, framenr, y, x)
   if (by == "line") {
-    df1 <- hoqc_read_pdf_line(df1)
+    df1 <- read_pdf_line(df1)
   }
   df1
 }

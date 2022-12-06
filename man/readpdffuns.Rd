@@ -74,7 +74,7 @@ The actual reading of the file is done with  \code{\link{read_pdf}} and  \code{\
 df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "line")
 names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
-names(df1) # [1] "page"    "seqnr"   "framenr" "width"   "height"  "space"   "x"       "y"       "text"
+names(df1) # [1] "page"    "framenr" "seqnr"   "width"   "height"  "space"   "x"       "y"       "text"
 }
 
 \dontrun{
