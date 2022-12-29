@@ -21,21 +21,19 @@ test_that("cut3d", {
   expect_equal(r1,c( 1, 3, 5, 1))
 })
 
-test_that("read pdf functions", {
+test_that("text2pdf and read pdf functions", {
   # create a pdf with the lines from regels1
   tmp     <- tempfile()
-  tmp_in  <- paste0(tmp,".txt")
   tmp_out <- paste0(tmp,".pdf")
   regels1 <- c('en dat is één', 'en dat is twee', 'en dat is zev-e-ven')
-  regels2 <- c("```",regels1,"```")
-  cat(regels2,file=tmp_in,sep="\n")
-  v = system(glue::glue("pandoc {tmp_in} -o {tmp_out}"),intern=T)
+  v <- text2pdf(regels1,tmp_out)
+
   # execute the functions
   x1 <- HOQCutil::read_pdf(tmp_out,by="cell")
   x2 <- HOQCutil::read_pdf(tmp_out,by="line")
   x3 <- HOQCutil::read_pdf_line(x1)
 
-  unlink(c(tmp_in,tmp_out))
+  unlink(tmp_out)
 
   b1 <- c(regels1,"1")                       # pagenumber is added by pandoc
   a1 <-  paste(b1,"#",sep="",collapse=" ")   # string with all words and last word in line has #
@@ -43,6 +41,7 @@ test_that("read pdf functions", {
   a1a <- stringr::str_remove(a1,"#$")           # remove the #
   a1b <- stringr::str_detect(a1,"#$",negate=T)  # which words have #
 
+  expect_true(is.null(v))
   expect_identical(x2,x3)
   expect_identical(names(x1),
          c("page", "framenr", "seqnr", "width", "height", "space", "x", "y", "text" ))
@@ -52,3 +51,5 @@ test_that("read pdf functions", {
   expect_identical(a1a,dplyr::pull(x1,"text"))
   expect_identical(a1b,dplyr::pull(x1,"space"))
 })
+
+

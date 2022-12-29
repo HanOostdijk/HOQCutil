@@ -236,3 +236,34 @@ cut3d1 <- function (dfL, dfclass, def1) {
   }
   res
 }
+
+
+#' write text to pdf file
+#'
+#' @name text2pdf
+#' @param txt character vector with data to write to pdffile
+#' @param pdffile  character string with name (optionally with full path) of pdf file
+#' @section Details:
+#' `text2pdf` writes `txt` to a temporary text file with an additional line
+#'  added before and after `txt` with three backticks.
+#'  `pandoc` then considers the file as verbatim text and converts it to a pdf file
+#' @return NULL
+#' @export
+#' @examples
+#' \dontrun{
+#' outfile <- "testfile.pdf"
+#' txt     <- c('en dat is één', 'en dat is twee', 'en dat is zev-e-ven')
+#' v <- text2pdf (txt, outfile)
+#' }
+#'
+
+text2pdf <- function(txt, pdffile) {
+  tmp_in  <- tempfile(fileext = ".txt" )
+  txt1 <- c("```", txt, "```")
+  cat(txt1, file = tmp_in, sep = "\n")
+  v <- system(glue::glue("pandoc {tmp_in} -o {pdffile}"), intern = T)
+  v <- unlink(tmp_in)
+  invisible()
+}
+
+

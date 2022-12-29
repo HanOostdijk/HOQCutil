@@ -24,6 +24,7 @@ Currently the package includes
 * function `igs` that can be used to insert an html statement to include an image in a web document
 * function `hugo_plot_hook` is a knitr plot hook for use in the Hugo environment.
 * functions `read_pdf`, `read_pdf_line` , `read_pdf_fields` and `cut3d` are used for reading PDF text data
+* function `text2pdf` to write a character vector to a pdf file
 
 ## Install HOQCutil
 

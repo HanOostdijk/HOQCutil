@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.28
+
+* 29dec2022   
+   + `text2pdf` added
+
 ## HOQCutil 0.1.27
 
 * 04dec2022   
