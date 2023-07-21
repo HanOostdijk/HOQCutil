@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.29
+
+* 21jul2023   
+   + `read_pdf_cut` added
+
 ## HOQCutil 0.1.28
 
 * 29dec2022   

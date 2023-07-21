@@ -3,12 +3,15 @@
 \name{read_pdf}
 \alias{read_pdf}
 \alias{read_pdf_line}
+\alias{read_pdf_cut}
 \alias{read_pdf_fields}
-\title{read text of pdf-file by line, cell or table}
+\title{read text of pdf-file by cell, line or table}
 \usage{
-read_pdf(filename, vtolerance = 6, frame_table = NULL, by = "line")
+read_pdf(filename, vtolerance = 6, frame_table = NULL, by = "cell")
 
 read_pdf_line(read_pdf_df)
+
+read_pdf_cut(read_pdf_df, pdf_df, no_data_lines = c(1, 2), id = NULL)
 
 read_pdf_fields(
   filename,
@@ -27,7 +30,15 @@ read_pdf_fields(
 
 \item{by}{Character string with value "line" or "cell" indicating if text is gathered by text line or cell}
 
-\item{read_pdf_df}{data.frame created by \code{read_pdf} function}
+\item{read_pdf_df}{data.frame created by \code{read_pdf} (by="cell") function}
+
+\item{pdf_df}{data.frame describing fields and their lower position.
+If a field can have missing values then set \code{optmissing} to \code{TRUE}}
+
+\item{no_data_lines}{integer vector with line numbers of lines to be deleted}
+
+\item{id}{Named character or \code{NULL} . When not \code{NULL} \code{id} will be inserted as field in the resulting data.frame.
+The name of the field is the name attribure of \code{id}.}
 
 \item{htolerance}{Numeric scalar with horizontal tolerance to fix mismatches field contents (field starts before header)}
 
@@ -36,37 +47,55 @@ read_pdf_fields(
 \item{pageno}{Integer indicating the number of the page to read}
 }
 \value{
-read_pdf returns a data.frame with the fields \cr
-"page", "seqnr", "framenr", "width", "height", "space", "x", "y" and "text"  when \code{by} == 'cell' and \cr
-"page", "framenr", "seqnr", "x", "y" and "text" when \code{by} == 'line' \cr \cr
-read_pdf_line always returns a data.frame with the fields
+\code{read_pdf} \cr
+returns a data.frame with the fields: \cr
+"page", "seqnr", "framenr", "width", "height", "space", "x", "y" and "text"  \cr
+when \code{by} == 'line' the fields are: \cr
 "page", "framenr", "seqnr", "x", "y" and "text" \cr \cr
-read_pdf_fields returns a data.frame with the table . All fields have character values
+\code{read_pdf_line} always returns a data.frame with the fields:\cr
+"page", "framenr", "seqnr", "x", "y" and "text" \cr \cr
+\code{read_pdf_fields} and \code{read_pdf_cut} return a data.frame with the table . \cr
+All fields have character values
 }
 \description{
-The function \code{read_pdf} reads the text of pdf-file on cell or line level. \cr
-The output of \code{read_pdf} on cell level can be combined by function \code{read_pdf_line} to get the output on line level.\cr
-The function \code{read_pdf_fields} reads text of a table from a page of a pdf-file. \cr
+The function \code{read_pdf} reads the text of pdf-file on cell level.\cr
+In this way all attributes of the data are available and can be studied (e.g. for use in \code{read_pdf_cut}).\cr
+The output of all \verb{read_pdf*} functions is in the format of a data.frame. \cr\cr
+The function \code{read_pdf_line} can use the output of \code{read_pdf} (i.e. a data.frame) and collect all data per line as a character string.\cr
+By specifying the argument \code{by="line"} in \code{read_pdf} the \code{read_pdf_line} function is called automatically.\cr\cr
+The functions \code{read_pdf_fields} and \code{read_pdf_cut} read text of a table from a page of a pdf-file. \cr\cr
+The function \code{read_pdf_fields} tries to do this automatically by assuming that the header of a fields starts before
+(the x-value is not greater with a given \code{htolerance}) the corresponding data. This does not always work. \cr
+Input for the function is the actual pdf-file.\cr\cr
+The function \code{read_pdf_cut} uses a description of the fields with the lowest x-value of data of each field.
+The description is contained in a data.frame that also specifies the name of the fields and if the field has missing values.\cr
+Input for the function is the output of \code{read-pdf} that has to be studied to determine the 'lowest x-value'
 }
 \section{Details}{
 
-Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
+Actual reading of a pdf-file uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr\cr
+\code{read_pdf} \cr
 The \code{frame_table} is a data.frame that indicates the location of the frames in the pages.
-The function \code{\link[=cut3d]{cut3d()}} is used to assign a frame number to each cell. See this function for a description
+The function \code{\link[=cut3d]{cut3d()}} is used to assign a frame number to each cell. See this function for a description \cr\cr
 
 
-Uses \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} as workhorse . \cr
+\code{read_pdf_line} \cr
 The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'. \cr \cr
-The \code{frame_table} is a data.frame that indicates the location of
 
 
-Using read_pdf_fields,it is assumed that the table occupies a whole page and that the columns are defined by the words in the header.\cr
+\code{read_pdf_cut} \cr
+\code{read_pdf_cut} uses the output of \code{read_pdf} (by="cell") and fills the fields of a table according to the specification of
+data.frame \code{pdf_df}. See the examples\cr\cr
+
+
+\code{read_pdf_fields} \cr
+Using \code{read_pdf_fields},it is assumed that the table occupies a whole page and that the columns are defined by the words
+in the header.\cr
 In the following example
 \preformatted{field1         field2           field3}
 \preformatted{v1a v1b        v2a  v2b     v2c  v3a   v3b}
 field1 will be filled with "v1a v1b", field2 with "v2a v2b" and field3 with "v3a v3b".\cr
-Multiple words in a field are separated by only one blank (even when the original data contains more than one blank)\cr\cr
-The actual reading of the file is done with  \code{\link{read_pdf}} and  \code{\link[pdftools:pdf_data]{pdftools::pdf_data}} .
+Multiple words in a field are separated by only one blank (even when the original data contains more than one blank)\cr
 }
 
 \examples{
@@ -81,6 +110,20 @@ names(df1) # [1] "page"    "framenr" "seqnr"   "width"   "height"  "space"   "x"
 df1 <- read_pdf (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)", by= "cell")
 df2 <- read_pdf_line(df1)
 names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
+}
+\dontrun{
+pdf_df <- tibble::tribble(
+ ~field, ~low, ~optmissing,
+ "Team", 54, F,
+ "Klasse", 86, F,
+ "Team_Rating", 122, T,
+ "Captain", 178, T,
+ "Speler", 219, F,
+ "Rating", 334, T,
+ "Thuis", 369 , F
+)
+myfields <- HOQCutil::read_pdf (infileS, vtolerance=2,by="cell")
+xx1      <- read_pdf_cut(myfields,pdf_df,no_data_lines = c(1,2),id=c(id="sen"))
 }
 \dontrun{
 df1 <- read_pdf_fields (r"(D:\data\R\TTVA\inputs\TTV Amstelveen teamindeling Senioren VJ22.pdf)" )
