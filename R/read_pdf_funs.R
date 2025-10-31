@@ -360,7 +360,8 @@ text2pdf <- function(txt, pdffile) {
   tmp_in  <- tempfile(fileext = ".txt" )
   txt1 <- c("```", txt, "```")
   cat(txt1, file = tmp_in, sep = "\n")
-  v <- system(glue::glue("pandoc {tmp_in} -o {pdffile}"), intern = T)
+  pandoc<-paste0(rmarkdown::find_pandoc()[[2]],"/pandoc.exe")
+  v <- system(glue::glue("{pandoc} {tmp_in} -o {pdffile}"), intern = T)
   v <- unlink(tmp_in)
   invisible()
 }
