@@ -1,5 +1,11 @@
 # HOQCutil
 
+## HOQCutil 0.1.30
+
+* 31oct2023   
+   + `correct_jpg` added 
+   + `maanden` added
+   
 ## HOQCutil 0.1.29
 
 * 21jul2023   
