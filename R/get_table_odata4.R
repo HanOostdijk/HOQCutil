@@ -1,4 +1,4 @@
-#' Retrieving CBS Odata4 table data
+#' Retrieving CBS Odata4 table data (functions no longer work because of cbs changes)
 #'
 #' The function `get_table_cbs_odata4` can be used to retrieve data or information from the new \href{https://www.cbs.nl}{CBS} ('Centraal Bureau voor de Statistiek' or 'Statistics Netherlands') Odata4 data infrastructure. The general OData4 protocol is described in \url{http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html} and the part that is implemented by CBS in \url{https://beta-dataportal.cbs.nl/}
 #'
