@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.31
+
+* 17mar2026   
+   + `categorise_transactions` added 
+   
 ## HOQCutil 0.1.30
 
 * 31oct2023   
