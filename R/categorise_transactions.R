@@ -14,9 +14,11 @@
 #' in `...` . \cr
 #' This means that the order of the vectors could be important. \cr
 #' An example shows how a named character vector is translated to a formula for the `dplyr::case_when` function. \cr
-#' When one of the named characters is `rentes = c("rente", "interest")` the following formula is generated : \cr
-#' `(stringr::str_detect(.column, stringr::fixed('rente', ignore_case = TRUE))) | ` \cr
-#' `  (stringr::str_detect(.column, stringr::fixed('interest', ignore_case = TRUE))) ~ 'rentes'` \cr
+#' When one of the named characters is `rentes = c("rente", "interest")` the following formula is generated :
+#' \preformatted{
+#'  stringr::str_detect(.column, stringr::fixed('rente', ignore_case = TRUE)) |
+#'    stringr::str_detect(.column, stringr::fixed('interest', ignore_case = TRUE))  ~ 'rentes'
+#' }
 #' @export
 #' @examples
 #' \dontrun{
