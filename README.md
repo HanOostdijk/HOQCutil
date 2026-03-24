@@ -21,6 +21,7 @@ Currently the package includes
 * functions `cleanup_bw`, `scan_with_hocr` and `extract_table` to cleanup and scan (OCR) an image and extract a table into a data.frame format
 * functions `replace_package_fun` and `set_fun_env` that can be used to (temporarily) replace a function in a package 
 * function `mfe_lookup` that can be used to lookup strings e.g. to categorize transactions
+* function `categorise_transactions` categorises transactions by creating dplyr::case_when statements
 * function `igs` that can be used to insert an html statement to include an image in a web document
 * function `hugo_plot_hook` is a knitr plot hook for use in the Hugo environment.
 * functions `read_pdf`, `read_pdf_line` , `read_pdf_cut`, `read_pdf_fields` and `cut3d` are used for reading PDF text data
