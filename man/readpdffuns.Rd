@@ -7,9 +7,15 @@
 \alias{read_pdf_fields}
 \title{read text of pdf-file by cell, line or table}
 \usage{
-read_pdf(filename, vtolerance = 6, frame_table = NULL, by = "cell")
+read_pdf(
+  filename,
+  vtolerance = 6,
+  frame_table = NULL,
+  by = "cell",
+  force_blank = T
+)
 
-read_pdf_line(read_pdf_df)
+read_pdf_line(read_pdf_df, force_blank = T, do_squish = force_blank)
 
 read_pdf_cut(read_pdf_df, pdf_df, no_data_lines = c(1, 2), id = NULL)
 
@@ -30,7 +36,11 @@ read_pdf_fields(
 
 \item{by}{Character string with value "line" or "cell" indicating if text is gathered by text line or cell}
 
+\item{force_blank}{Boolean indicating if \code{read_pdf_line} adds a blank to each text field before lines are formatted}
+
 \item{read_pdf_df}{data.frame created by \code{read_pdf} (by="cell") function}
+
+\item{do_squish}{Boolean indicating if \code{read_pdf_line} removes whitespace in text after lines are formatted}
 
 \item{pdf_df}{data.frame describing fields and their lower position.
 If a field can have missing values then set \code{optmissing} to \code{TRUE}}

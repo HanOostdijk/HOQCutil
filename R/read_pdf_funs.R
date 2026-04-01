@@ -18,6 +18,8 @@
 #' @param vtolerance Numeric scalar with vertical tolerance
 #' @param frame_table data.frame indicating data frames on pages. See Details
 #' @param by Character string with value "line" or "cell" indicating if text is gathered by text line or cell
+#' @param force_blank Boolean indicating if `read_pdf_line` adds a blank to each text field before lines are formatted
+#' @param do_squish Boolean indicating if `read_pdf_line` removes whitespace in text after lines are formatted
 #' @return `read_pdf` \cr
 #' returns a data.frame with the fields: \cr
 #' "page", "seqnr", "framenr", "width", "height", "space", "x", "y" and "text"  \cr
@@ -46,13 +48,14 @@
 read_pdf <- function (filename,
                       vtolerance = 6,
                       frame_table = NULL,
-                      by = "cell") {
+                      by = "cell",
+                      force_blank=T) {
   df1 <- pdftools::pdf_data(filename)
   if (length(df1) == 0)
     return(data.frame())
   df1 <-
     purrr::imap_dfr(df1, function(x, i)
-      cbind(data.frame(page = i), x)) |>
+      x |> dplyr::mutate(page:=!!i)) |>
     dplyr::mutate(seqnr = dplyr::row_number())
   if (is.null(frame_table)) {
     df1 <- df1 |>
@@ -76,7 +79,7 @@ read_pdf <- function (filename,
     dplyr::select (page, framenr, seqnr, width, height, space, x, y, text) |>
     dplyr::arrange(page, framenr, y, x)
   if (by == "line") {
-    df1 <- read_pdf_line(df1)
+    df1 <- read_pdf_line(df1,force_blank)
   }
   df1
 }
@@ -85,6 +88,8 @@ read_pdf <- function (filename,
 #'
 #' @name read_pdf_line
 #' @param read_pdf_df data.frame created by `read_pdf` (by="cell") function
+#' @param force_blank Boolean indicating if `read_pdf_line` adds a blank to each text field before lines are formatted
+#' @param do_squish Boolean indicating if `read_pdf_line` removes whitespace in text after lines are formatted
 #' @section Details:
 #' `read_pdf_line` \cr
 #' The fields 'seqnr' and 'x' in the output of read_pdf_line are the attributes of the first cell that contributed to 'text'. \cr \cr
@@ -97,8 +102,13 @@ read_pdf <- function (filename,
 #' names(df1) # [1] "page"    "framenr" "seqnr"   "x"       "y"       "text"
 #' }
 
-read_pdf_line <- function (read_pdf_df) {
-  read_pdf_df |>
+read_pdf_line <- function (read_pdf_df,force_blank=T,do_squish=force_blank) {
+  read_pdf_df1 <- read_pdf_df
+  if (force_blank == T) {
+    read_pdf_df1 <- read_pdf_df1  |>
+      dplyr::mutate(text=paste0(text," "))
+  }
+  read_pdf_df2 <- read_pdf_df1 |>
     dplyr::mutate(space = ifelse(space == T, " ", "")) |>
     dplyr::nest_by(page, framenr, y)  |>
     dplyr::mutate(
@@ -108,6 +118,11 @@ read_pdf_line <- function (read_pdf_df) {
     ) |>
     dplyr::ungroup() |>
     dplyr::select(page, framenr, seqnr, x, y, text)
+  if (do_squish == T) {
+    read_pdf_df2 <- read_pdf_df2  |>
+      dplyr::mutate(text=stringr::str_squish(text))
+  }
+  read_pdf_df2
 }
 
 #' read text of a table from a page of a pdf-file. Fields are specified by data.frame
@@ -182,13 +197,16 @@ read_pdf_cut <-
       dplyr::ungroup() |>
       dplyr::mutate(linenr = dplyr::row_number()) |>
       dplyr::filter(!linenr %in% !!no_data_lines)
-    for (i in seq(length(optmisses))) {
-      om <- optmisses[i]
-      df1 <- nmvalues[[i]]
-      res <- res |>
-        dplyr::select(-!!om) |>
-        dplyr::left_join(df1, dplyr::join_by("y")) |>
-        dplyr::mutate(!!om := ifelse(is.na(!!as.symbol(om)), " ", !!as.symbol(om)))
+    noptm <- length(optmisses)
+    if (noptm > 0) {
+      for (i in seq(noptm)) {
+        om <- optmisses[i]
+        df1 <- nmvalues[[i]]
+        res <- res |>
+          dplyr::select(-!!om) |>
+          dplyr::left_join(df1, dplyr::join_by("y")) |>
+          dplyr::mutate(!!om := ifelse(is.na(!!as.symbol(om)), " ", !!as.symbol(om)))
+      }
     }
     res <- res |> dplyr::select(!!!pdf_df$field)
     if (!is.null(id)) {

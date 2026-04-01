@@ -25,21 +25,28 @@ test_that("text2pdf and read pdf functions", {
   # create a pdf with the lines from regels1
   tmp     <- tempfile()
   tmp_out <- paste0(tmp,".pdf")
-  regels1 <- c('en dat is één', 'en dat is twee', 'en dat is zev-e-ven')
+  regels1 <- c('en dat is één', 'en dat is twee', 'en dat is €3.00', 'en dat is zev-e-ven')
   v <- text2pdf(regels1,tmp_out)
 
   # execute the functions
   x1 <- HOQCutil::read_pdf(tmp_out,by="cell")
   x2 <- HOQCutil::read_pdf(tmp_out,by="line")
   x3 <- HOQCutil::read_pdf_line(x1)
+  x4 <- HOQCutil::read_pdf_line(x1,force_blank =F)
 
   unlink(tmp_out)
 
-  b1 <- c(regels1,"1")                       # pagenumber is added by pandoc
-  a1 <-  paste(b1,"#",sep="",collapse=" ")   # string with all words and last word in line has #
-  a1 <- stringr::str_split(a1,stringr::fixed(" "))[[1]] # words
+  x1a <- x1 |>
+    dplyr::mutate(space=F)
+  x3a <- HOQCutil::read_pdf_line(x1a)
+  x4a <- HOQCutil::read_pdf_line(x1a,force_blank =F)
+
+  b1  <- c(regels1,"1")                       # pagenumber is added by pandoc
+  a1  <-  paste(b1,"#",sep="",collapse=" ")   # string with all words and last word in line has #
+  a1  <- stringr::str_split(a1,stringr::fixed(" "))[[1]] # words
   a1a <- stringr::str_remove(a1,"#$")           # remove the #
   a1b <- stringr::str_detect(a1,"#$",negate=T)  # which words have #
+  c1  <- stringr::str_remove_all(b1," ")
 
   expect_true(is.null(v))
   expect_identical(x2,x3)
@@ -50,6 +57,8 @@ test_that("text2pdf and read pdf functions", {
   expect_identical(b1,dplyr::pull(x2,"text"))
   expect_identical(a1a,dplyr::pull(x1,"text"))
   expect_identical(a1b,dplyr::pull(x1,"space"))
+  expect_identical(x3,x3a)
+  expect_identical(c1,dplyr::pull(x4a,"text"))
 })
 
 
