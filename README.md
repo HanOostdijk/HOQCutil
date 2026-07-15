@@ -26,6 +26,7 @@ Currently the package includes
 * function `hugo_plot_hook` is a knitr plot hook for use in the Hugo environment.
 * functions `read_pdf`, `read_pdf_line` , `read_pdf_cut`, `read_pdf_fields` and `cut3d` are used for reading PDF text data
 * function `text2pdf` to write a character vector to a pdf file
+* function `gen_ran_words` to generate random words (e.g. for use in tests)
 
 ## Install HOQCutil
 

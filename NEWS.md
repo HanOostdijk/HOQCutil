@@ -1,5 +1,10 @@
 # HOQCutil
 
+## HOQCutil 0.1.32
+
+* 15jul2026   
+   + `gen_ran_words` added 
+   
 ## HOQCutil 0.1.31
 
 * 17mar2026   
